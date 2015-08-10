@@ -1,0 +1,9 @@
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ\bin\Release\Differ.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ\bin\Release\Differ.pdb
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ\bin\Release\BattleAxe.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ\bin\Release\Newtonsoft.Json.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ\bin\Release\BattleAxe.pdb
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ\bin\Release\Newtonsoft.Json.xml
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ\obj\Release\Differ.csprojResolveAssemblyReference.cache
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ\obj\Release\Differ.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ\obj\Release\Differ.pdb

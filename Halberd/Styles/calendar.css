@@ -1,0 +1,151 @@
+﻿.calModalBack {
+    /*position:absolute;*/
+    left: 0em;
+    top: 0em;
+    width: 100%;
+    opacity:0.4;
+    background-color: #F8F8FA;
+    /*z-index:10000001;*/
+}
+.calendarHeader
+{
+    border-top:solid 1px #999;    
+    border-bottom:solid 1px #999;
+    border-left:solid 1px #999;
+    border-right:solid 1px #999;
+    background-color:#4b6c9e;
+    height:1.75em;
+}
+.calendarHeader div
+{
+    vertical-align:middle;
+}
+.calendarHeader a
+{
+    color:#fff;
+    text-decoration:none;
+    font-weight: bold;            
+}
+.calendarHeader a:hover
+{
+    text-decoration: underline;
+}
+.calendarRows
+{            
+    background: #E5E5E5;    
+}
+.calendarRows li
+{
+    border-bottom: 1px solid #999;    
+    border-left:solid 1px #999;
+    border-right:solid 1px #999;                    
+}
+.calendarDayOfWeek
+{                   
+}
+.calendarDayOfWeek div
+{
+    padding-top:.25em;
+    padding-bottom:.25em;
+}   
+.calendarNavigate
+{
+    padding-left:.25em;
+    padding-right:.25em;
+}
+
+.greyDate
+{
+    background-color: silver;
+    height: 100%;
+} 
+.greyDate a
+{   
+    text-decoration:none;
+    display:block;
+    text-align:center;
+    height: 100%;
+    color:#000;            
+    display:block;
+    padding-top:.25em;
+    padding-bottom:.25em;
+}
+
+.yellowDate
+{
+    background-color:paleGoldenrod;   
+    height: 100%;  
+} 
+.yellowDate a
+{   
+    text-decoration:none;
+    display:block;
+    text-align:center;
+    height: 100%;
+    color:#000;            
+    display:block;
+    padding-top:.25em;
+    padding-bottom:.25em;
+}
+.greenDate
+{
+    background-color:#4F7906;   
+    height: 100%;  
+} 
+.greenDate a
+{   
+    text-decoration:none;
+    display:block;
+    text-align:center;
+    height: 100%;
+    color:#000;            
+    display:block;
+    padding-top:.25em;
+    padding-bottom:.25em;
+}
+
+.blueDate
+{
+    background-color:#033A5E;   
+    height: 100%;  
+} 
+.blueDate a
+{   
+    text-decoration:none;
+    display:block;
+    text-align:center;
+    height: 100%;
+    color:#fff;            
+    display:block;
+    padding-top:.25em;
+    padding-bottom:.25em;
+}
+.blueDate a:hover, .greenDate a:hover, .yellowDate a:hover, .greyDate a:hover
+{
+    text-decoration:underline;
+    background-color:#033A5E;   
+    color:#fff;  
+}
+.monthPopup, .yearPopup
+{
+    border: 1px solid #999;    
+    background:#fff;
+    list-style-type:none;
+    padding: 0px 0px;
+    margin: 0px 0px;
+}
+.monthPopup li, .yearPopup li
+{
+    list-style:none;
+}
+.monthPopup a, .yearPopup a
+{
+    text-decoration:none;
+    color:#000; 
+    display:block;
+    padding:.25em .5em;
+}
+.monthPopup a:hover, .yearPopup a:hover
+{
+    background-color: #FFFFCC;
+}

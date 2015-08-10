@@ -1,0 +1,7 @@
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ.TSql\bin\Debug\Differ.TSql.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ.TSql\bin\Debug\Differ.TSql.pdb
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ.TSql\bin\Debug\BattleAxe.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ.TSql\bin\Debug\BattleAxe.pdb
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ.TSql\obj\Debug\Differ.TSql.csprojResolveAssemblyReference.cache
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ.TSql\obj\Debug\Differ.TSql.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ.TSql\obj\Debug\Differ.TSql.pdb

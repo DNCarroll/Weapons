@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Modules/Convert.js"></script>
+    <script src="Modules/Formatters.js"></script>
+    <script src="Modules/Is.js"></script>
+    <script src="Modules/KeyPress.js"></script>
+    <script src="Modules/RegularExpression.js"></script>
+    <script src="Modules/Thing.js"></script>
+    <script src="Modules/ViewManager.js"></script>
+
+    <script src="Interfaces/IDataContainer.js"></script>
+    <script src="Enums/ActionType.js"></script>
+    <script src="Classes/ActionTypeEvent.js"></script>
+    <script src="Classes/DataBinding.js"></script>
+    <script src="Classes/Dialog.js"></script>
+    <script src="Modules/Accordion.js"></script>
+    <script src="Modules/Ajax.js"></script>
+    <script src="Modules/AutoSuggest.js"></script>
+    <script src="Modules/Binding.js"></script>
+    <script src="Modules/Calendar.js"></script>
+
+    <script src="Prototypes/Array.js"></script>
+    <script src="Prototypes/Date.js"></script>
+    <script src="Prototypes/Element.js"></script>
+    <script src="Prototypes/HTMLElement.js"></script>
+    <script src="Prototypes/HTMLFormElement.js"></script>
+    <script src="Prototypes/HTMLInputElement.js"></script>
+    <script src="Prototypes/HTMLSelectElement.js"></script>
+    <script src="Prototypes/HTMLUListElement.js"></script>
+    <script src="Prototypes/HTMLLIElement.js"></script>
+    <script src="Prototypes/String.js"></script>
+    <script src="Prototypes/Window.js"></script>
+
+    <link href="Styles/UnorderList.css" rel="stylesheet" />
+    <script type="text/javascript">
+        var SuggestSource = new Array();
+        window.PageLoaded(function () {
+            SuggestSource.push({ Value: "Fifth", Name: "Divisible by 5" });
+            SuggestSource.push({ Value: "Fourth", Name: "Divisible by 4" });
+            SuggestSource.push({ Value: "Third", Name: "Divisible by 3" });
+            SuggestSource.push({ Value: "Even", Name: "Divisible by 2" });
+            SuggestSource.push({ Value: "Indivisible", Name: "Indivisible" });
+        });        
+        function SomeMethod() {
+            return {
+                Value: "Some Value"
+            };
+        }
+    </script>
+    <style type="text/css">
+        html, body, div, section, article, aside, header, hgroup, footer, nav, h1, h2, h3, h4, h5, h6, p, blockquote, address, time, span, em, strong, img, ol, ul, li, figure, canvas, video, th, td, tr {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            vertical-align: baseline;
+            font: inherit;
+        }
+        address, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, nav, menu, nav, section, summary, ul, li {
+            display: block;
+        }        
+        body {
+            background-color: lightgrey;
+        }
+        
+        nav {
+            background-color: black;
+            height: 5em;
+            font-family: 'Segoe UI Semibold', 'Segoe UI';
+            vertical-align: baseline;
+            padding-left: 3em;
+        }
+        nav h1 {
+            color: darkturquoise;
+            font-size: 2em;
+            padding-bottom: .25em;
+        }
+        nav ul {
+            margin-left:1em;
+        }
+        nav li {
+            color: white;
+            font-size: 1em;
+            float: left;     
+            padding-right:3em;       
+        }
+        nav a {
+            color: white;
+            text-transform:uppercase;
+            text-decoration: none;
+        }
+        nav a:hover {
+            color: darkturquoise;
+            text-transform:uppercase;
+            text-decoration: none;
+        }
+        nav a.isActive {
+            color: darkturquoise;
+            text-transform:uppercase;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav id="TopContent">
+        <h1 id="header">Test Header</h1>
+        <ul id="linkList">
+            <li><a href="javascript:" id="miActivity">Bogus 1</a></li>
+            <li><a href="javascript:" id="miActivity">Bogus 2</a></li>
+            <li><a href="javascript:" id="miActivity">Bogus 3</a></li>
+            <li><a href="javascript:" id="miActivity">Bogus 4</a></li>
+        </ul>
+        <img src="/Images/progress.gif" alt="" style="  position:absolute; right:1em; top:1em; display:block;" id="progress" />
+    </nav>
+    <ul class="form">
+        <li>
+            <div>
+                <form id="formTest" data-webapi="/Api/ListTest" data-pks="ID">
+                    <ul class="form">
+                        <li>
+                            <div>ID</div>
+                            <div>
+                                <span data-innerhtml="ID"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>Name</div>
+                            <div>
+                                <input type="text" data-value="Name" />
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                Value
+                            </div>
+                            <div>
+                                <input type="text" data-value="Value" />
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                Selected
+                            </div>
+                            <div>
+                                <input type="checkbox" data-checked="Selected" />
+                            </div>
+                        </li>
+                        <li>
+                            <div>Suggestion</div>
+                            <div>
+                                <input type="text" data-datasource="SuggestSource" data-displaymember="Name" data-valuemember="Value" data-value="Suggestion" />
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div>
+                <ul id="list"
+                    data-auto="true"
+                    data-webapi="/Api/ListTest"
+                    data-pks="ID"
+                    data-formid="formTest"
+                    data-autoparameter="SomeMethod()"
+                    data-selecteditemclass="fselected"
+                    class="table"
+                    style="display:none;">
+                    <li data-template="header">
+                        <div>ID</div>
+                        <div>Name</div>
+                        <div>Value</div>
+                        <div>Selected</div>
+                        <div>Suggestion</div>
+                        <div>Suggestion via Select</div>
+                        <div></div>
+                    </li>
+                    <li data-template="row" class="fline">
+                        <div>
+                            <span data-innerhtml="ID"></span>
+                        </div>
+                        <div>
+                            <input type="text" data-value="Name" />
+                        </div>
+                        <div>
+                            <input type="text" data-value="Value" />
+                        </div>
+                        <div>
+                            <input type="checkbox" data-checked="Selected" />
+                        </div>
+                        <div>
+                            <input type="text" data-datasource="SuggestSource" data-displaymember="Name" data-valuemember="Value" data-value="Suggestion" />
+                        </div>
+                        <div>
+                            <select data-datasource="SuggestSource" data-displaymember="Name" data-valuemember="Value" data-value="Suggestion"></select>
+                        </div>
+                        <div>
+                            <a href="javascript:" data-action="delete">delete</a>
+                        </div>
+                    </li>
+                    <li data-template="footer">
+                        <div></div>
+                        <div><input type="text" data-value="Name" /></div>
+                        <div><input type="text" data-value="Value" /></div>
+                        <div><input type="checkbox" data-checked="Selected" /></div>
+                        <div></div>
+                        <div></div>
+                        <div><a href="javascript:" data-action="insert">insert</a></div>
+                    </li>
+                </ul>
+                </div>
+         </li>
+    </ul>
+</body>
+</html>
+

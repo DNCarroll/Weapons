@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>\\vdev001\wwwroot\SqlCompare</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/BattleAxe.dll">
+      <publishTime>07/16/2015 12:08:57</publishTime>
+    </File>
+    <File Include="bin/BattleAxe.pdb">
+      <publishTime>07/16/2015 07:14:55</publishTime>
+    </File>
+    <File Include="bin/Differ.dll">
+      <publishTime>07/16/2015 12:08:58</publishTime>
+    </File>
+    <File Include="bin/Differ.pdb">
+      <publishTime>07/16/2015 10:21:48</publishTime>
+    </File>
+    <File Include="bin/Differ.TSql.dll">
+      <publishTime>07/16/2015 12:08:58</publishTime>
+    </File>
+    <File Include="bin/Differ.TSql.pdb">
+      <publishTime>07/16/2015 07:37:56</publishTime>
+    </File>
+    <File Include="bin/Differ.Web.dll">
+      <publishTime>07/16/2015 13:36:03</publishTime>
+    </File>
+    <File Include="bin/Differ.Web.pdb">
+      <publishTime>07/16/2015 11:36:39</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>07/15/2015 12:39:16</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>07/15/2015 12:39:53</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>07/15/2015 12:39:53</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>07/15/2015 12:39:53</publishTime>
+    </File>
+    <File Include="Default.aspx">
+      <publishTime>07/16/2015 13:25:46</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>07/15/2015 09:41:21</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>07/15/2015 09:41:21</publishTime>
+    </File>
+    <File Include="Images/progressGif.gif">
+      <publishTime>07/16/2015 13:33:22</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>07/15/2015 12:40:00</publishTime>
+    </File>
+    <File Include="Scripts/Halberd.js">
+      <publishTime>07/16/2015 13:36:03</publishTime>
+    </File>
+    <File Include="Scripts/Halberd.js.map">
+      <publishTime>07/16/2015 13:36:03</publishTime>
+    </File>
+    <File Include="Scripts/Main.js">
+      <publishTime>07/16/2015 13:36:03</publishTime>
+    </File>
+    <File Include="Scripts/Main.js.map">
+      <publishTime>07/16/2015 13:36:03</publishTime>
+    </File>
+    <File Include="Styles/UnorderList.css">
+      <publishTime>07/16/2015 10:30:41</publishTime>
+    </File>
+    <File Include="Views/Compare.html">
+      <publishTime>07/16/2015 13:22:55</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>07/16/2015 13:09:04</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

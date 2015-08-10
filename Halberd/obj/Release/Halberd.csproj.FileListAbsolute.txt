@@ -1,0 +1,14 @@
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\bin\Newtonsoft.Json.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\bin\System.Net.Http.Formatting.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\bin\System.Web.Http.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\bin\System.Web.Http.WebHost.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\bin\Newtonsoft.Json.xml
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\bin\System.Net.Http.Formatting.xml
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\bin\System.Web.Http.xml
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\bin\System.Web.Http.WebHost.xml
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\obj\Release\Halberd.csprojResolveAssemblyReference.cache
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\bin\Halberd.dll.config
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\bin\Halberd.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\bin\Halberd.pdb
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\obj\Release\Halberd.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd\obj\Release\Halberd.pdb

@@ -1,0 +1,9 @@
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\BattleAxe.Console\bin\Debug\BattleAxe.Console.exe.config
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\BattleAxe.Console\bin\Debug\BattleAxe.Console.exe
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\BattleAxe.Console\bin\Debug\BattleAxe.Console.pdb
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\BattleAxe.Console\bin\Debug\BattleAxe.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\BattleAxe.Console\bin\Debug\Newtonsoft.Json.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\BattleAxe.Console\bin\Debug\BattleAxe.pdb
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\BattleAxe.Console\obj\Debug\BattleAxe.Console.csprojResolveAssemblyReference.cache
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\BattleAxe.Console\obj\Debug\BattleAxe.Console.exe
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\BattleAxe.Console\obj\Debug\BattleAxe.Console.pdb

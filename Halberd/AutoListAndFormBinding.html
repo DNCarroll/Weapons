@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Modules/Convert.js"></script>
+    <script src="Modules/Formatters.js"></script>
+    <script src="Modules/Is.js"></script>
+    <script src="Modules/KeyPress.js"></script>
+    <script src="Modules/RegularExpression.js"></script>
+    <script src="Modules/Thing.js"></script>
+    <script src="Modules/ViewManager.js"></script>
+
+    <script src="Interfaces/IDataContainer.js"></script>
+    <script src="Enums/ActionType.js"></script>
+    <script src="Classes/ActionTypeEvent.js"></script>
+    <script src="Classes/DataBinding.js"></script>
+    <script src="Classes/Dialog.js"></script>
+    <script src="Modules/Accordion.js"></script>
+    <script src="Modules/Ajax.js"></script>
+    <script src="Modules/AutoSuggest.js"></script>
+    <script src="Modules/Binding.js"></script>
+    <script src="Modules/Calendar.js"></script>
+
+    <script src="Prototypes/Array.js"></script>
+    <script src="Prototypes/Date.js"></script>
+    <script src="Prototypes/Element.js"></script>
+    <script src="Prototypes/HTMLElement.js"></script>
+    <script src="Prototypes/HTMLFormElement.js"></script>
+    <script src="Prototypes/HTMLInputElement.js"></script>
+    <script src="Prototypes/HTMLSelectElement.js"></script>
+    <script src="Prototypes/HTMLUListElement.js"></script>
+    <script src="Prototypes/HTMLLIElement.js"></script>
+    <script src="Prototypes/String.js"></script>
+    <script src="Prototypes/Window.js"></script>
+
+    <link href="Styles/UnorderList.css" rel="stylesheet" />
+    <script type="text/javascript">
+        function SomeMethod() {
+            return {
+                Value: "Some Value" 
+            };
+        }
+    </script>
+</head>
+<body>
+    <ul class="form">
+        <li>
+            <div>
+                <form id="formTest" data-webapi="/Api/ListTest" data-pks="ID">
+                    <ul class="form">
+                        <li>
+                            <div>ID</div>
+                            <div>
+                                <span data-innerhtml="ID"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>Name</div>
+                            <div>
+                                <input type="text" data-value="Name" />
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                Value
+                            </div>
+                            <div>
+                                <input type="text" data-value="Value" />
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                Selected
+                            </div>
+                            <div>
+                                <input type="checkbox" data-checked="Selected" />
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div>
+                <ul id="list"
+                    data-auto="true"
+                    data-webapi="/Api/ListTest"
+                    data-pks="ID"
+                    data-formid="formTest"
+                    data-autoparameter="SomeMethod()"
+                    class="table"
+                    style="display:none;">
+                    <li data-template="header">
+                        <div>ID</div>
+                        <div>Name</div>
+                        <div>Value</div>
+                        <div>Selected</div>
+                        <div></div>
+                    </li>
+                    <li data-template="header">
+                        <div></div>
+                        <div><input type="text" data-value="Name" /></div>
+                        <div><input type="text" data-value="Value" /></div>
+                        <div><input type="checkbox" data-checked="Selected" /></div>
+                        <div><a href="javascript:" data-action="unshift">insert</a></div>
+                    </li>
+                    <li data-template="row">
+                        <div>
+                            <span data-innerhtml="ID"></span>
+                        </div>
+                        <div>
+                            <input type="text" data-value="Name" />
+                        </div>
+                        <div>
+                            <input type="text" data-value="Value" />
+                        </div>
+                        <div>
+                            <input type="checkbox" data-checked="Selected" />
+                        </div>
+                        <div>
+                            <a href="javascript:" data-action="delete">delete</a>
+                        </div>
+                    </li>
+                    <li data-template="footer">
+                        <div></div>
+                        <div><input type="text" data-value="Name" /></div>
+                        <div><input type="text" data-value="Value" /></div>
+                        <div><input type="checkbox" data-checked="Selected" /></div>
+                        <div><a href="javascript:" data-action="insert">insert</a></div>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+</body>
+</html>

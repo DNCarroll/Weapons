@@ -1,0 +1,14 @@
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\obj\Debug\Halberd3.csprojResolveAssemblyReference.cache
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\bin\Halberd3.dll.config
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\bin\Halberd3.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\bin\Halberd3.pdb
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\bin\Newtonsoft.Json.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\bin\System.Net.Http.Formatting.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\bin\System.Web.Http.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\bin\System.Web.Http.WebHost.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\bin\Newtonsoft.Json.xml
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\bin\System.Net.Http.Formatting.xml
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\bin\System.Web.Http.xml
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\bin\System.Web.Http.WebHost.xml
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\obj\Debug\Halberd3.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\BattleAxe\Halberd3\obj\Debug\Halberd3.pdb

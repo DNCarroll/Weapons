@@ -1,0 +1,10 @@
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe.Console\bin\Release\BattleAxe.Console.exe.config
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe.Console\bin\Release\BattleAxe.Console.exe
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe.Console\bin\Release\BattleAxe.Console.pdb
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe.Console\bin\Release\BattleAxe.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe.Console\bin\Release\Newtonsoft.Json.dll
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe.Console\bin\Release\BattleAxe.pdb
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe.Console\bin\Release\Newtonsoft.Json.xml
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe.Console\obj\Release\BattleAxe.Console.csprojResolveAssemblyReference.cache
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe.Console\obj\Release\BattleAxe.Console.exe
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe.Console\obj\Release\BattleAxe.Console.pdb
