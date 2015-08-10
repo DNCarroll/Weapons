@@ -34,12 +34,12 @@ namespace Halberd.Bundler
                         }
                     }
                 }
-            }   
-            if(!System.IO.Directory.Exists(@"C:\ProgramData\Halberd"))
-            {
-                System.IO.Directory.CreateDirectory(@"C:\ProgramData\Halberd");
             }
-            string path = @"C:\ProgramData\Halberd\Halberd.ts";            
+            if (!System.IO.Directory.Exists(@"C:\ProgramData\ULFBERHT"))
+            {
+                System.IO.Directory.CreateDirectory(@"C:\ProgramData\ULFBERHT");
+            }
+            string path = @"C:\ProgramData\ULFBERHT\ULFBERHT.ts";            
             using (var sw = new System.IO.StreamWriter(path))
             {
                 foreach (var item in output)
