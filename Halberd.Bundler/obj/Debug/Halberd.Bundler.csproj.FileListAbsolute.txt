@@ -16,3 +16,6 @@ C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Ha
 C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd.Bundler\obj\Debug\Halberd.Bundler.csproj.GenerateResource.Cache
 C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd.Bundler\obj\Debug\Halberd.Bundler.exe
 C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd.Bundler\obj\Debug\Halberd.Bundler.pdb
+C:\Users\carroll\Documents\GitHub\Weapons\Halberd.Bundler\bin\Debug\Halberd.Bundler.exe.config
+C:\Users\carroll\Documents\GitHub\Weapons\Halberd.Bundler\obj\Debug\Halberd.Bundler.exe
+C:\Users\carroll\Documents\GitHub\Weapons\Halberd.Bundler\obj\Debug\Halberd.Bundler.pdb

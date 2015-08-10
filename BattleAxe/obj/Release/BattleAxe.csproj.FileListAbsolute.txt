@@ -3,3 +3,8 @@ C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Ba
 C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe\obj\Release\BattleAxe.csprojResolveAssemblyReference.cache
 C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe\obj\Release\BattleAxe.dll
 C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe\obj\Release\BattleAxe.pdb
+C:\Users\carroll\Documents\GitHub\Weapons\BattleAxe\bin\Release\BattleAxe.dll
+C:\Users\carroll\Documents\GitHub\Weapons\BattleAxe\bin\Release\BattleAxe.pdb
+C:\Users\carroll\Documents\GitHub\Weapons\BattleAxe\obj\Release\BattleAxe.csprojResolveAssemblyReference.cache
+C:\Users\carroll\Documents\GitHub\Weapons\BattleAxe\obj\Release\BattleAxe.dll
+C:\Users\carroll\Documents\GitHub\Weapons\BattleAxe\obj\Release\BattleAxe.pdb
