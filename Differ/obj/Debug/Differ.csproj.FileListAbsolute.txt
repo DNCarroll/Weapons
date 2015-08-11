@@ -7,3 +7,12 @@ C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Di
 C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ\obj\Debug\Differ.csprojResolveAssemblyReference.cache
 C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ\obj\Debug\Differ.dll
 C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Differ\obj\Debug\Differ.pdb
+C:\Users\Nathan\Documents\GitHub\Weapons\Differ\bin\Debug\Differ.dll
+C:\Users\Nathan\Documents\GitHub\Weapons\Differ\bin\Debug\Differ.pdb
+C:\Users\Nathan\Documents\GitHub\Weapons\Differ\bin\Debug\BattleAxe.dll
+C:\Users\Nathan\Documents\GitHub\Weapons\Differ\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Nathan\Documents\GitHub\Weapons\Differ\bin\Debug\BattleAxe.pdb
+C:\Users\Nathan\Documents\GitHub\Weapons\Differ\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Nathan\Documents\GitHub\Weapons\Differ\obj\Debug\Differ.csprojResolveAssemblyReference.cache
+C:\Users\Nathan\Documents\GitHub\Weapons\Differ\obj\Debug\Differ.dll
+C:\Users\Nathan\Documents\GitHub\Weapons\Differ\obj\Debug\Differ.pdb

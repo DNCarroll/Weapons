@@ -7,3 +7,7 @@ C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Ba
 C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe\bin\Debug\BattleAxe.pdb
 C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe\obj\Debug\BattleAxe.dll
 C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\BattleAxe\obj\Debug\BattleAxe.pdb
+C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe\bin\Debug\BattleAxe.dll
+C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe\bin\Debug\BattleAxe.pdb
+C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe\obj\Debug\BattleAxe.dll
+C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe\obj\Debug\BattleAxe.pdb

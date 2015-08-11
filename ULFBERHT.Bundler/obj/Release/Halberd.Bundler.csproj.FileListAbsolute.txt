@@ -1,0 +1,27 @@
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd.Bundler\bin\Release\Halberd.Bundler.exe.config
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd.Bundler\bin\Release\Halberd.Bundler.exe
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd.Bundler\bin\Release\Halberd.Bundler.pdb
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.csprojResolveAssemblyReference.cache
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.Form1.resources
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.Properties.Resources.resources
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.csproj.GenerateResource.Cache
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.exe
+C:\Users\carroll\Documents\Visual Studio 2012\Omniworkout\ObjectModel\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.pdb
+C:\Users\carroll\Documents\GitHub\Weapons\Halberd.Bundler\bin\Release\Halberd.Bundler.exe.config
+C:\Users\carroll\Documents\GitHub\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.exe
+C:\Users\carroll\Documents\GitHub\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.pdb
+C:\Users\carroll\Documents\GitHub\Weapons\Halberd.Bundler\bin\Release\Halberd.Bundler.exe
+C:\Users\carroll\Documents\GitHub\Weapons\Halberd.Bundler\bin\Release\Halberd.Bundler.pdb
+C:\Users\carroll\Documents\GitHub\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.csprojResolveAssemblyReference.cache
+C:\Users\carroll\Documents\GitHub\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.Form1.resources
+C:\Users\carroll\Documents\GitHub\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.Properties.Resources.resources
+C:\Users\carroll\Documents\GitHub\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.csproj.GenerateResource.Cache
+C:\Users\Nathan\Documents\GitHub\Weapons\Halberd.Bundler\bin\Release\Halberd.Bundler.exe.config
+C:\Users\Nathan\Documents\GitHub\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.exe
+C:\Users\Nathan\Documents\GitHub\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.pdb
+C:\Users\Nathan\Documents\GitHub\Weapons\Halberd.Bundler\bin\Release\Halberd.Bundler.exe
+C:\Users\Nathan\Documents\GitHub\Weapons\Halberd.Bundler\bin\Release\Halberd.Bundler.pdb
+C:\Users\Nathan\Documents\GitHub\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.csprojResolveAssemblyReference.cache
+C:\Users\Nathan\Documents\GitHub\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.Form1.resources
+C:\Users\Nathan\Documents\GitHub\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.Properties.Resources.resources
+C:\Users\Nathan\Documents\GitHub\Weapons\Halberd.Bundler\obj\Release\Halberd.Bundler.csproj.GenerateResource.Cache
