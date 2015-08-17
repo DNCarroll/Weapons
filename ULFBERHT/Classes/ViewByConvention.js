@@ -11,9 +11,7 @@ var ViewByConvention = (function () {
     };
     ViewByConvention.prototype.Loaded = function (route) {
     };
-    ViewByConvention.prototype.Preload = function () {
-    };
+    ViewByConvention.prototype.Preload = function () { };
     return ViewByConvention;
 })();
 ;
-//# sourceMappingURL=ViewByConvention.js.map

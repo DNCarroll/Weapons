@@ -103,9 +103,7 @@ String.prototype.ParseHtml = function () {
         html = html.replace(/(\r\n|\n|\r)/gm, "");
     }
     var ret = {
-        Html: html,
-        Scripts: scripts,
-        LoadScripts: function () {
+        Html: html, Scripts: scripts, LoadScripts: function () {
             for (var i = 0; i < ret.Scripts.length; i++) {
                 var script = ret.Scripts[i].replace(/<script[^>]*>/gi, "");
                 script = script.replace(/<\/script>/gi, "");
@@ -188,4 +186,3 @@ String.prototype.Popup = function (target) {
         padding: ".5em"
     }), target);
 };
-//# sourceMappingURL=String.js.map

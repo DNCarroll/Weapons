@@ -81,7 +81,7 @@ Window.prototype.Sleep = function (milliseconds: number) {
 Window.prototype.MousePosition = function (e?): { X: number; Y: number; } {
     if (event || e) {
         if (Is.InternetExplorer()) { // grab the x-y pos.s if browser is IE
-            return { X: event.clientX + document.body.scrollLeft, Y: event.clientY + document.body.scrollTop };
+            return { X: e.clientX + document.body.scrollLeft, Y: e.clientY + document.body.scrollTop };
         } else {  // grab the x-y pos.s if browser is NS
             return { X: e.pageX, Y: e.pageY };
         }

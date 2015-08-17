@@ -28,13 +28,18 @@ Window.prototype.Dimensions = function () {
     var ret = { Height: 0, Width: 0 };
     var temp = window;
     if (typeof temp.innerWidth != 'undefined') {
-        ret.Width = temp.innerWidth, ret.Height = temp.innerHeight;
+        ret.Width = temp.innerWidth,
+            ret.Height = temp.innerHeight;
     }
-    else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientWidth != 'undefined' && document.documentElement.clientWidth != 0) {
-        ret.Width = document.documentElement.clientWidth, ret.Height = document.documentElement.clientHeight;
+    else if (typeof document.documentElement != 'undefined'
+        && typeof document.documentElement.clientWidth !=
+            'undefined' && document.documentElement.clientWidth != 0) {
+        ret.Width = document.documentElement.clientWidth,
+            ret.Height = document.documentElement.clientHeight;
     }
     else {
-        ret.Width = document.getElementsByTagName('body')[0].clientWidth, ret.Height = document.getElementsByTagName('body')[0].clientHeight;
+        ret.Width = document.getElementsByTagName('body')[0].clientWidth,
+            ret.Height = document.getElementsByTagName('body')[0].clientHeight;
     }
     return ret;
 };
@@ -66,7 +71,7 @@ Window.prototype.Sleep = function (milliseconds) {
 Window.prototype.MousePosition = function (e) {
     if (event || e) {
         if (Is.InternetExplorer()) {
-            return { X: event.clientX + document.body.scrollLeft, Y: event.clientY + document.body.scrollTop };
+            return { X: e.clientX + document.body.scrollLeft, Y: e.clientY + document.body.scrollTop };
         }
         else {
             return { X: e.pageX, Y: e.pageY };
@@ -154,4 +159,3 @@ function WindowLoad(e) {
 }
 ;
 WindowLoad();
-//# sourceMappingURL=Window.js.map

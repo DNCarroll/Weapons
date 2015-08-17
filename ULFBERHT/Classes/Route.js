@@ -40,4 +40,3 @@ var Route = (function () {
     };
     return Route;
 })();
-//# sourceMappingURL=Route.js.map

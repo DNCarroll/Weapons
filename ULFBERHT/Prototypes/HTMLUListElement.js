@@ -59,7 +59,9 @@ HTMLUListElement.prototype.Bind = function (data) {
             setTimeout(async, 0);
         }
     };
-    if (data && data.length && that.RowHtml) {
+    if (data &&
+        data.length &&
+        that.RowHtml) {
         setTimeout(async, 0);
     }
     else {
@@ -149,4 +151,3 @@ HTMLUListElement.prototype.SetSelected = function (obj, sender) {
         }
     }
 };
-//# sourceMappingURL=HTMLUListElement.js.map

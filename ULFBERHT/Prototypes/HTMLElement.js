@@ -5,7 +5,8 @@ HTMLElement.prototype.Get = function (predicate, notRecursive, nodes) {
     var that = this;
     var children = that.children;
     for (var i = 0; i < children.length; i++) {
-        if (children[i].nodeType == 1 && children[i].tagName.toLowerCase() != "svg") {
+        if (children[i].nodeType == 1
+            && children[i].tagName.toLowerCase() != "svg") {
             var child = children[i];
             var fmatch = predicate(child);
             if (fmatch) {
@@ -22,7 +23,8 @@ HTMLElement.prototype.First = function (predicate) {
     var that = this;
     var children = that.children;
     for (var i = 0; i < children.length; i++) {
-        if (children[i].nodeType == 1 && children[i].tagName.toLowerCase() != "svg") {
+        if (children[i].nodeType == 1
+            && children[i].tagName.toLowerCase() != "svg") {
             var child = children[i];
             if (predicate(child)) {
                 return child;
@@ -194,4 +196,3 @@ HTMLElement.prototype.GetDataSetAttributes = function () {
     }
     return ret;
 };
-//# sourceMappingURL=HTMLElement.js.map

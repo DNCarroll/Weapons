@@ -7,4 +7,3 @@ var ActionType;
     ActionType[ActionType["Updated"] = 4] = "Updated";
     ActionType[ActionType["Updating"] = 5] = "Updating";
 })(ActionType || (ActionType = {}));
-//# sourceMappingURL=ActionType.js.map

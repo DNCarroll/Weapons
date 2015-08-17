@@ -4,9 +4,9 @@ module AutoSuggest {
         var sender = null;
         var shiftKey = true;
         if (window.event) {
-            key = window.event.keyCode;
+            key = e.keyCode;
             sender = <HTMLInputElement>window.event.srcElement;
-            shiftKey = window.event.shiftKey;
+            shiftKey = e.shiftKey;
         }
         else if (e) {
             key = e.which;
@@ -159,9 +159,9 @@ module AutoSuggest {
             var sender = null;
             var shiftKey = true;
             if (window.event) {
-                key = window.event.keyCode;
+                key = e.keyCode;
                 sender = <HTMLInputElement>window.event.srcElement;
-                shiftKey = window.event.shiftKey;
+                shiftKey = e.shiftKey;
             }
             else if (e) {
                 key = e.which;

@@ -72,7 +72,7 @@
         }
         export function LookForInsert(li: HTMLElement) {
             var elements = li.Get(e=> e.HasDataSet());
-            var possibleInsert = elements.First(e=> e.dataset[Binding.Targets.Action])                
+            var possibleInsert = elements.First(e=> e.dataset[Binding.Targets.Action] != null);                
             if (possibleInsert) {
                 var value = possibleInsert.dataset[Binding.Targets.Action].toLowerCase();
                 if (["push", "insert", "unshift"].indexOf(value) > -1) {
@@ -258,6 +258,11 @@
                                     }
                                 });
                             }
+                            else {
+                                dataContainer.Rebind(field, element);
+                                actionEvent = new ActionEvent(ActionType.Updated, element.DataObject, field, tempElement.value);
+                                dataContainer.ActionEvent(actionEvent);
+                            }
                         }
                         else {
                             tempElement.value = element.DataObject[field];
@@ -288,6 +293,11 @@
                                         dataContainer.ActionEvent(actionEvent);
                                     }
                                 });
+                            }
+                            else {
+                                dataContainer.Rebind(field, input);
+                                actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, checked);
+                                dataContainer.ActionEvent(actionEvent);
                             }
                         }
                         else {
@@ -320,6 +330,11 @@
                                     dataContainer.ActionEvent(actionEvent);
                                 }
                             });
+                        }
+                        else {
+                            dataContainer.Rebind(field, input);
+                            actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, input.value);
+                            dataContainer.ActionEvent(actionEvent);
                         }
                     }
                     else {

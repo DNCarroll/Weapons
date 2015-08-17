@@ -8,7 +8,6 @@ Element.prototype.Quick = function (target, position, hideInterval) {
     Dialog.Quick(this, target, position);
 };
 Element.prototype.Dialog = function (dialogProperties) {
-    var dp = new DialogProperties(this, Thing.GetValueIn(dialogProperties, "DialogType", 3 /* Standard */), Thing.GetValueIn(dialogProperties, "Target"), Thing.GetValueIn(dialogProperties, "HideInterval"), Thing.GetValueIn(dialogProperties, "Position", 0 /* MiddleOfWindow */), Thing.GetValueIn(dialogProperties, "ModalClass"), Thing.GetValueIn(dialogProperties, "OffSetX"), Thing.GetValueIn(dialogProperties, "OffSetY"));
+    var dp = new DialogProperties(this, Thing.GetValueIn(dialogProperties, "DialogType", DialogType.Standard), Thing.GetValueIn(dialogProperties, "Target"), Thing.GetValueIn(dialogProperties, "HideInterval"), Thing.GetValueIn(dialogProperties, "Position", DialogPosition.MiddleOfWindow), Thing.GetValueIn(dialogProperties, "ModalClass"), Thing.GetValueIn(dialogProperties, "OffSetX"), Thing.GetValueIn(dialogProperties, "OffSetY"));
     Dialog.Standard(dp);
 };
-//# sourceMappingURL=Element.js.map

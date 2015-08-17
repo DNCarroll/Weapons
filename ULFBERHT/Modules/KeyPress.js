@@ -47,7 +47,8 @@ var KeyPress;
     }
     KeyPress.GetThreeLengthString = GetThreeLengthString;
     function GetFourLengthString(value, currentValue, previousValue) {
-        if (previousValue == 3 && value > 1) {
+        if (previousValue == 3 &&
+            value > 1) {
             return String(currentValue).substring(0, String(currentValue).length - 1) + "03/" + String(value);
         }
         else {
@@ -61,9 +62,9 @@ var KeyPress;
         var sender = null;
         var shiftKey = true;
         if (window.event) {
-            KeyID = window.event.keyCode;
-            sender = window.event.srcElement;
-            shiftKey = window.event.shiftKey;
+            KeyID = e.keyCode;
+            sender = e.srcElement;
+            shiftKey = e.shiftKey;
             e = window.event;
         }
         else if (e) {
@@ -95,9 +96,9 @@ var KeyPress;
         var sender = null;
         var shiftKey = true;
         if (window.event) {
-            KeyID = window.event.keyCode;
-            sender = window.event.srcElement;
-            shiftKey = window.event.shiftKey;
+            KeyID = e.keyCode;
+            sender = e.srcElement;
+            shiftKey = e.shiftKey;
         }
         else if (e) {
             KeyID = e.which;
@@ -195,9 +196,9 @@ var KeyPress;
         var sender = null;
         var shiftKey = true;
         if (window.event) {
-            key = window.event.keyCode;
-            sender = window.event.srcElement;
-            shiftKey = window.event.shiftKey;
+            key = e.keyCode;
+            sender = e.srcElement;
+            shiftKey = e.shiftKey;
         }
         else if (e) {
             key = e.which;
@@ -236,9 +237,6 @@ var KeyPress;
                 else if (document.getSelection) {
                     txt = document.getSelection().toString();
                 }
-                else if (document.selection) {
-                    txt = document.selection.createRange().text;
-                }
                 if (txt.length != sender.value.length) {
                     ret = false;
                 }
@@ -264,4 +262,3 @@ var KeyPress;
     }
     KeyPress.Number = Number;
 })(KeyPress || (KeyPress = {}));
-//# sourceMappingURL=KeyPress.js.map
