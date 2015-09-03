@@ -119,11 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Classes\ActionTypeEvent.ts" />
-    <TypeScriptCompile Include="Classes\ViewByConvention.ts" />
     <TypeScriptCompile Include="Classes\DataBinding.ts" />
     <TypeScriptCompile Include="Classes\Dialog.ts" />
     <TypeScriptCompile Include="Classes\Route.ts" />
@@ -145,7 +143,6 @@
     <TypeScriptCompile Include="Modules\ViewManager.ts" />
     <TypeScriptCompile Include="Prototypes\Array.ts" />
     <TypeScriptCompile Include="Prototypes\Date.ts" />
-    <TypeScriptCompile Include="Prototypes\Element.ts" />
     <TypeScriptCompile Include="Prototypes\HTMLElement.ts" />
     <TypeScriptCompile Include="Prototypes\HTMLFormElement.ts" />
     <TypeScriptCompile Include="Prototypes\HTMLInputElement.ts" />

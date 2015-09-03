@@ -104,3 +104,4 @@ var Formatters;
         Number.Pad = Pad;
     })(Number = Formatters.Number || (Formatters.Number = {}));
 })(Formatters || (Formatters = {}));
+//# sourceMappingURL=Formatters.js.map

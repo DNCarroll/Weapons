@@ -104,3 +104,4 @@ Date.prototype.MinuteDiff = function (subtractDate) {
     var diff = Math.abs(this - subtractDate);
     return diff / 1000 / 60 / 60;
 };
+//# sourceMappingURL=Date.js.map

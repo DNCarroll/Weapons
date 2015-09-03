@@ -152,7 +152,7 @@ module AutoSuggest {
         else {
             list.style.display = "none";
         }
-    }
+    }    
     function hookEvents(input: HTMLInputElement) {
         input.onkeydown = function (e) {
             var key;
@@ -230,6 +230,13 @@ module AutoSuggest {
             }
         }
     }
+    //export function HookWithCallBack(input: HTMLInputElement, callBack: (input: HTMLInputElement) => Array<any>, valueMember: string, displayMember: string, displayCount?: number){
+    //    input["callBack"] = callBack;
+    //    input["valuemember"] = valueMember;
+    //    input["displaymember"] = displayMember;
+    //    input["displaycount"] = displayCount ? displayCount : 8;
+    //    hookEvents(input);
+    //}
     export function Hook(input: HTMLInputElement, dataSource: Array<any>, valueMember: string, displayMember: string, displayCount?: number) {        
         input["datasource"] = dataSource;
         input["valuemember"] = valueMember;

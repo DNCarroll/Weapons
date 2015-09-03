@@ -663,23 +663,6 @@ var Route = (function () {
     };
     return Route;
 })();
-var ViewByConvention = (function () {
-    function ViewByConvention(key) {
-        this.Key = key;
-        this.ViewUrl = "/Views/" + key.toString() + ".html";
-    }
-    ViewByConvention.prototype.Url = function (route) {
-        return this.Key.toString();
-    };
-    ViewByConvention.prototype.UrlTitle = function (route) {
-        return this.Key.toString();
-    };
-    ViewByConvention.prototype.Loaded = function (route) {
-    };
-    ViewByConvention.prototype.Preload = function () { };
-    return ViewByConvention;
-})();
-;
 var ActionType;
 (function (ActionType) {
     ActionType[ActionType["Deleted"] = 0] = "Deleted";
@@ -1518,6 +1501,11 @@ var Binding;
                                     }
                                 });
                             }
+                            else {
+                                dataContainer.Rebind(field, element);
+                                actionEvent = new ActionEvent(ActionType.Updated, element.DataObject, field, tempElement.value);
+                                dataContainer.ActionEvent(actionEvent);
+                            }
                         }
                         else {
                             tempElement.value = element.DataObject[field];
@@ -1549,6 +1537,11 @@ var Binding;
                                         dataContainer.ActionEvent(actionEvent);
                                     }
                                 });
+                            }
+                            else {
+                                dataContainer.Rebind(field, input);
+                                actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, checked);
+                                dataContainer.ActionEvent(actionEvent);
                             }
                         }
                         else {
@@ -1582,6 +1575,11 @@ var Binding;
                                     dataContainer.ActionEvent(actionEvent);
                                 }
                             });
+                        }
+                        else {
+                            dataContainer.Rebind(field, input);
+                            actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, input.value);
+                            dataContainer.ActionEvent(actionEvent);
                         }
                     }
                     else {
@@ -3161,19 +3159,6 @@ Date.prototype.MinuteDiff = function (subtractDate) {
     var diff = Math.abs(this - subtractDate);
     return diff / 1000 / 60 / 60;
 };
-Element.prototype.Popup = function (target, position, hideInterval) {
-    Dialog.Popup(this, target, position, hideInterval);
-};
-Element.prototype.Modal = function (modalClass, position, hideInterval, target) {
-    Dialog.Modal(this, modalClass, position, hideInterval, target);
-};
-Element.prototype.Quick = function (target, position, hideInterval) {
-    Dialog.Quick(this, target, position);
-};
-Element.prototype.Dialog = function (dialogProperties) {
-    var dp = new DialogProperties(this, Thing.GetValueIn(dialogProperties, "DialogType", DialogType.Standard), Thing.GetValueIn(dialogProperties, "Target"), Thing.GetValueIn(dialogProperties, "HideInterval"), Thing.GetValueIn(dialogProperties, "Position", DialogPosition.MiddleOfWindow), Thing.GetValueIn(dialogProperties, "ModalClass"), Thing.GetValueIn(dialogProperties, "OffSetX"), Thing.GetValueIn(dialogProperties, "OffSetY"));
-    Dialog.Standard(dp);
-};
 HTMLElement.prototype.Get = function (predicate, notRecursive, nodes) {
     if (nodes == null) {
         nodes = new Array();
@@ -3642,30 +3627,6 @@ String.prototype.TrimCharacters = function (characterAtZero, characterAtEnd) {
     }
     return ret;
 };
-String.prototype.LeftTrim = function () {
-    return this.replace(/^\s+/, "");
-};
-String.prototype.RightTrim = function () {
-    return this.replace(/\s+$/, "");
-};
-String.prototype.ScriptReplace = function (sourceObjectOrArray, patternToLookFor, trimFromResultPattern) {
-    if (!trimFromResultPattern) {
-        trimFromResultPattern = RegularExpression.StandardBindingWrapper;
-    }
-    if (!patternToLookFor) {
-        patternToLookFor = RegularExpression.StandardBindingPattern;
-    }
-    return RegularExpression.Replace(patternToLookFor, this, sourceObjectOrArray, trimFromResultPattern);
-};
-String.prototype.SplitOnUpperCase = function () {
-    if (this && this.length > 0) {
-        var split = this.match(/[A-Z][a-z]+/g);
-        if (split) {
-            return split.join(" ");
-        }
-    }
-    return this;
-};
 String.prototype.Element = function () {
     var obj = document.getElementById(this.toString());
     if (obj) {
@@ -3716,49 +3677,6 @@ String.prototype.CreateElementFromHtml = function () {
         return child;
     }
 };
-String.prototype.ParseHtml = function () {
-    var scripts = new Array();
-    var html = this;
-    var matches = this.match(/(<script[^>]*>[\s\S]*?<\/script>)/gi);
-    if (matches) {
-        for (var i = 0; i < matches.length; i++) {
-            scripts.push(matches[i]);
-            html = html.replace(matches[i], "");
-        }
-        html = html.replace(/(\r\n|\n|\r)/gm, "");
-    }
-    var ret = {
-        Html: html, Scripts: scripts, LoadScripts: function () {
-            for (var i = 0; i < ret.Scripts.length; i++) {
-                var script = ret.Scripts[i].replace(/<script[^>]*>/gi, "");
-                script = script.replace(/<\/script>/gi, "");
-                var match = ret.Scripts[i].match(/id=('|")(.*?)('|")/g);
-                var id = null;
-                if (match) {
-                    match = match[0].replace(/(\"|')/gi, "");
-                    match = match.replace("id=", "");
-                    id = match;
-                    match = document.getElementById(match) ? true : false;
-                }
-                if (!match && script) {
-                    var head = document.getElementsByTagName('head')[0];
-                    var scriptElement = document.createElement('script');
-                    scriptElement.setAttribute('type', 'text/javascript');
-                    scriptElement["IsTemporary"] = true;
-                    if (id) {
-                        scriptElement.setAttribute('id', id);
-                    }
-                    scriptElement.textContent = script;
-                    head.appendChild(scriptElement);
-                }
-            }
-        }
-    };
-    return ret;
-};
-String.prototype.CreateObject = function () {
-    return JSON.parse(this);
-};
 String.prototype.Put = function (parameters, success) {
     Ajax.HttpAction("PUT", this, parameters, success);
 };
@@ -3793,24 +3711,6 @@ String.prototype.Get = function (parameters, success, isRaw) {
         Ajax.HttpAction("GET", url, null, success, isRaw);
     }
 };
-String.prototype.Ok = function (target, title, modalClass, okButton, containerClass, titleClass) {
-    if (Is.String(target)) {
-        target = target.E();
-    }
-    Dialog.Ok(this, title, target, modalClass, okButton, containerClass, titleClass);
-};
-String.prototype.Popup = function (target) {
-    if (Is.String(target)) {
-        target = target.E();
-    }
-    Dialog.Quick("div".CreateElement({
-        innerHTML: this,
-        border: "solid 1px #000",
-        backgroundColor: "#D3D3D3",
-        textAlign: "center",
-        padding: ".5em"
-    }), target);
-};
 Window.prototype.Exception = function () {
     var parameters = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -3832,10 +3732,6 @@ Window.prototype.Exception = function () {
 };
 Window.prototype.Show = function (viewKey, parameters) {
     ViewManager.Load(viewKey, parameters);
-};
-Window.prototype.SetLocation = function (url) {
-    var temp = window;
-    temp.location = url;
 };
 Window.prototype.Dimensions = function () {
     var ret = { Height: 0, Width: 0 };
@@ -3869,34 +3765,6 @@ Window.prototype.PushState = function (stateobj, title, url) {
         }
         history.pushState(stateobj, title, url);
     }
-};
-Window.prototype.ShortDate = function () {
-    var date = new Date();
-    var now = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
-    return now;
-};
-Window.prototype.Sleep = function (milliseconds) {
-    var date = new Date();
-    var curDate = new Date();
-    while (curDate.getMilliseconds() - date.getMilliseconds() < milliseconds) {
-    }
-};
-Window.prototype.MousePosition = function (e) {
-    if (event || e) {
-        if (Is.InternetExplorer()) {
-            return { X: e.clientX + document.body.scrollLeft, Y: e.clientY + document.body.scrollTop };
-        }
-        else {
-            return { X: e.pageX, Y: e.pageY };
-        }
-    }
-    return { X: 0, Y: 0 };
-};
-Window.prototype.UniqueID = function () {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    }).replace("-", "").substring(0, 16);
 };
 Window.prototype.SplitPathName = function () {
     var ret = new Array();

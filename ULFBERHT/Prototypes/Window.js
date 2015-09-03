@@ -20,26 +20,17 @@ Window.prototype.Exception = function () {
 Window.prototype.Show = function (viewKey, parameters) {
     ViewManager.Load(viewKey, parameters);
 };
-Window.prototype.SetLocation = function (url) {
-    var temp = window;
-    temp.location = url;
-};
 Window.prototype.Dimensions = function () {
     var ret = { Height: 0, Width: 0 };
     var temp = window;
     if (typeof temp.innerWidth != 'undefined') {
-        ret.Width = temp.innerWidth,
-            ret.Height = temp.innerHeight;
+        ret.Width = temp.innerWidth, ret.Height = temp.innerHeight;
     }
-    else if (typeof document.documentElement != 'undefined'
-        && typeof document.documentElement.clientWidth !=
-            'undefined' && document.documentElement.clientWidth != 0) {
-        ret.Width = document.documentElement.clientWidth,
-            ret.Height = document.documentElement.clientHeight;
+    else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientWidth != 'undefined' && document.documentElement.clientWidth != 0) {
+        ret.Width = document.documentElement.clientWidth, ret.Height = document.documentElement.clientHeight;
     }
     else {
-        ret.Width = document.getElementsByTagName('body')[0].clientWidth,
-            ret.Height = document.getElementsByTagName('body')[0].clientHeight;
+        ret.Width = document.getElementsByTagName('body')[0].clientWidth, ret.Height = document.getElementsByTagName('body')[0].clientHeight;
     }
     return ret;
 };
@@ -56,34 +47,6 @@ Window.prototype.PushState = function (stateobj, title, url) {
         }
         history.pushState(stateobj, title, url);
     }
-};
-Window.prototype.ShortDate = function () {
-    var date = new Date();
-    var now = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
-    return now;
-};
-Window.prototype.Sleep = function (milliseconds) {
-    var date = new Date();
-    var curDate = new Date();
-    while (curDate.getMilliseconds() - date.getMilliseconds() < milliseconds) {
-    }
-};
-Window.prototype.MousePosition = function (e) {
-    if (event || e) {
-        if (Is.InternetExplorer()) {
-            return { X: e.clientX + document.body.scrollLeft, Y: e.clientY + document.body.scrollTop };
-        }
-        else {
-            return { X: e.pageX, Y: e.pageY };
-        }
-    }
-    return { X: 0, Y: 0 };
-};
-Window.prototype.UniqueID = function () {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    }).replace("-", "").substring(0, 16);
 };
 Window.prototype.SplitPathName = function () {
     var ret = new Array();
@@ -159,3 +122,4 @@ function WindowLoad(e) {
 }
 ;
 WindowLoad();
+//# sourceMappingURL=Window.js.map

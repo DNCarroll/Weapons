@@ -1,13 +1,8 @@
 interface Window {
     SplitPathName(): Array<string>;
     PageLoaded(postLoadFuntion, e?);
-    UniqueID(): string;
-    MousePosition(e?): { X: number; Y: number; };
-    Sleep(milliseconds: number);
-    ShortDate();
     PushState(stateobj, title, url);
     Dimensions(): { Height: number; Width: number; };
-    SetLocation(url: string);
     Show(viewKey, parameters?: Array<any>);
     Exception(...parameters: any[]);
 }
@@ -28,10 +23,6 @@ Window.prototype.Exception = function (...parameters: any[]) {
 };
 Window.prototype.Show = function (viewKey, parameters?: Array<any>) {
     ViewManager.Load(viewKey, parameters);
-};
-Window.prototype.SetLocation = function (url: string) {
-    var temp = <any>window;
-    temp.location = url;
 };
 Window.prototype.Dimensions = function (): { Height: number; Width: number; } {
     var ret = { Height: 0, Width: 0 };
@@ -65,34 +56,6 @@ Window.prototype.PushState = function (stateobj, title, url) {
         }
         history.pushState(stateobj, title, url);
     }
-};
-Window.prototype.ShortDate = function () {
-    var date = new Date();
-    var now = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
-    return now;
-};
-Window.prototype.Sleep = function (milliseconds: number) {
-    var date = new Date();
-    var curDate = new Date();    
-    while (curDate.getMilliseconds() - date.getMilliseconds() < milliseconds)
-    {
-    }
-};
-Window.prototype.MousePosition = function (e?): { X: number; Y: number; } {
-    if (event || e) {
-        if (Is.InternetExplorer()) { // grab the x-y pos.s if browser is IE
-            return { X: e.clientX + document.body.scrollLeft, Y: e.clientY + document.body.scrollTop };
-        } else {  // grab the x-y pos.s if browser is NS
-            return { X: e.pageX, Y: e.pageY };
-        }
-    }
-    return { X: 0, Y: 0 };
-};
-Window.prototype.UniqueID = function (): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    }).replace("-", "").substring(0, 16);
 };
 Window.prototype.SplitPathName = function (): Array<string> {
     var ret = new Array<string>();

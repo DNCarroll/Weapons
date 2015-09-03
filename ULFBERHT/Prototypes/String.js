@@ -17,30 +17,6 @@ String.prototype.TrimCharacters = function (characterAtZero, characterAtEnd) {
     }
     return ret;
 };
-String.prototype.LeftTrim = function () {
-    return this.replace(/^\s+/, "");
-};
-String.prototype.RightTrim = function () {
-    return this.replace(/\s+$/, "");
-};
-String.prototype.ScriptReplace = function (sourceObjectOrArray, patternToLookFor, trimFromResultPattern) {
-    if (!trimFromResultPattern) {
-        trimFromResultPattern = RegularExpression.StandardBindingWrapper;
-    }
-    if (!patternToLookFor) {
-        patternToLookFor = RegularExpression.StandardBindingPattern;
-    }
-    return RegularExpression.Replace(patternToLookFor, this, sourceObjectOrArray, trimFromResultPattern);
-};
-String.prototype.SplitOnUpperCase = function () {
-    if (this && this.length > 0) {
-        var split = this.match(/[A-Z][a-z]+/g);
-        if (split) {
-            return split.join(" ");
-        }
-    }
-    return this;
-};
 String.prototype.Element = function () {
     var obj = document.getElementById(this.toString());
     if (obj) {
@@ -91,49 +67,6 @@ String.prototype.CreateElementFromHtml = function () {
         return child;
     }
 };
-String.prototype.ParseHtml = function () {
-    var scripts = new Array();
-    var html = this;
-    var matches = this.match(/(<script[^>]*>[\s\S]*?<\/script>)/gi);
-    if (matches) {
-        for (var i = 0; i < matches.length; i++) {
-            scripts.push(matches[i]);
-            html = html.replace(matches[i], "");
-        }
-        html = html.replace(/(\r\n|\n|\r)/gm, "");
-    }
-    var ret = {
-        Html: html, Scripts: scripts, LoadScripts: function () {
-            for (var i = 0; i < ret.Scripts.length; i++) {
-                var script = ret.Scripts[i].replace(/<script[^>]*>/gi, "");
-                script = script.replace(/<\/script>/gi, "");
-                var match = ret.Scripts[i].match(/id=('|")(.*?)('|")/g);
-                var id = null;
-                if (match) {
-                    match = match[0].replace(/(\"|')/gi, "");
-                    match = match.replace("id=", "");
-                    id = match;
-                    match = document.getElementById(match) ? true : false;
-                }
-                if (!match && script) {
-                    var head = document.getElementsByTagName('head')[0];
-                    var scriptElement = document.createElement('script');
-                    scriptElement.setAttribute('type', 'text/javascript');
-                    scriptElement["IsTemporary"] = true;
-                    if (id) {
-                        scriptElement.setAttribute('id', id);
-                    }
-                    scriptElement.textContent = script;
-                    head.appendChild(scriptElement);
-                }
-            }
-        }
-    };
-    return ret;
-};
-String.prototype.CreateObject = function () {
-    return JSON.parse(this);
-};
 String.prototype.Put = function (parameters, success) {
     Ajax.HttpAction("PUT", this, parameters, success);
 };
@@ -168,21 +101,4 @@ String.prototype.Get = function (parameters, success, isRaw) {
         Ajax.HttpAction("GET", url, null, success, isRaw);
     }
 };
-String.prototype.Ok = function (target, title, modalClass, okButton, containerClass, titleClass) {
-    if (Is.String(target)) {
-        target = target.E();
-    }
-    Dialog.Ok(this, title, target, modalClass, okButton, containerClass, titleClass);
-};
-String.prototype.Popup = function (target) {
-    if (Is.String(target)) {
-        target = target.E();
-    }
-    Dialog.Quick("div".CreateElement({
-        innerHTML: this,
-        border: "solid 1px #000",
-        backgroundColor: "#D3D3D3",
-        textAlign: "center",
-        padding: ".5em"
-    }), target);
-};
+//# sourceMappingURL=String.js.map
