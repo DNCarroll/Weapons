@@ -28,7 +28,8 @@ namespace Differ.TSql
         sys.sysobjects o on s.object_id = o.id
     WHERE 
         xtype in ('FN', 'IF', 'P', 'TF', 'TR') AND
-		s.definition IS NOT NULL
+		s.definition IS NOT NULL AND 
+        o.name NOT LIKE '%diagram%'
 	ORDER BY 
 		o.name;";        
 
