@@ -38,7 +38,6 @@ namespace BattleAxe
             return newObj;
         }
 
-
         //this may not work with extension on other one it may grab it by default
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but

@@ -8,6 +8,8 @@ namespace BattleAxe
 {
     public static class Advanced
     {
+        #region FirstOrDefault
+
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. IBattleAxe assumes that the object is controlling
@@ -106,6 +108,9 @@ namespace BattleAxe
             return newObj;
         }
 
+        #endregion
+
+        #region ToList
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. IBattleAxe assumes that the object is controlling
@@ -233,6 +238,10 @@ namespace BattleAxe
             }
         }
 
+        #endregion
+
+        #region Execute
+
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. IBattleAxe assumes that the object is controlling
@@ -280,6 +289,10 @@ namespace BattleAxe
             }
             return obj;
         }
+
+        #endregion
+        
+        #region Update
 
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
@@ -329,6 +342,10 @@ namespace BattleAxe
         {
             command.Update(objs);
         }
+
+        #endregion
+
+        #region Helper Methods
 
         internal static void setValuesFromReader<T>(T obj, d.IDataReader reader)
             where T : IBattleAxe
@@ -516,6 +533,8 @@ namespace BattleAxe
                 }
             }
             return ret;
-        } 
+        }
+
+        #endregion
     }
 }
