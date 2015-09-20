@@ -18,13 +18,13 @@ namespace BattleAxe
         /// <param name="command"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public static T FirstOrDefault<T>(this d.SqlClient.SqlCommand command, T parameter)
+        public static T FirstOrDefault<T>(this d.SqlClient.SqlCommand command, T parameter = null)
             where T : class, IBattleAxe, new()
         {
             T newObj = null;
             try
             {
-                if (connectionOpened(command))
+                if (command.IsConnectionOpen())
                 {
                     setCommandParameterValues(parameter, command);
                     newObj = getFirstFromReader<T>(command);
@@ -37,7 +37,7 @@ namespace BattleAxe
             }
             finally
             {
-                command.Connection.Close();
+                command.CloseConnection();
             }
             return newObj;
         }
@@ -58,7 +58,7 @@ namespace BattleAxe
             T newObj = null;
             try
             {
-                if (connectionOpened(command))
+                if (command.IsConnectionOpen())
                 {
                     setCommandParameterValues(parameter, command);
                     newObj = getFirstFromReader<T>(command);
@@ -71,37 +71,7 @@ namespace BattleAxe
             }
             finally
             {
-                command.Connection.Close();
-            }
-            return newObj;
-        }
-
-        /// <summary>
-        /// the command should have the connections string set,  doesnt have to be open but
-        /// the string should be set. 
-        /// beware this has no error trapping so make sure to trap your errors
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="command"></param>
-        /// <returns></returns>
-        public static T FirstOrDefault<T>(this d.SqlClient.SqlCommand command)
-            where T : class, IBattleAxe, new()
-        {
-            T newObj = null;
-            try
-            {
-                if (connectionOpened(command))
-                {
-                    newObj = getFirstFromReader<T>(command);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                command.Connection.Close();
+                command.CloseConnection();
             }
             return newObj;
         }
@@ -152,7 +122,7 @@ namespace BattleAxe
             List<T> ret = new List<T>();
             try
             {
-                if (connectionOpened(command))
+                if (command.IsConnectionOpen())
                 {
                     setCommandParameterValues(parameter, command);
                     executeReaderAndFillList(command, ret);
@@ -165,7 +135,7 @@ namespace BattleAxe
             }
             finally
             {
-                command.Connection.Close();
+                command.CloseConnection();
             }
             return ret;
         }
@@ -186,7 +156,7 @@ namespace BattleAxe
             List<T> ret = new List<T>();
             try
             {
-                if (connectionOpened(command))
+                if (command.IsConnectionOpen())
                 {
                     setCommandParameterValues(parameter, command);
                     executeReaderAndFillList(command, ret);
@@ -199,7 +169,7 @@ namespace BattleAxe
             }
             finally
             {
-                command.Connection.Close();
+                command.CloseConnection();
             }
             return ret;
         }
@@ -218,7 +188,7 @@ namespace BattleAxe
             List<T> ret = new List<T>();
             try
             {
-                if (connectionOpened(command))
+                if (command.IsConnectionOpen())
                 {
                     executeReaderAndFillList(command, ret);
                 }
@@ -229,7 +199,7 @@ namespace BattleAxe
             }
             finally
             {
-                command.Connection.Close();
+                command.CloseConnection();
             }
             return ret;
         }
@@ -293,7 +263,7 @@ namespace BattleAxe
         {
             try
             {                
-                if (connectionOpened(command))
+                if (command.IsConnectionOpen())
                 {
                     setCommandParameterValues(obj, command);
                     command.ExecuteNonQuery();
@@ -306,7 +276,7 @@ namespace BattleAxe
             }
             finally
             {
-                command.Connection.Close();
+                command.CloseConnection();
             }
             return obj;
         }
@@ -324,7 +294,7 @@ namespace BattleAxe
         {
             try
             {             
-                if (connectionOpened(command))
+                if (command.IsConnectionOpen())
                 {
                     foreach (var obj in objs)
                     {
@@ -333,7 +303,7 @@ namespace BattleAxe
                         setOutputParameters(obj, command);
                     }
                 }
-                command.Connection.Close();
+                command.CloseConnection();
             }
             catch (Exception)
             {
@@ -341,7 +311,7 @@ namespace BattleAxe
             }
             finally
             {
-                command.Connection.Close();
+                command.CloseConnection();
             }
             return objs;
         }
@@ -395,22 +365,6 @@ namespace BattleAxe
                     }
                 }
             }
-        }
-
-        internal static bool connectionOpened(d.SqlClient.SqlCommand command)
-        {
-            var ret = false;
-            if (command.Connection.State == System.Data.ConnectionState.Closed)
-            {
-                command.CommandTimeout = Common.Timeout;
-                command.Connection.Open();
-                ret = true;
-            }
-            else
-            {
-                ret = command.Connection.State == System.Data.ConnectionState.Open;
-            }
-            return ret;
         }
 
         internal static void setOutputParameters<T>(T obj, d.SqlClient.SqlCommand command)

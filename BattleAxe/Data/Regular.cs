@@ -14,78 +14,43 @@ namespace BattleAxe
         /// <param name="command"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>       
-        public static T FirstOrDefault<T>(d.IDbCommand command, T parameter)
+        public static T FirstOrDefault<T>(d.SqlClient.SqlCommand command, T parameter = null)
             where T : class, new()
         {
-
+            T newObj = null;
             try
             {
-                if (command.Connection.State == System.Data.ConnectionState.Closed)
+                if (command.IsConnectionOpen())
                 {
-                    command.CommandTimeout = Common.Timeout;
-                    command.Connection.Open();
-                }
-                if (command.Connection.State == System.Data.ConnectionState.Open)
-                {
-                    if (parameter != null)
-                    {
-                        setParameter(parameter, command);
-                    }
-                    T newObj = null;
-                    using (var reader = command.ExecuteReader())
-                    {
-
-                        while (reader.Read())
-                        {
-                            newObj = new T();
-                            setValuesFromReader(newObj, reader);
-                            break;
-                        }
-                    }
-                    setOutputParameters(parameter, command);
-                    return newObj;
+                    setCommandParameters(parameter, command);
+                    newObj = getFirstFromDataReader<T>(command);
+                    setOutputParameters(parameter, command);                    
                 }
             }
             catch
             {
                 throw;
             }
-            return null;
-
+            finally
+            {
+                command.CloseConnection();
+            }
+            return newObj;
         }
 
-
-        public static T FirstOrDefault<T>(d.IDbCommand command)
-            where T : class, new()
+        private static T getFirstFromDataReader<T>(d.SqlClient.SqlCommand command) where T : class, new()
         {
-            try
+            T newObj = new T();
+            using (var reader = command.ExecuteReader())
             {
-                if (command.Connection.State == System.Data.ConnectionState.Closed)
+                while (reader.Read())
                 {
-                    command.CommandTimeout = Common.Timeout;
-                    command.Connection.Open();
+                    setValuesFromReader(newObj, reader);
+                    break;
                 }
-                if (command.Connection.State == System.Data.ConnectionState.Open)
-                {
-                    T newObj = null;
-                    using (var reader = command.ExecuteReader())
-                    {
+            }
 
-                        while (reader.Read())
-                        {
-                            newObj = new T();
-                            setValuesFromReader(newObj, reader);
-                            break;
-                        }
-                    }
-                    return newObj;
-                }
-            }
-            catch
-            {
-                throw;
-            }
-            return null;
+            return newObj;
         }
 
         /// <summary>
@@ -96,26 +61,15 @@ namespace BattleAxe
         /// <param name="command"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public static List<T> ToList<T>(d.IDbCommand command, T parameter = null)
+        public static List<T> ToList<T>(d.SqlClient.SqlCommand command, T parameter = null)
             where T : class, new()
         {
-
             List<T> ret = new List<T>();
             try
             {
-                if (command.Connection.State == System.Data.ConnectionState.Closed)
+                if (command.IsConnectionOpen())
                 {
-                    command.CommandTimeout = Common.Timeout;
-                    command.Connection.Open();
-                }
-                if (command.Connection.State == System.Data.ConnectionState.Open)
-                {
-
-                    if (parameter != null)
-                    {
-                        setParameter(parameter, command);
-                    }
-
+                    setCommandParameters(parameter, command);
                     using (var reader = command.ExecuteReader())
                     {
                         var map = DataReaderMap.GetReaderMap(reader);
@@ -133,6 +87,7 @@ namespace BattleAxe
             {
                 throw;
             }
+            finally { command.CloseConnection(); }
             return ret;
         }
 
@@ -143,18 +98,13 @@ namespace BattleAxe
         /// <param name="command"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static T Execute<T>(d.IDbCommand command, T obj = null)
+        public static T Execute<T>(d.SqlClient.SqlCommand command, T obj = null)
             where T : class
         {
             try
             {
-                setParameter(obj, command);
-                if (command.Connection.State == System.Data.ConnectionState.Closed)
-                {
-                    command.CommandTimeout = Common.Timeout;
-                    command.Connection.Open();
-                }
-                if (command.Connection.State == System.Data.ConnectionState.Open)
+                setCommandParameters(obj, command);
+                if (command.IsConnectionOpen())
                 {
                     command.ExecuteNonQuery();
                     setOutputParameters(obj, command);
@@ -215,57 +165,84 @@ namespace BattleAxe
         internal static void setOutputParameters<T>(T obj, d.IDbCommand command)
             where T : class
         {
-            try
+            if (obj != null)
             {
-                foreach (d.IDataParameter p in command.Parameters)
+                try
                 {
-                    if (p.Direction == d.ParameterDirection.Output || p.Direction == d.ParameterDirection.InputOutput)
+                    foreach (d.IDataParameter p in command.Parameters)
                     {
-                        object value = p.Value;
-                        if (value == DBNull.Value)
+                        if (p.Direction == d.ParameterDirection.Output || p.Direction == d.ParameterDirection.InputOutput)
                         {
-                            value = null;
+                            object value = p.Value;
+                            if (value == DBNull.Value)
+                            {
+                                value = null;
+                            }
+                            obj.SetValue(!string.IsNullOrEmpty(p.SourceColumn) ? p.SourceColumn : p.ParameterName.Replace("@", ""), value);
                         }
-                        obj.SetValue(!string.IsNullOrEmpty(p.SourceColumn) ? p.SourceColumn : p.ParameterName.Replace("@", ""), value);
                     }
                 }
-            }
-            catch (Exception)
-            {
-
-                throw;
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
 
-        internal static void setParameter<T>(T obj, d.IDbCommand command)
+        internal static void setCommandParameters<T>(T obj, d.IDbCommand command)
             where T : class
         {
-            try
+            if (obj != null)
             {
-                foreach (d.IDbDataParameter parameter in command.Parameters)
+                try
                 {
-                    if (parameter.Direction == d.ParameterDirection.Input ||
-                        parameter.Direction == d.ParameterDirection.InputOutput)
+                    foreach (d.IDbDataParameter parameter in command.Parameters)
                     {
+                        if (parameter.Direction == d.ParameterDirection.Input ||
+                            parameter.Direction == d.ParameterDirection.InputOutput)
+                        {
 
-                        var value = obj.GetValue(parameter.SourceColumn);
-                        if (value != null)
-                        {
-                            parameter.Value = value;
-                        }
-                        else
-                        {
-                            parameter.Value = DBNull.Value;
+                            var value = obj.GetValue(parameter.SourceColumn);
+                            if (value != null)
+                            {
+                                parameter.Value = value;
+                            }
+                            else
+                            {
+                                parameter.Value = DBNull.Value;
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception)
-            {
-                throw;
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
 
+        public static bool IsConnectionOpen(this d.SqlClient.SqlCommand command)
+        {
+            var ret = false;
+            if (command.Connection.State == System.Data.ConnectionState.Closed)
+            {
+                command.CommandTimeout = Common.Timeout;
+                command.Connection.Open();
+                ret = true;
+            }
+            else
+            {
+                ret = command.Connection.State == System.Data.ConnectionState.Open;
+            }
+            return ret;
+        }
 
+        public static void CloseConnection(this d.SqlClient.SqlCommand command)
+        {
+            if (command.Connection != null)
+            {
+                command.Connection.Close();
+            }
+        }
     }
 }

@@ -7,7 +7,6 @@ namespace BattleAxe
 {
     public static class Common
     {
-
         public static void Remove<S, T>(this List<S> source, List<T> itemsToEvaluteForRemoval, Func<T, S, bool> matchForRemoval)
         {
             foreach (var item in itemsToEvaluteForRemoval)
@@ -84,7 +83,7 @@ namespace BattleAxe
         /// <param name="regex"></param>
         /// <param name="regexNotFoundOrValueIsNull">if the parameter cannot find group this is method called for the value of the parameter</param>
         /// <returns></returns>
-        public static T ExecuteWithRegex<T>(this d.IDbCommand command, string source, System.Text.RegularExpressions.Regex regex,
+        public static T ExecuteWithRegex<T>(this d.SqlClient.SqlCommand command, string source, System.Text.RegularExpressions.Regex regex,
             Func<string, object> regexNotFoundOrValueIsNull = null)
             where T : class, IBattleAxe, new()
         {
@@ -93,18 +92,17 @@ namespace BattleAxe
             {
                 try
                 {
-                    if (command.Connection.State != d.ConnectionState.Open)
+                    if (command.IsConnectionOpen())
                     {
-                        command.Connection.Open();
-                    }
-                    command.ExecuteNonQuery();
-                    command.Connection.Close();
-                    foreach (d.IDbDataParameter parameter in command.Parameters)
-                    {
-                        if (parameter.Direction == d.ParameterDirection.InputOutput || parameter.Direction == d.ParameterDirection.Output)
+                        command.ExecuteNonQuery();
+                        command.Connection.Close();
+                        foreach (d.IDbDataParameter parameter in command.Parameters)
                         {
-                            var field = parameter.ParameterName.Replace("@", "");
-                            outputParameters[field] = parameter.Value;
+                            if (parameter.Direction == d.ParameterDirection.InputOutput || parameter.Direction == d.ParameterDirection.Output)
+                            {
+                                var field = parameter.ParameterName.Replace("@", "");
+                                outputParameters[field] = parameter.Value;
+                            }
                         }
                     }
                 }
@@ -112,6 +110,9 @@ namespace BattleAxe
                 {
                     string formatted = string.Format("Execution of 'ExecuteWithRegex' SqlCommand:{0}, ErrorMessage:{1}", command.CommandText, ex.Message);
                     throw new Exception(formatted);
+                }
+                finally {
+                    command.Connection.Close();
                 }
             }
             else
@@ -130,12 +131,10 @@ namespace BattleAxe
             var match = regex.Match(source);
             if (match.Success)
             {
-                foreach (d.IDbDataParameter item in command.Parameters)
+                foreach (d.SqlClient.SqlParameter item in command.Parameters)
                 {
                     item.Value = DBNull.Value;
                     var group = match.Groups[item.SourceColumn];
-                    //if (group != null || group.Value == null)
-                    //{
                     if (group != null &&
                         !string.IsNullOrEmpty(group.Value))
                     {
@@ -149,15 +148,6 @@ namespace BattleAxe
                             item.Value = value;
                         }
                     }
-                    //}
-                    //else if (notFoundInRegexGroups != null)
-                    //{
-                    //    var value = notFoundInRegexGroups(item.SourceColumn);
-                    //    if (value != null)
-                    //    {
-                    //        item.Value = value;
-                    //    }
-                    //}
                 }
                 return true;
             }
@@ -310,106 +300,106 @@ where
 
 
 
-        public static void RunJob(this string jobName, string connectionString, string commandTextToRunInJob)
-        {
-            try
-            {
-                createJob(jobName, connectionString, commandTextToRunInJob);
-                runJob(jobName, connectionString);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+//        public static void RunJob(this string jobName, string connectionString, string commandTextToRunInJob)
+//        {
+//            try
+//            {
+//                createJob(jobName, connectionString, commandTextToRunInJob);
+//                runJob(jobName, connectionString);
+//            }
+//            catch (Exception)
+//            {
+//                throw;
+//            }
 
-        }
+//        }
 
-        static void runJob(string jobName, string connectionString)
-        {
-            var commandText = "exec msdb.dbo.sp_start_job @job_name = {jobName}";
-            commandText = commandText.Replace("{jobName}", "'" + jobName + "'");
-            using (var conn = new System.Data.SqlClient.SqlConnection(connectionString))
-            {
+//        static void runJob(string jobName, string connectionString)
+//        {
+//            var commandText = "exec msdb.dbo.sp_start_job @job_name = {jobName}";
+//            commandText = commandText.Replace("{jobName}", "'" + jobName + "'");
+//            using (var conn = new System.Data.SqlClient.SqlConnection(connectionString))
+//            {
 
-                using (var cmd = new System.Data.SqlClient.SqlCommand(commandText, conn))
-                {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
+//                using (var cmd = new System.Data.SqlClient.SqlCommand(commandText, conn))
+//                {
+//                    conn.Open();
+//                    cmd.ExecuteNonQuery();
+//                }
+//            }
+//        }
 
-        static void createJob(string jobName, string connectionString, string commandText)
-        {
-            var jobCommandText = jobCommandString(jobName, commandText, connectionString);
-            using (var conn = new System.Data.SqlClient.SqlConnection(connectionString))
-            {
-                using (var cmd = new System.Data.SqlClient.SqlCommand(jobCommandText, conn))
-                {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
+//        static void createJob(string jobName, string connectionString, string commandText)
+//        {
+//            var jobCommandText = jobCommandString(jobName, commandText, connectionString);
+//            using (var conn = new System.Data.SqlClient.SqlConnection(connectionString))
+//            {
+//                using (var cmd = new System.Data.SqlClient.SqlCommand(jobCommandText, conn))
+//                {
+//                    conn.Open();
+//                    cmd.ExecuteNonQuery();
+//                }
+//            }
+//        }
 
-        static string jobCommandString(string jobName, string commandText, string connectionString)
-        {
-            var serverName = "Data Source=";
-            var catalog = "Initial Catalog=";
+//        static string jobCommandString(string jobName, string commandText, string connectionString)
+//        {
+//            var serverName = "Data Source=";
+//            var catalog = "Initial Catalog=";
 
-            serverName = connectionString.Substring(connectionString.IndexOf(serverName) + serverName.Length);
-            serverName = serverName.Substring(0, serverName.IndexOf(";"));
+//            serverName = connectionString.Substring(connectionString.IndexOf(serverName) + serverName.Length);
+//            serverName = serverName.Substring(0, serverName.IndexOf(";"));
 
-            catalog = connectionString.Substring(connectionString.IndexOf(catalog) + catalog.Length);
-            catalog = catalog.Substring(0, catalog.IndexOf(";"));
+//            catalog = connectionString.Substring(connectionString.IndexOf(catalog) + catalog.Length);
+//            catalog = catalog.Substring(0, catalog.IndexOf(";"));
 
-            commandText = "USE " + catalog + "; " + commandText;
+//            commandText = "USE " + catalog + "; " + commandText;
 
-            string cmd = @"	USE msdb;
-	DECLARE	@job nvarchar(128) = {jobName};
-	DECLARE @mycommand nvarchar(max) = {commandText}; 
-	DECLARE @servername nvarchar(28) = {serverName};
+//            string cmd = @"	USE msdb;
+//	DECLARE	@job nvarchar(128) = {jobName};
+//	DECLARE @mycommand nvarchar(max) = {commandText}; 
+//	DECLARE @servername nvarchar(28) = {serverName};
 
-	DECLARE @jobId binary(16);
-	SELECT @jobId = job_id FROM msdb.dbo.sysjobs WHERE (name = @job);
-	IF @jobId IS NULL BEGIN
+//	DECLARE @jobId binary(16);
+//	SELECT @jobId = job_id FROM msdb.dbo.sysjobs WHERE (name = @job);
+//	IF @jobId IS NULL BEGIN
 
-		EXEC dbo.sp_add_job
-			@job_name = @job;
+//		EXEC dbo.sp_add_job
+//			@job_name = @job;
 
-		EXEC sp_add_jobstep
-			@job_name = @job,
-			@step_name = N'process step',
-			@subsystem = N'TSQL',
-			@command = @mycommand;
+//		EXEC sp_add_jobstep
+//			@job_name = @job,
+//			@step_name = N'process step',
+//			@subsystem = N'TSQL',
+//			@command = @mycommand;
 
-		EXEC dbo.sp_add_jobserver
-			@job_name =  @job,
-			@server_name = @servername;
+//		EXEC dbo.sp_add_jobserver
+//			@job_name =  @job,
+//			@server_name = @servername;
 
-	END ELSE BEGIN
+//	END ELSE BEGIN
 
-		BEGIN TRY
+//		BEGIN TRY
 
-			exec dbo.sp_delete_jobstep @jobID, null, 1;
+//			exec dbo.sp_delete_jobstep @jobID, null, 1;
 
-		END TRY
-		BEGIN CATCH 
-		END CATCH
+//		END TRY
+//		BEGIN CATCH 
+//		END CATCH
 
-		EXEC sp_add_jobstep
-			@job_name = @job,
-			@step_name = N'process step',
-			@subsystem = N'TSQL',
-			@command = @mycommand;
-	END
-";
+//		EXEC sp_add_jobstep
+//			@job_name = @job,
+//			@step_name = N'process step',
+//			@subsystem = N'TSQL',
+//			@command = @mycommand;
+//	END
+//";
 
-            cmd = cmd.Replace("{jobName}", "'" + jobName + "'");
-            cmd = cmd.Replace("{commandText}", "'" + commandText + "'");
-            cmd = cmd.Replace("{serverName}", "'" + serverName + "'");
-            return cmd;
-        }
+//            cmd = cmd.Replace("{jobName}", "'" + jobName + "'");
+//            cmd = cmd.Replace("{commandText}", "'" + commandText + "'");
+//            cmd = cmd.Replace("{serverName}", "'" + serverName + "'");
+//            return cmd;
+//        }
 
     }
 }
