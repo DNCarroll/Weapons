@@ -12,6 +12,7 @@ namespace BattleAxe
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. IBattleAxe assumes that the object is controlling
         /// all the value setting through the Indexer
+        /// beware this has no error trapping so make sure to trap your errors
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="command"></param>
@@ -20,47 +21,32 @@ namespace BattleAxe
         public static T FirstOrDefault<T>(this d.SqlClient.SqlCommand command, T parameter)
             where T : class, IBattleAxe, new()
         {
-
+            T newObj = null;
             try
             {
-                if (command.Connection.State == System.Data.ConnectionState.Closed)
+                if (connectionOpened(command))
                 {
-                    command.CommandTimeout = Common.Timeout;
-                    command.Connection.Open();
-                }
-                if (command.Connection.State == System.Data.ConnectionState.Open)
-                {
-                    if (parameter != null)
-                    {
-                        setParameter(parameter, command);
-                    }
-                    T newObj = null;
-                    using (var reader = command.ExecuteReader())
-                    {
-
-                        while (reader.Read())
-                        {
-                            newObj = new T();
-                            setValuesFromReader(newObj, reader);
-                            break;
-                        }
-                    }
+                    setCommandParameterValues(parameter, command);
+                    newObj = getFirstFromReader<T>(command);
                     setOutputParameters(parameter, command);
-                    return newObj;
                 }
-
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
-            return null;
+            finally
+            {
+                command.Connection.Close();
+            }
+            return newObj;
         }
 
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. IBattleAxe assumes that the object is controlling
         /// all the value setting through the Indexer
+        /// beware this has no error trapping so make sure to trap your errors
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="command"></param>
@@ -69,46 +55,31 @@ namespace BattleAxe
         public static T FirstOrDefault<T>(this d.SqlClient.SqlCommand command, IBattleAxe parameter)
             where T : class, IBattleAxe, new()
         {
-
+            T newObj = null;
             try
             {
-                if (command.Connection.State == System.Data.ConnectionState.Closed)
+                if (connectionOpened(command))
                 {
-                    command.CommandTimeout = Common.Timeout;
-                    command.Connection.Open();
-                }
-                if (command.Connection.State == System.Data.ConnectionState.Open)
-                {
-                    if (parameter != null)
-                    {
-                        setParameter(parameter, command);
-                    }
-                    T newObj = null;
-                    using (var reader = command.ExecuteReader())
-                    {
-
-                        while (reader.Read())
-                        {
-                            newObj = new T();
-                            setValuesFromReader(newObj, reader);
-                            break;
-                        }
-                    }
+                    setCommandParameterValues(parameter, command);
+                    newObj = getFirstFromReader<T>(command);
                     setOutputParameters(parameter, command);
-                    return newObj;
                 }
-
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
-            return null;
+            finally
+            {
+                command.Connection.Close();
+            }
+            return newObj;
         }
 
-
         /// <summary>
-        /// 
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. 
+        /// beware this has no error trapping so make sure to trap your errors
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="command"></param>
@@ -116,46 +87,60 @@ namespace BattleAxe
         public static T FirstOrDefault<T>(this d.SqlClient.SqlCommand command)
             where T : class, IBattleAxe, new()
         {
+            T newObj = null;
             try
             {
-                if (command.Connection.State == System.Data.ConnectionState.Closed)
+                if (connectionOpened(command))
                 {
-                    command.CommandTimeout = Common.Timeout;
-                    command.Connection.Open();
-                }
-                if (command.Connection.State == System.Data.ConnectionState.Open)
-                {
-                    T newObj = null;
-                    using (var reader = command.ExecuteReader())
-                    {
-
-                        while (reader.Read())
-                        {
-                            newObj = new T();
-                            setValuesFromReader(newObj, reader);
-                            break;
-                        }
-                    }
-                    return newObj;
+                    newObj = getFirstFromReader<T>(command);
                 }
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
-            return null;
+            finally
+            {
+                command.Connection.Close();
+            }
+            return newObj;
         }
 
+        /// <summary>
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. 
+        /// beware this has no error trapping so make sure to trap your errors
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
         public static T FirstOrDefault<T>(this T obj, d.SqlClient.SqlCommand command)
             where T : class, IBattleAxe, new()
         {
             return command.FirstOrDefault(obj);
         }
 
+        private static T getFirstFromReader<T>(d.SqlClient.SqlCommand command) where T : class, IBattleAxe, new()
+        {
+            T newObj = null;
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    newObj = new T();
+                    setValuesFromReader(newObj, reader);
+                    break;
+                }
+            }
+            return newObj;
+        }
+
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. IBattleAxe assumes that the object is controlling
         /// all the value setting through the Indexer
+        /// beware this has no error trapping so make sure to trap your errors
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="command"></param>
@@ -167,44 +152,29 @@ namespace BattleAxe
             List<T> ret = new List<T>();
             try
             {
-                if (command.Connection.State == System.Data.ConnectionState.Closed)
+                if (connectionOpened(command))
                 {
-                    command.CommandTimeout = Common.Timeout;
-                    command.Connection.Open();
-                }
-                if (command.Connection.State == System.Data.ConnectionState.Open)
-                {
-                    if (parameter != null)
-                    {
-                        setParameter(parameter, command);
-                    }
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        //get reader map here
-                        var map = DataReaderMap.GetReaderMap(reader);
-                        while (reader.Read())
-                        {
-                            T newObj = new T();
-                            DataReaderMap.Set(reader, map, newObj);
-                            ret.Add(newObj);
-                        }
-                    }
+                    setCommandParameterValues(parameter, command);
+                    executeReaderAndFillList(command, ret);
                     setOutputParameters(parameter, command);
                 }
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            finally
+            {
+                command.Connection.Close();
+            }
             return ret;
         }
-
 
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. IBattleAxe assumes that the object is controlling
         /// all the value setting through the Indexer
+        /// beware this has no error trapping so make sure to trap your errors
         /// </summary>
         /// <typeparam name="T">the return type</typeparam>
         /// <param name="command"></param>
@@ -216,82 +186,88 @@ namespace BattleAxe
             List<T> ret = new List<T>();
             try
             {
-                if (command.Connection.State == System.Data.ConnectionState.Closed)
+                if (connectionOpened(command))
                 {
-                    command.CommandTimeout = Common.Timeout;
-                    command.Connection.Open();
-                }
-                if (command.Connection.State == System.Data.ConnectionState.Open)
-                {
-                    if (parameter != null)
-                    {
-                        setParameter(parameter, command);
-                    }
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        //get reader map here
-                        var map = DataReaderMap.GetReaderMap(reader);
-                        while (reader.Read())
-                        {
-                            T newObj = new T();
-                            DataReaderMap.Set(reader, map, newObj);
-                            ret.Add(newObj);
-                        }
-                    }
+                    setCommandParameterValues(parameter, command);
+                    executeReaderAndFillList(command, ret);
                     setOutputParameters(parameter, command);
                 }
             }
-            catch
+            catch (Exception)
             {
                 throw;
+            }
+            finally
+            {
+                command.Connection.Close();
             }
             return ret;
         }
 
-
+        /// <summary>
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. 
+        /// beware this has no error trapping so make sure to trap your errors
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="command"></param>
+        /// <returns></returns>
         public static List<T> ToList<T>(this d.SqlClient.SqlCommand command)
             where T : class, IBattleAxe, new()
         {
             List<T> ret = new List<T>();
             try
             {
-                if (command.Connection.State == System.Data.ConnectionState.Closed)
+                if (connectionOpened(command))
                 {
-                    command.CommandTimeout = Common.Timeout;
-                    command.Connection.Open();
-                }
-                if (command.Connection.State == System.Data.ConnectionState.Open)
-                {   
-                    using (var reader = command.ExecuteReader())
-                    {
-                        var map = DataReaderMap.GetReaderMap(reader);
-                        while (reader.Read())
-                        {
-                            T newObj = new T();
-                            DataReaderMap.Set(reader, map, newObj);
-                            ret.Add(newObj);
-                        }
-                    }                 
+                    executeReaderAndFillList(command, ret);
                 }
             }
-            catch
+            catch (Exception)
             {
                 throw;
+            }
+            finally
+            {
+                command.Connection.Close();
             }
             return ret;
         }
 
+        /// <summary>
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. 
+        /// beware this has no error trapping so make sure to trap your errors
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
         public static List<T> ToList<T>(this T obj, d.SqlClient.SqlCommand command)
             where T : class, IBattleAxe, new()
         {
             return command.ToList<T>(obj);
         }
 
+        private static void executeReaderAndFillList<T>(d.SqlClient.SqlCommand command, List<T> ret) where T : class, IBattleAxe, new()
+        {
+            using (var reader = command.ExecuteReader())
+            {
+                var map = DataReaderMap.GetReaderMap(reader);
+                while (reader.Read())
+                {
+                    T newObj = new T();
+                    DataReaderMap.Set(reader, map, newObj);
+                    ret.Add(newObj);
+                }
+            }
+        }
+
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. IBattleAxe assumes that the object is controlling
         /// all the value setting through the Indexer. 
+        /// beware this has no error trapping so make sure to trap your errors
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
@@ -306,7 +282,8 @@ namespace BattleAxe
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. IBattleAxe assumes that the object is controlling
-        /// all the value setting through the Indexer. 
+        /// all the value setting through the Indexer.
+        /// beware this has no error trapping so make sure to trap your errors 
         /// </summary>
         /// <param name="command"></param>
         /// <param name="obj"></param>
@@ -315,19 +292,13 @@ namespace BattleAxe
             where T : class, IBattleAxe, new()
         {
             try
-            {
-                setParameter(obj, command);
-                if (command.Connection.State == System.Data.ConnectionState.Closed)
+            {                
+                if (connectionOpened(command))
                 {
-                    command.CommandTimeout = Common.Timeout;
-                    command.Connection.Open();
-                }
-                if (command.Connection.State == System.Data.ConnectionState.Open)
-                {
+                    setCommandParameterValues(obj, command);
                     command.ExecuteNonQuery();
                     setOutputParameters(obj, command);
                 }
-                command.Connection.Close();
             }
             catch (Exception)
             {
@@ -340,22 +311,24 @@ namespace BattleAxe
             return obj;
         }
 
-        public static List<T> Update<T>(this d.SqlClient.SqlCommand command, List<T> objs)
-            where T : class, IBattleAxe, new()
+        /// <summary>
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. IBattleAxe assumes that the object is controlling
+        /// all the value setting through the Indexer.
+        /// beware this has no error trapping so make sure to trap your errors 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="objs"></param>
+        /// <returns></returns>
+        public static List<IBattleAxe> Update(this d.SqlClient.SqlCommand command, List<IBattleAxe> objs)            
         {
             try
-            {
-             
-                if (command.Connection.State == System.Data.ConnectionState.Closed)
-                {
-                    command.CommandTimeout = Common.Timeout;
-                    command.Connection.Open();
-                }
-                if (command.Connection.State == System.Data.ConnectionState.Open)
+            {             
+                if (connectionOpened(command))
                 {
                     foreach (var obj in objs)
                     {
-                        setParameter(obj, command);
+                        setCommandParameterValues(obj, command);
                         command.ExecuteNonQuery();
                         setOutputParameters(obj, command);
                     }
@@ -374,13 +347,15 @@ namespace BattleAxe
         }
 
         /// <summary>
-        /// 
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. IBattleAxe assumes that the object is controlling
+        /// all the value setting through the Indexer.
+        /// beware this has no error trapping so make sure to trap your errors 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="objs"></param>
+        /// <param name="objs">the objects that you want to update with the provided command</param>
         /// <param name="command"></param>
-        public static void Update<T>(this List<T> objs, d.SqlClient.SqlCommand command)
-            where T : class, IBattleAxe, new()
+        public static void Update(this List<IBattleAxe> objs, d.SqlClient.SqlCommand command)            
         {
             command.Update(objs);
         }
@@ -422,6 +397,22 @@ namespace BattleAxe
             }
         }
 
+        internal static bool connectionOpened(d.SqlClient.SqlCommand command)
+        {
+            var ret = false;
+            if (command.Connection.State == System.Data.ConnectionState.Closed)
+            {
+                command.CommandTimeout = Common.Timeout;
+                command.Connection.Open();
+                ret = true;
+            }
+            else
+            {
+                ret = command.Connection.State == System.Data.ConnectionState.Open;
+            }
+            return ret;
+        }
+
         internal static void setOutputParameters<T>(T obj, d.SqlClient.SqlCommand command)
             where T : IBattleAxe
         {
@@ -447,37 +438,41 @@ namespace BattleAxe
             }
         }
 
-        internal static void setParameter<T>(T obj, d.SqlClient.SqlCommand command, bool shipStructured = false)
+        internal static void setCommandParameterValues<T>(T obj, d.SqlClient.SqlCommand command, bool shipStructured = false)
             where T : IBattleAxe
         {
-            try
+            if (obj != null)
             {
-                foreach (d.SqlClient.SqlParameter parameter in command.Parameters)
+                try
                 {
-                    if (parameter.SqlDbType != d.SqlDbType.Structured)
+                    foreach (d.SqlClient.SqlParameter parameter in command.Parameters)
                     {
-                        if (parameter.Direction == d.ParameterDirection.Input ||
-                            parameter.Direction == d.ParameterDirection.InputOutput)
+                        if (parameter.SqlDbType != d.SqlDbType.Structured)
                         {
-                            var value = obj[parameter.SourceColumn];
-                            if (value != null)
+                            if (parameter.Direction == d.ParameterDirection.Input ||
+                                parameter.Direction == d.ParameterDirection.InputOutput)
                             {
-                                parameter.Value = value;
-                            }
-                            else
-                            {
-                                parameter.Value = DBNull.Value;
+                                var value = obj[parameter.SourceColumn];
+                                if (value != null)
+                                {
+                                    parameter.Value = value;
+                                }
+                                else
+                                {
+                                    parameter.Value = DBNull.Value;
+                                }
                             }
                         }
-                    }
-                    else if(!shipStructured) {
-                        parameter.Value = GetDataTable(obj[parameter.SourceColumn], command, parameter);
+                        else if (!shipStructured)
+                        {
+                            parameter.Value = GetDataTable(obj[parameter.SourceColumn], command, parameter);
+                        }
                     }
                 }
-            }
-            catch (Exception)
-            {
-                throw;
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
 
@@ -517,7 +512,7 @@ namespace BattleAxe
         public static void SetSimpleParameterValues<T>(this d.SqlClient.SqlCommand command, T obj)
             where T : IBattleAxe
         {
-            setParameter(obj, command, true);
+            setCommandParameterValues(obj, command, true);
         }
         internal static d.DataTable GetDataTable(object referenceObject, d.SqlClient.SqlCommand command, d.SqlClient.SqlParameter parameter)
         {
@@ -567,9 +562,6 @@ namespace BattleAxe
                 }
             }
             return ret;
-        }
-
-        
-
+        } 
     }
 }
