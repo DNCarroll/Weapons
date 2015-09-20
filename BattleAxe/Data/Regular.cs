@@ -38,6 +38,22 @@ namespace BattleAxe
             return newObj;
         }
 
+
+        //this may not work with extension on other one it may grab it by default
+        /// <summary>
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public static T FirstOrDefault<T>(this T obj, d.SqlClient.SqlCommand command)
+            where T : class, new()
+        {
+            return FirstOrDefault<T>(command, obj);
+        }
+
         private static T getFirstFromDataReader<T>(d.SqlClient.SqlCommand command) where T : class, new()
         {
             T newObj = new T();
@@ -95,6 +111,20 @@ namespace BattleAxe
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. 
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public static List<T> ToList<T>(this T obj, d.SqlClient.SqlCommand command)
+            where T : class, new()
+        {
+            return ToList<T>(command, obj);
+        }
+
+        /// <summary>
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. 
+        /// </summary>
         /// <param name="command"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -120,6 +150,20 @@ namespace BattleAxe
                 command.Connection.Close();
             }
             return obj;
+        }
+
+        /// <summary>
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public static T Execute<T>(this T obj, d.SqlClient.SqlCommand command)
+            where T : class
+        {
+            return Execute(command, obj);
         }
 
         internal static void setValuesFromReader<T>(T obj, d.IDataReader reader)
