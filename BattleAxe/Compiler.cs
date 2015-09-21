@@ -9,7 +9,7 @@ using System.Text;
 namespace BattleAxe
 {
     public delegate object GetValue<T>(T obj, string propertyName)
-        where T:class;
+        where T : class;
     public delegate void SetValue<T>(T obj, string propertyName, object value)
         where T : class;
 
@@ -38,13 +38,13 @@ namespace BattleAxe
         }
 
         public static object GetValue<T>(this T obj, string propertyName)
-            where T:class
+            where T : class
         {
             var type = typeof(T);
             if (getMethods.ContainsKey(type))
             {
                 var found = (GetValue<T>)getMethods[typeof(T)];
-                return   found(obj, propertyName);
+                return found(obj, propertyName);
             }
             else
             {
@@ -71,7 +71,7 @@ namespace BattleAxe
             }
 
             public static SetValue<T> Value<T>(Type type)
-                where T:class
+                where T : class
             {
                 var classSet = getClass();
                 var method = getSetMethod(type);
@@ -95,7 +95,7 @@ namespace BattleAxe
                 // Reference to System.Drawing library
                 //parameters.ReferencedAssemblies.Add("System.Drawing.dll");
                 // True - memory generation, false - external file generation
-                parameters.GenerateInMemory = true;                
+                parameters.GenerateInMemory = true;
                 parameters.GenerateExecutable = false;
                 // Add CSharpSimpleScripting.exe as a reference to Scripts.dll to expose interfaces
                 List<Assembly> referencedAssemblies = new List<Assembly>();
@@ -257,7 +257,7 @@ namespace BattleAxe
         public static class GetHelper
         {
             public static GetValue<T> Value<T>(Type type)
-                where T:class
+                where T : class
             {
                 var classSet = getClass();
                 var method = getGetMethod(type);
@@ -348,7 +348,7 @@ namespace BattleAxe
                 // Reference to System.Drawing library
                 //parameters.ReferencedAssemblies.Add("System.Drawing.dll");
                 // True - memory generation, false - external file generation
-                parameters.GenerateInMemory = true;                
+                parameters.GenerateInMemory = true;
                 parameters.GenerateExecutable = false;
                 // Add CSharpSimpleScripting.exe as a reference to Scripts.dll to expose interfaces
                 List<Assembly> referencedAssemblies = new List<Assembly>();
