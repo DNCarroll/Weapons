@@ -44,10 +44,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler.cs" />
-    <Compile Include="Data\Sharp.cs" />
-    <Compile Include="Data\Blunt.cs" />
-    <Compile Include="Data\DataReaderMap.cs" />
-    <Compile Include="Data\Common.cs" />
+    <Compile Include="ADO\ConnectionMaintenance.cs" />
+    <Compile Include="ADO\DataReaderMethods.cs" />
+    <Compile Include="ADO\CommandMethods.cs" />
+    <Compile Include="Extensions\ExecuteExtensions.cs" />
+    <Compile Include="Extensions\FirstOrDefaultExtensions.cs" />
+    <Compile Include="Extensions\ToListExtensions.cs" />
+    <Compile Include="ListTExtensions.cs" />
+    <Compile Include="ADO\ParameterMethods.cs" />
+    <Compile Include="Extensions\UpdateExtensions.cs" />
+    <Compile Include="RegexSql.cs" />
+    <Compile Include="Deprecating\Sharp.cs" />
+    <Compile Include="Deprecating\Blunt.cs" />
+    <Compile Include="ADO\DataReaderMap.cs" />
     <Compile Include="Dynamic.cs" />
     <Compile Include="IBattleAxe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
