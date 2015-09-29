@@ -300,106 +300,29 @@ where
 
 
 
-//        public static void RunJob(this string jobName, string connectionString, string commandTextToRunInJob)
-//        {
-//            try
-//            {
-//                createJob(jobName, connectionString, commandTextToRunInJob);
-//                runJob(jobName, connectionString);
-//            }
-//            catch (Exception)
-//            {
-//                throw;
-//            }
+        public static bool IsConnectionOpen(this d.SqlClient.SqlCommand command)
+        {
+            var ret = false;
+            if (command.Connection.State == System.Data.ConnectionState.Closed)
+            {
+                command.CommandTimeout = Common.Timeout;
+                command.Connection.Open();
+                ret = true;
+            }
+            else
+            {
+                ret = command.Connection.State == System.Data.ConnectionState.Open;
+            }
+            return ret;
+        }
 
-//        }
-
-//        static void runJob(string jobName, string connectionString)
-//        {
-//            var commandText = "exec msdb.dbo.sp_start_job @job_name = {jobName}";
-//            commandText = commandText.Replace("{jobName}", "'" + jobName + "'");
-//            using (var conn = new System.Data.SqlClient.SqlConnection(connectionString))
-//            {
-
-//                using (var cmd = new System.Data.SqlClient.SqlCommand(commandText, conn))
-//                {
-//                    conn.Open();
-//                    cmd.ExecuteNonQuery();
-//                }
-//            }
-//        }
-
-//        static void createJob(string jobName, string connectionString, string commandText)
-//        {
-//            var jobCommandText = jobCommandString(jobName, commandText, connectionString);
-//            using (var conn = new System.Data.SqlClient.SqlConnection(connectionString))
-//            {
-//                using (var cmd = new System.Data.SqlClient.SqlCommand(jobCommandText, conn))
-//                {
-//                    conn.Open();
-//                    cmd.ExecuteNonQuery();
-//                }
-//            }
-//        }
-
-//        static string jobCommandString(string jobName, string commandText, string connectionString)
-//        {
-//            var serverName = "Data Source=";
-//            var catalog = "Initial Catalog=";
-
-//            serverName = connectionString.Substring(connectionString.IndexOf(serverName) + serverName.Length);
-//            serverName = serverName.Substring(0, serverName.IndexOf(";"));
-
-//            catalog = connectionString.Substring(connectionString.IndexOf(catalog) + catalog.Length);
-//            catalog = catalog.Substring(0, catalog.IndexOf(";"));
-
-//            commandText = "USE " + catalog + "; " + commandText;
-
-//            string cmd = @"	USE msdb;
-//	DECLARE	@job nvarchar(128) = {jobName};
-//	DECLARE @mycommand nvarchar(max) = {commandText}; 
-//	DECLARE @servername nvarchar(28) = {serverName};
-
-//	DECLARE @jobId binary(16);
-//	SELECT @jobId = job_id FROM msdb.dbo.sysjobs WHERE (name = @job);
-//	IF @jobId IS NULL BEGIN
-
-//		EXEC dbo.sp_add_job
-//			@job_name = @job;
-
-//		EXEC sp_add_jobstep
-//			@job_name = @job,
-//			@step_name = N'process step',
-//			@subsystem = N'TSQL',
-//			@command = @mycommand;
-
-//		EXEC dbo.sp_add_jobserver
-//			@job_name =  @job,
-//			@server_name = @servername;
-
-//	END ELSE BEGIN
-
-//		BEGIN TRY
-
-//			exec dbo.sp_delete_jobstep @jobID, null, 1;
-
-//		END TRY
-//		BEGIN CATCH 
-//		END CATCH
-
-//		EXEC sp_add_jobstep
-//			@job_name = @job,
-//			@step_name = N'process step',
-//			@subsystem = N'TSQL',
-//			@command = @mycommand;
-//	END
-//";
-
-//            cmd = cmd.Replace("{jobName}", "'" + jobName + "'");
-//            cmd = cmd.Replace("{commandText}", "'" + commandText + "'");
-//            cmd = cmd.Replace("{serverName}", "'" + serverName + "'");
-//            return cmd;
-//        }
+        public static void CloseConnection(this d.SqlClient.SqlCommand command)
+        {
+            if (command.Connection != null)
+            {
+                command.Connection.Close();
+            }
+        }
 
     }
 }

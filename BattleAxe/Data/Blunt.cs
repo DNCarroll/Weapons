@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using d = System.Data;
 
-namespace BattleAxe
+/// <summary>
+/// BattleAxe.Blunt are extension methods that work against any class no Interfaces or special needs
+/// </summary>
+namespace BattleAxe.Blunt
 {
-    public static class Regular
+    public static class Extensions
     {
         #region FirstOrDefault
 
@@ -16,7 +19,7 @@ namespace BattleAxe
         /// <param name="command"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>       
-        public static T FirstOrDefault<T>(d.SqlClient.SqlCommand command, T parameter = null)
+        public static T FirstOrDefault<T>(this d.SqlClient.SqlCommand command, T parameter = null)
             where T : class, new()
         {
             T newObj = null;
@@ -81,7 +84,7 @@ namespace BattleAxe
         /// <param name="command"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public static List<T> ToList<T>(d.SqlClient.SqlCommand command, T parameter = null)
+        public static List<T> ToList<T>(this d.SqlClient.SqlCommand command, T parameter = null)
             where T : class, new()
         {
             List<T> ret = new List<T>();
@@ -136,7 +139,7 @@ namespace BattleAxe
         /// <param name="command"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static T Execute<T>(d.SqlClient.SqlCommand command, T obj = null)
+        public static T Execute<T>(this d.SqlClient.SqlCommand command, T obj = null)
             where T : class
         {
             try
@@ -187,7 +190,7 @@ namespace BattleAxe
         /// <param name="command"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public static List<T> Update<T>(d.SqlClient.SqlCommand command, List<T> objs)
+        public static List<T> Update<T>(this d.SqlClient.SqlCommand command, List<T> objs)
             where T: class
         {
             try
@@ -226,7 +229,7 @@ namespace BattleAxe
         public static void Update<T>(this List<T> objs, d.SqlClient.SqlCommand command)
             where T : class
         {
-            Regular.Update(command, objs);
+            Update(command, objs);
         }
 
         #endregion
@@ -330,28 +333,6 @@ namespace BattleAxe
             }
         }
 
-        public static bool IsConnectionOpen(this d.SqlClient.SqlCommand command)
-        {
-            var ret = false;
-            if (command.Connection.State == System.Data.ConnectionState.Closed)
-            {
-                command.CommandTimeout = Common.Timeout;
-                command.Connection.Open();
-                ret = true;
-            }
-            else
-            {
-                ret = command.Connection.State == System.Data.ConnectionState.Open;
-            }
-            return ret;
-        }
 
-        public static void CloseConnection(this d.SqlClient.SqlCommand command)
-        {
-            if (command.Connection != null)
-            {
-                command.Connection.Close();
-            }
-        }
     }
 }

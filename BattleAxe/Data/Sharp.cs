@@ -4,9 +4,12 @@ using d = System.Data;
 using System.Linq;
 using System.Collections;
 
-namespace BattleAxe
+/// <summary>
+/// BattleAxe.Sharp are extension methods that work against IBattleAxe
+/// </summary>
+namespace BattleAxe.Sharp
 {
-    public static class Advanced
+    public static class Extensions
     {
         #region FirstOrDefault
 
@@ -303,7 +306,8 @@ namespace BattleAxe
         /// <param name="command"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public static List<IBattleAxe> Update(this d.SqlClient.SqlCommand command, List<IBattleAxe> objs)            
+        public static List<T> Update<T>(this d.SqlClient.SqlCommand command, List<T> objs)
+            where T : class, IBattleAxe   
         {
             try
             {             
@@ -338,7 +342,8 @@ namespace BattleAxe
         /// <typeparam name="T"></typeparam>
         /// <param name="objs">the objects that you want to update with the provided command</param>
         /// <param name="command"></param>
-        public static void Update(this List<IBattleAxe> objs, d.SqlClient.SqlCommand command)            
+        public static void Update<T>(this List<T> objs, d.SqlClient.SqlCommand command)
+            where T : class, IBattleAxe
         {
             command.Update(objs);
         }

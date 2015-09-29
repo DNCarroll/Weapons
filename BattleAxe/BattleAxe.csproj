@@ -44,8 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler.cs" />
-    <Compile Include="Data\Advanced.cs" />
-    <Compile Include="Data\Regular.cs" />
+    <Compile Include="Data\Sharp.cs" />
+    <Compile Include="Data\Blunt.cs" />
     <Compile Include="Data\DataReaderMap.cs" />
     <Compile Include="Data\Common.cs" />
     <Compile Include="Dynamic.cs" />

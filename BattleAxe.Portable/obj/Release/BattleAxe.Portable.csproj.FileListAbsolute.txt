@@ -41,7 +41,6 @@ C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\bin\Release\BattleAx
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\bin\Release\BattleAxe.Portable.pri
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\bin\Release\Newtonsoft.Json.dll
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\bin\Release\Newtonsoft.Json.xml
-C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Release\BattleAxe.Portable.csprojResolveAssemblyReference.cache
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Release\BattleAxe.Portable.dll
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Release\BattleAxe.Portable.pdb
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Release\priconfig.xml

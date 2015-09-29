@@ -10,6 +10,5 @@ C:\Users\carroll\Documents\GitHub\Weapons\BattleAxe\obj\Release\BattleAxe.dll
 C:\Users\carroll\Documents\GitHub\Weapons\BattleAxe\obj\Release\BattleAxe.pdb
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe\bin\Release\BattleAxe.dll
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe\bin\Release\BattleAxe.pdb
-C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe\obj\Release\BattleAxe.csprojResolveAssemblyReference.cache
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe\obj\Release\BattleAxe.dll
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe\obj\Release\BattleAxe.pdb
