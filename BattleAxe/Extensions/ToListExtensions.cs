@@ -21,9 +21,9 @@ namespace BattleAxe
             {
                 if (command.IsConnectionOpen())
                 {
-                    ParameterMethods.SetInputParameters(parameter, command);
+                    ParameterMethods.SetInputs(parameter, command);
                     executeReaderAndFillList(command, ret);
-                    ParameterMethods.SetOutputParameters(parameter, command);
+                    ParameterMethods.SetOutputs(parameter, command);
                 }
             }
             catch

@@ -17,11 +17,11 @@ namespace BattleAxe
         {
             try
             {
-                ParameterMethods.SetInputParameters(obj, command);
+                ParameterMethods.SetInputs(obj, command);
                 if (command.IsConnectionOpen())
                 {
                     command.ExecuteNonQuery();
-                    ParameterMethods.SetOutputParameters(obj, command);
+                    ParameterMethods.SetOutputs(obj, command);
                 }
                 command.Connection.Close();
             }

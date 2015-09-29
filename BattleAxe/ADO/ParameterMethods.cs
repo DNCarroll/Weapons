@@ -8,10 +8,10 @@ namespace BattleAxe
 {
     public static class ParameterMethods
     {
-        internal static void SetInputParameters<T>(T obj, SqlCommand command, bool shipStructured = false)
+        internal static void SetInputs<T>(T sourceForInputs, SqlCommand command, bool shipStructured = false)
             where T : class
         {
-            if (obj != null)
+            if (sourceForInputs != null)
             {
                 try
                 {
@@ -22,13 +22,13 @@ namespace BattleAxe
                             if (parameter.Direction == ParameterDirection.Input ||
                                 parameter.Direction == ParameterDirection.InputOutput)
                             {
-                                var value = obj is IBattleAxe ? ((IBattleAxe)obj)[parameter.SourceColumn] : obj.GetValue(parameter.SourceColumn);
+                                var value = sourceForInputs is IBattleAxe ? ((IBattleAxe)sourceForInputs)[parameter.SourceColumn] : sourceForInputs.GetValue(parameter.SourceColumn);
                                 parameter.Value = value != null ? value : DBNull.Value;
                             }
                         }
                         else if (!shipStructured)
                         {
-                            parameter.Value = GetDataTable(((IBattleAxe)obj)[parameter.SourceColumn], command, parameter);
+                            parameter.Value = GetDataTable(((IBattleAxe)sourceForInputs)[parameter.SourceColumn], command, parameter);
                         }
                     }
                 }
@@ -90,7 +90,7 @@ namespace BattleAxe
             return ret;
         }
 
-        internal static void SetOutputParameters<T>(T obj, IDbCommand command)
+        internal static void SetOutputs<T>(T targetForOutputs, IDbCommand command)
             where T : class
         {
             try
@@ -105,13 +105,13 @@ namespace BattleAxe
                             value = null;
                         }
                         var field = !string.IsNullOrEmpty(p.SourceColumn) ? p.SourceColumn : p.ParameterName.Replace("@", "");
-                        if (obj is IBattleAxe)
+                        if (targetForOutputs is IBattleAxe)
                         {
-                            ((IBattleAxe)obj)[field] = value;
+                            ((IBattleAxe)targetForOutputs)[field] = value;
                         }
                         else
                         {
-                            obj.SetValue(field, value);
+                            targetForOutputs.SetValue(field, value);
                         }
                     }
                 }

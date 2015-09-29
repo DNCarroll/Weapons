@@ -24,9 +24,9 @@ namespace BattleAxe
                 {
                     foreach (var obj in objs)
                     {
-                        ParameterMethods.SetInputParameters(obj, command);
+                        ParameterMethods.SetInputs(obj, command);
                         command.ExecuteNonQuery();
-                        ParameterMethods.SetOutputParameters(obj, command);
+                        ParameterMethods.SetOutputs(obj, command);
                     }
                 }
                 command.CloseConnection();

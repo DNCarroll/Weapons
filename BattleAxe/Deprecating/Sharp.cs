@@ -111,7 +111,7 @@ namespace BattleAxe
         //    }
         //}
 
-        //internal static void setOutputParameters(IBattleAxe obj, SqlCommand command)
+        //internal static void SetOutputs(IBattleAxe obj, SqlCommand command)
         //{
         //    try
         //    {
@@ -161,7 +161,7 @@ namespace BattleAxe
     //            {
     //                setCommandParameterValues(parameter, command);
     //                newObj = getFirstFromReader<T>(command);
-    //                setOutputParameters(parameter, command);
+    //                SetOutputs(parameter, command);
     //            }
     //        }
     //        catch (Exception)
@@ -195,7 +195,7 @@ namespace BattleAxe
     //            {
     //                setCommandParameterValues(parameter, command);
     //                newObj = getFirstFromReader<T>(command);
-    //                setOutputParameters(parameter, command);
+    //                SetOutputs(parameter, command);
     //            }
     //        }
     //        catch (Exception)
@@ -262,7 +262,7 @@ namespace BattleAxe
     //            {
     //                setCommandParameterValues(parameter, command);
     //                executeReaderAndFillList(command, ret);
-    //                setOutputParameters(parameter, command);
+    //                SetOutputs(parameter, command);
     //            }
     //        }
     //        catch (Exception)
@@ -296,7 +296,7 @@ namespace BattleAxe
     //            {
     //                setCommandParameterValues(parameter, command);
     //                executeReaderAndFillList(command, ret);
-    //                setOutputParameters(parameter, command);
+    //                SetOutputs(parameter, command);
     //            }
     //        }
     //        catch (Exception)
@@ -407,7 +407,7 @@ namespace BattleAxe
     //            {
     //                setCommandParameterValues(obj, command);
     //                command.ExecuteNonQuery();
-    //                setOutputParameters(obj, command);
+    //                SetOutputs(obj, command);
     //            }
     //        }
     //        catch (Exception)
@@ -445,7 +445,7 @@ namespace BattleAxe
     //                {
     //                    setCommandParameterValues(obj, command);
     //                    command.ExecuteNonQuery();
-    //                    setOutputParameters(obj, command);
+    //                    SetOutputs(obj, command);
     //                }
     //            }
     //            command.CloseConnection();
@@ -517,7 +517,7 @@ namespace BattleAxe
     //        }
     //    }
 
-    //    internal static void setOutputParameters<T>(T obj, d.SqlClient.SqlCommand command)
+    //    internal static void SetOutputs<T>(T obj, d.SqlClient.SqlCommand command)
     //        where T : IBattleAxe
     //    {
     //        try

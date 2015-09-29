@@ -62,7 +62,7 @@ namespace BattleAxe
         //    }
         //}
 
-        //internal static void setOutputParameters<T>(T obj, IDbCommand command)
+        //internal static void SetOutputs<T>(T obj, IDbCommand command)
         //    where T : class
         //{
         //    try
@@ -109,7 +109,7 @@ namespace BattleAxe
     //            {
     //                setCommandParameters(parameter, command);
     //                newObj = getFirstFromDataReader<T>(command);
-    //                setOutputParameters(parameter, command);                    
+    //                SetOutputs(parameter, command);                    
     //            }
     //        }
     //        catch
@@ -183,7 +183,7 @@ namespace BattleAxe
     //                        ret.Add(newObj);
     //                    }
     //                }
-    //                setOutputParameters(parameter, command);
+    //                SetOutputs(parameter, command);
     //            }
     //        }
     //        catch
@@ -228,7 +228,7 @@ namespace BattleAxe
     //            if (command.IsConnectionOpen())
     //            {
     //                command.ExecuteNonQuery();
-    //                setOutputParameters(obj, command);
+    //                SetOutputs(obj, command);
     //            }
     //            command.Connection.Close();
     //        }
@@ -281,7 +281,7 @@ namespace BattleAxe
     //                {
     //                    setCommandParameters(obj, command);
     //                    command.ExecuteNonQuery();
-    //                    setOutputParameters(obj, command);
+    //                    SetOutputs(obj, command);
     //                }
     //            }
     //            command.CloseConnection();
@@ -354,7 +354,7 @@ namespace BattleAxe
     //        }
     //    }
 
-    //    internal static void setOutputParameters<T>(T obj, d.IDbCommand command)
+    //    internal static void SetOutputs<T>(T obj, d.IDbCommand command)
     //        where T : class
     //    {
     //        if (obj != null)

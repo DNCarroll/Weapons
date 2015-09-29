@@ -171,7 +171,7 @@ namespace BattleAxe
         //public static void SetSimpleParameterValues<T>(this SqlCommand command, T obj)
         //    where T : IBattleAxe
         //{
-        //    Sharp.ParameterMethods.SetInputParameters(obj, command, true);
+        //    Sharp.ParameterMethods.SetInputs(obj, command, true);
         //}
 
         private static void addStructureFieldForParameter(SqlCommand referenceCommand, string typeName, string connectionString)

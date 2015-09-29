@@ -20,9 +20,9 @@ namespace BattleAxe
             {
                 if (command.IsConnectionOpen())
                 {
-                    ParameterMethods.SetInputParameters(parameter, command);
+                    ParameterMethods.SetInputs(parameter, command);
                     newObj = DataReaderMethods.GetFirst<T>(command);
-                    ParameterMethods.SetOutputParameters(parameter, command);
+                    ParameterMethods.SetOutputs(parameter, command);
                 }
             }
             catch
