@@ -90,7 +90,7 @@ namespace BattleAxe
         public static T FirstOrDefault<T>(this T obj, d.SqlClient.SqlCommand command)
             where T : class, IBattleAxe, new()
         {
-            return command.FirstOrDefault(obj);
+            return command.FirstOrDefault<T>(obj);
         }
 
         private static T getFirstFromReader<T>(d.SqlClient.SqlCommand command) where T : class, IBattleAxe, new()

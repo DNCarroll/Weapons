@@ -6,6 +6,8 @@ namespace BattleAxe
 {
     public static class Regular
     {
+        #region FirstOrDefault
+
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. 
@@ -67,6 +69,9 @@ namespace BattleAxe
 
             return newObj;
         }
+        #endregion
+
+        #region ToList
 
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
@@ -120,6 +125,10 @@ namespace BattleAxe
             return ToList<T>(command, obj);
         }
 
+        #endregion
+
+        #region Execute
+
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. 
@@ -165,6 +174,63 @@ namespace BattleAxe
             return Execute(command, obj);
         }
 
+        #endregion
+
+        #region Update
+
+        /// <summary>
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. IBattleAxe assumes that the object is controlling
+        /// all the value setting through the Indexer.
+        /// beware this has no error trapping so make sure to trap your errors 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="objs"></param>
+        /// <returns></returns>
+        public static List<T> Update<T>(d.SqlClient.SqlCommand command, List<T> objs)
+            where T: class
+        {
+            try
+            {
+                if (command.IsConnectionOpen())
+                {
+                    foreach (var obj in objs)
+                    {
+                        setCommandParameters(obj, command);
+                        command.ExecuteNonQuery();
+                        setOutputParameters(obj, command);
+                    }
+                }
+                command.CloseConnection();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                command.CloseConnection();
+            }
+            return objs;
+        }
+
+        /// <summary>
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. IBattleAxe assumes that the object is controlling
+        /// all the value setting through the Indexer.
+        /// beware this has no error trapping so make sure to trap your errors 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="objs">the objects that you want to update with the provided command</param>
+        /// <param name="command"></param>
+        public static void Update<T>(this List<T> objs, d.SqlClient.SqlCommand command)
+            where T : class
+        {
+            Regular.Update(command, objs);
+        }
+
+        #endregion
+         
         internal static void setValuesFromReader<T>(T obj, d.IDataReader reader)
             where T : class
         {

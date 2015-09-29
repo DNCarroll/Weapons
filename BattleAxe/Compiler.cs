@@ -70,6 +70,12 @@ namespace BattleAxe
                 return ret;
             }
 
+            public static SetValue<T> Value<T>()
+                where T : class
+            {
+                return Value<T>(typeof(T));
+            }
+
             public static SetValue<T> Value<T>(Type type)
                 where T : class
             {
@@ -256,8 +262,13 @@ namespace BattleAxe
 
         public static class GetHelper
         {
-            public static GetValue<T> Value<T>(Type type)
+            public static GetValue<T> Value<T>()
                 where T : class
+            {
+                return Value<T>(typeof(T));
+            }
+            public static GetValue<T> Value<T>(Type type)
+                    where T : class
             {
                 var classSet = getClass();
                 var method = getGetMethod(type);
@@ -375,5 +386,4 @@ namespace BattleAxe
             }
         }
     }
-
 }
