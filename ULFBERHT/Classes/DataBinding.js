@@ -9,10 +9,14 @@ var DataBinding = (function () {
         this.Target = attribute;
         if (this.Target && attributeValue) {
             attributeValue = attributeValue.Trim();
-            if (this.Target == Binding.Targets.Formatting || this.Target == Binding.Targets.DataSource) {
+            if (this.Target == Binding.Targets.Formatting ||
+                this.Target == Binding.Targets.DataSource) {
                 attributeValue = attributeValue.indexOf("return") == -1 ? "return " + attributeValue : attributeValue;
             }
-            else if (this.Target == Binding.Targets.OnFocus || this.Target == Binding.Targets.OnClick || this.Target == Binding.Targets.OnMouseOut || this.Target == Binding.Targets.OnMouseOver) {
+            else if (this.Target == Binding.Targets.OnFocus ||
+                this.Target == Binding.Targets.OnClick ||
+                this.Target == Binding.Targets.OnMouseOut ||
+                this.Target == Binding.Targets.OnMouseOver) {
                 attributeValue = attributeValue.indexOf("return") == -1 ? "return " + attributeValue : attributeValue;
                 this.IsEventBinding = true;
             }

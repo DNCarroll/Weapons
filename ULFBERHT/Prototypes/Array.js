@@ -33,12 +33,14 @@ Array.prototype.Select = function (keySelector) {
 };
 Array.prototype.Ascend = function (keySelector) {
     return this.sort(function (a, b) {
-        return keySelector(a) < keySelector(b) ? -1 : keySelector(a) > keySelector(b) ? 1 : 0;
+        return keySelector(a) < keySelector(b) ? -1 :
+            keySelector(a) > keySelector(b) ? 1 : 0;
     });
 };
 Array.prototype.Descend = function (keySelector) {
     return this.sort(function (a, b) {
-        return keySelector(a) < keySelector(b) ? 1 : keySelector(a) > keySelector(b) ? -1 : 0;
+        return keySelector(a) < keySelector(b) ? 1 :
+            keySelector(a) > keySelector(b) ? -1 : 0;
     });
 };
 Array.prototype.First = function (func) {

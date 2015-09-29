@@ -14,7 +14,8 @@ var RegularExpression;
             if (Is.Array(sourceObjectOrArray)) {
                 regMatches.forEach(function (r) {
                     for (var j = 0; j < sourceObjectOrArray.length; j++) {
-                        if (sourceObjectOrArray[j] && sourceObjectOrArray[j].hasOwnProperty(r.PropertyName)) {
+                        if (sourceObjectOrArray[j] &&
+                            sourceObjectOrArray[j].hasOwnProperty(r.PropertyName)) {
                             sourceString = sourceString.replace(r.Match, sourceObjectOrArray[j][r.PropertyName]);
                             break;
                         }
@@ -23,7 +24,8 @@ var RegularExpression;
             }
             else {
                 for (var i = 0; i < regMatches.length; i++) {
-                    if (sourceObjectOrArray && sourceObjectOrArray.hasOwnProperty(regMatches[i].PropertyName)) {
+                    if (sourceObjectOrArray &&
+                        sourceObjectOrArray.hasOwnProperty(regMatches[i].PropertyName)) {
                         sourceString = sourceString.replace(regMatches[i].Match, sourceObjectOrArray[regMatches[i].PropertyName]);
                     }
                 }

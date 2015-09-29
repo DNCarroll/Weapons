@@ -30,3 +30,14 @@ C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Console\bin\Release\Newtonsof
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Console\obj\Release\BattleAxe.Console.csprojResolveAssemblyReference.cache
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Console\obj\Release\BattleAxe.Console.exe
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Console\obj\Release\BattleAxe.Console.pdb
+C:\Users\ncarroll\Documents\GitHub\Weapons\BattleAxe.Console\bin\Release\BattleAxe.Console.exe.config
+C:\Users\ncarroll\Documents\GitHub\Weapons\BattleAxe.Console\bin\Release\BattleAxe.Console.exe
+C:\Users\ncarroll\Documents\GitHub\Weapons\BattleAxe.Console\bin\Release\BattleAxe.Console.pdb
+C:\Users\ncarroll\Documents\GitHub\Weapons\BattleAxe.Console\bin\Release\BattleAxe.dll
+C:\Users\ncarroll\Documents\GitHub\Weapons\BattleAxe.Console\bin\Release\Newtonsoft.Json.dll
+C:\Users\ncarroll\Documents\GitHub\Weapons\BattleAxe.Console\bin\Release\Sword.dll
+C:\Users\ncarroll\Documents\GitHub\Weapons\BattleAxe.Console\bin\Release\BattleAxe.pdb
+C:\Users\ncarroll\Documents\GitHub\Weapons\BattleAxe.Console\bin\Release\Newtonsoft.Json.xml
+C:\Users\ncarroll\Documents\GitHub\Weapons\BattleAxe.Console\obj\Release\BattleAxe.Console.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Documents\GitHub\Weapons\BattleAxe.Console\obj\Release\BattleAxe.Console.exe
+C:\Users\ncarroll\Documents\GitHub\Weapons\BattleAxe.Console\obj\Release\BattleAxe.Console.pdb

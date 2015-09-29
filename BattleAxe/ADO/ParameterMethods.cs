@@ -8,10 +8,10 @@ namespace BattleAxe
 {
     public static class ParameterMethods
     {
-        internal static void SetInputs<T>(T sourceForInputs, SqlCommand command, bool shipStructured = false)
+        internal static void SetInputs<T>(T sourceForInputParameters, SqlCommand command, bool shipStructured = false)
             where T : class
         {
-            if (sourceForInputs != null)
+            if (sourceForInputParameters != null)
             {
                 try
                 {
@@ -22,13 +22,15 @@ namespace BattleAxe
                             if (parameter.Direction == ParameterDirection.Input ||
                                 parameter.Direction == ParameterDirection.InputOutput)
                             {
-                                var value = sourceForInputs is IBattleAxe ? ((IBattleAxe)sourceForInputs)[parameter.SourceColumn] : sourceForInputs.GetValue(parameter.SourceColumn);
+                                var value = sourceForInputParameters is IBattleAxe ? 
+                                                ((IBattleAxe)sourceForInputParameters)[parameter.SourceColumn] : 
+                                                sourceForInputParameters.GetValue(parameter.SourceColumn);
                                 parameter.Value = value != null ? value : DBNull.Value;
                             }
                         }
                         else if (!shipStructured)
                         {
-                            parameter.Value = GetDataTable(((IBattleAxe)sourceForInputs)[parameter.SourceColumn], command, parameter);
+                            parameter.Value = GetDataTable(((IBattleAxe)sourceForInputParameters)[parameter.SourceColumn], command, parameter);
                         }
                     }
                 }
@@ -90,12 +92,12 @@ namespace BattleAxe
             return ret;
         }
 
-        internal static void SetOutputs<T>(T targetForOutputs, IDbCommand command)
+        internal static void SetOutputs<T>(T targetForOutputParameters, SqlCommand command)
             where T : class
         {
             try
             {
-                foreach (IDataParameter p in command.Parameters)
+                foreach (SqlParameter p in command.Parameters)
                 {
                     if (p.Direction == ParameterDirection.Output || p.Direction == ParameterDirection.InputOutput)
                     {
@@ -105,13 +107,13 @@ namespace BattleAxe
                             value = null;
                         }
                         var field = !string.IsNullOrEmpty(p.SourceColumn) ? p.SourceColumn : p.ParameterName.Replace("@", "");
-                        if (targetForOutputs is IBattleAxe)
+                        if (targetForOutputParameters is IBattleAxe)
                         {
-                            ((IBattleAxe)targetForOutputs)[field] = value;
+                            ((IBattleAxe)targetForOutputParameters)[field] = value;
                         }
                         else
                         {
-                            targetForOutputs.SetValue(field, value);
+                            targetForOutputParameters.SetValue(field, value);
                         }
                     }
                 }

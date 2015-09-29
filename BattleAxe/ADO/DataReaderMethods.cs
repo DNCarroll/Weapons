@@ -19,7 +19,7 @@ namespace BattleAxe
             return newObject;
         }
 
-        private static void setValuesFromReader<T>(T obj, IDataReader reader)
+        private static void setValuesFromReader<T>(T objectAcceptingValuesFromReader, IDataReader reader)
             where T : class
         {
             for (int i = 0; i < reader.FieldCount; i++)
@@ -37,32 +37,32 @@ namespace BattleAxe
                         bytesRead += reader.GetBytes(i, curPos, values, curPos, bufferSize);
                         curPos += bufferSize;
                     }
-                    setObjectProperty(obj, fieldName, values);
+                    setObjectPropertyValue(objectAcceptingValuesFromReader, fieldName, values);
                 }
                 else
                 {
                     if (reader.IsDBNull(i))
                     {
-                        setObjectProperty(obj, fieldName, null);
+                        setObjectPropertyValue(objectAcceptingValuesFromReader, fieldName, null);
                     }
                     else
                     {
                         var value = reader.GetValue(i);
-                        setObjectProperty(obj, fieldName, value);
+                        setObjectPropertyValue(objectAcceptingValuesFromReader, fieldName, value);
                     }
                 }
             }
         }
 
-        private static void setObjectProperty<T>(T obj, string fieldName, object value) where T : class
+        private static void setObjectPropertyValue<T>(T objWithPropertyToSet, string propertyName, object propertyValue) where T : class
         {
-            if (obj is IBattleAxe)
+            if (objWithPropertyToSet is IBattleAxe)
             {
-                ((IBattleAxe)obj)[fieldName] = value;
+                ((IBattleAxe)objWithPropertyToSet)[propertyName] = propertyValue;
             }
             else
             {
-                obj.SetValue(fieldName, value);
+                objWithPropertyToSet.SetValue(propertyName, propertyValue);
             }
         }
     }

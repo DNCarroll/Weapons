@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace BattleAxe
 {
@@ -54,6 +55,23 @@ namespace BattleAxe
         public static void Update<T>(this List<T> objs, SqlCommand command)
             where T : class
         {
+            Update(command, objs);
+        }
+
+        /// <summary>
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. IBattleAxe assumes that the object is controlling
+        /// all the value setting through the Indexer.
+        /// beware this has no error trapping so make sure to trap your errors 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="objs"></param>
+        /// <param name="where"></param>
+        /// <param name="command"></param>
+        public static void Update<T>(this List<T> objs, Func<T, bool> where, SqlCommand command)
+            where T : class
+        {
+            var updates = objs.Where(where).ToList();
             Update(command, objs);
         }
     }

@@ -42,10 +42,10 @@ namespace BattleAxe
         /// <param name="obj"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public static List<T> ToList<T>(this T obj, SqlCommand command)
+        public static List<T> ToList<T>(this T parameter, SqlCommand command)
             where T : class, new()
         {
-            return ToList<T>(command, obj);
+            return ToList<T>(command, parameter);
         }
         private static void executeReaderAndFillList<T>(SqlCommand command, List<T> ret) where T : class, new()
         {
