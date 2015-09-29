@@ -1,10 +1,10 @@
-﻿class ActionEvent {
+class ActionEvent {
     ActionType: ActionType;
     Cancel: boolean;
     Object: any;
     Field: string;
     Value: any;
-    constructor(actionType: ActionType, obj: any, field: string, value: any) {
+    constructor(actionType: ActionType, obj: any, field:string, value:any) {
         this.Cancel = false;
         this.ActionType = actionType;
         this.Object = obj;
@@ -28,7 +28,7 @@ class DataBinding {
         this._target = value;
     }
     ElementBindingIndex: number;
-    Bind: (element: HTMLElement) => void;
+    Bind: (element: HTMLElement) => void;    
     Fields: Array<string>;
     DataSource: Array<any>;
     IsEventBinding: boolean;
@@ -55,21 +55,21 @@ class DataBinding {
             }
             else if (
                 this.Target == Binding.Targets.OnFocus ||
-                this.Target == Binding.Targets.OnClick ||
+                this.Target == Binding.Targets.OnClick ||                
                 this.Target == Binding.Targets.OnMouseOut ||
-                this.Target == Binding.Targets.OnMouseOver
-                ) {
+                this.Target == Binding.Targets.OnMouseOver               
+            ) {
                 attributeValue = attributeValue.indexOf("return") == -1 ? "return " + attributeValue : attributeValue;
                 this.IsEventBinding = true;
             }
-            if (attributeValue.indexOf("return ") == 0) {
-                this.returnBinding(attributeValue);
-            }
+            if (attributeValue.indexOf("return ") == 0) {                
+                this.returnBinding(attributeValue);              
+            }            
             else {
                 this.Fields.Add(attributeValue);
-                this.easyBinding();
+                this.easyBinding();           
             }
-        }
+        }        
     }
     Dispose() {
         this.DataContainer = null;
@@ -99,7 +99,7 @@ class DataBinding {
         }
         return null;
     }
-    HookUpEvent(element: HTMLElement) {
+    HookUpEvent(element:HTMLElement) {        
         switch (this.Target) {
             case Binding.Targets.Checked:
                 Binding.Events.Checked(element, this.DataContainer, this, this.Fields[0]);
@@ -132,10 +132,10 @@ class DataBinding {
                 if (this.Fields[0] == "delete") {
                     Binding.Events.Delete(element, this.DataContainer, this, this.DataContainer.Pks[0]);
                 }
-                break;
+                break;            
             default:
                 break;
-        }
+        }        
     }
     private returnBinding(attributeValue: string) {
         var inlineMatches = attributeValue.match(RegularExpression.StandardBindingPattern);
@@ -163,7 +163,7 @@ class DataBinding {
         }
         this.return = Binding.Return(method, this.returnParameters.length);
         if (this.Target != Binding.Targets.Formatting) {
-            this.Bind = function (element: HTMLElement): void {
+            this.Bind = function (element: HTMLElement): void {                
                 var arrayOfObjects = new Array<any>();
                 var value;
                 this.returnParameters.forEach(rp=> {
@@ -199,7 +199,7 @@ class DataBinding {
                 }
             };
         }
-    }
+    }  
     private easyBinding() {
         this.Bind = function (element: HTMLElement): void {
             var value = element.DataObject[this.Fields[0]];
@@ -207,14 +207,14 @@ class DataBinding {
             this.HookUpEvent(element);
         };
     }
-    private setAttribute(value: any, element: HTMLElement) {
+    private setAttribute(value: any, element:HTMLElement) {
         switch (this.Target) {
             case Binding.Targets.Value:
                 if (element.tagName == "INPUT" && element["type"] == "text") {
                     var displayMember = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.DisplayMember && d.ElementBindingIndex == element.ElementBindingIndex);
                     var valueMember = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.ValueMember && d.ElementBindingIndex == element.ElementBindingIndex);
                     if (valueMember) {
-                        var input = <HTMLInputElement>element;
+                        var input = <HTMLInputElement>element;                        
                         var datasource = <Array<any>>element["datasource"];
                         var displayMember = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.DisplayMember && d.ElementBindingIndex == element.ElementBindingIndex);
                         var valueMember = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.ValueMember && d.ElementBindingIndex == element.ElementBindingIndex);
@@ -246,19 +246,19 @@ class DataBinding {
                     element["datasource"] = value;
                 }
                 break;
-            case Binding.Targets.ClassName:
-                element.className = null;
-                element.className = value;
+            case Binding.Targets.ClassName:                
+                    element.className = null;
+                    element.className = value;
                 break;
             case Binding.Targets.For:
-                element.setAttribute("for", value);
+                element.setAttribute("for", value);                
                 break;
             case Binding.Targets.InnerHtml:
-                element.innerHTML = value;
+                element.innerHTML = value;                
                 break;
             case Binding.Targets.Checked:
                 var input = <HTMLInputElement>element;
-                input.checked = value ? true : false;
+                input.checked = value ? true : false;                
                 break;
             case Binding.Targets.Radio:
                 var input = <HTMLInputElement>element;
@@ -274,26 +274,28 @@ class DataBinding {
             case Binding.Targets.ID:
                 element[this.Target] = value;
                 break;
-            case Binding.Targets.Formatting:
+            case Binding.Targets.Formatting:   
             case Binding.Targets.OnMouseOut:
             case Binding.Targets.OnMouseOver:
             case Binding.Targets.OnClick:
             case Binding.Targets.Action:
             case Binding.Targets.DisplayMember:
-            case Binding.Targets.ValueMember:
-                break;
+            case Binding.Targets.ValueMember:            
+                break;  
             default:
-                if (this.Target.indexOf("-") > -1) {
+                if (this.Target.indexOf("-")>-1)
+                {
                     var split = this.Target.split("-");
-                    if (split.length > 1) {
+                    if (split.length > 1)
+                    {
                         element.style[split[0]][split[1]] = value;
                     }
                 }
                 else if (Is.Style(this.Target)) {
-                    element.style[this.Target] = value;
+                    element.style[this.Target] = value;                    
                     break;
                 }
-                else {
+                else {                    
                     element[this.Target] = value;
                 }
                 break;
@@ -313,7 +315,7 @@ class DialogButton {
         this.Text = text;
         this.ClassName = className;
         this.ButtonType = buttonType == null ? ButtonType.InputButton : buttonType;
-        //        this.ImageSrc = imageSrc;
+//        this.ImageSrc = imageSrc;
     }
 }
 class DialogProperties {
@@ -341,22 +343,28 @@ class DialogProperties {
         this.Interval = null;
         this.Modal = null;
         this.ModalClass = modalClass;
-        if (hideInterval == null) {
-            if (this.DialogType == DialogType.Popup || this.DialogType == DialogType.Quick) {
+        if (hideInterval == null)
+        {
+            if (this.DialogType == DialogType.Popup || this.DialogType == DialogType.Quick)
+            {
                 this.HideInterval = Dialog.DefaultHideInterval;
             }
-            else {
+            else
+            {
                 this.HideInterval = -1;
             }
         }
         else {
             this.HideInterval = hideInterval;
         }
-        if (position != DialogPosition.Manual) {
-            if (position == null && this.Target == null) {
+        if (position != DialogPosition.Manual)
+        {
+            if (position == null && this.Target == null)
+            {
                 this.Position = DialogPosition.MiddleOfWindow;
             }
-            else if (position == null && this.Target != null) {
+            else if (position == null && this.Target != null)
+            {
                 this.Position = DialogPosition.Below;
             }
             else {
@@ -533,16 +541,17 @@ module Dialog {
     export var DefaultHideInterval = 1500;
     export function Popup(elementToShow: HTMLElement, target?: HTMLElement, position?: DialogPosition, hideInterval?: number) {
         Show(elementToShow, DialogType.Popup, target, hideInterval, position);
-    }
+    }    
     export function Modal(elementToShow: HTMLElement, modalClass: string, position?: DialogPosition, hideInterval?: number, target?: HTMLElement) {
         Show(elementToShow, DialogType.Modal, target, hideInterval, position, modalClass);
-    }
+    }    
     export function Quick(elementToShow: HTMLElement, target?: HTMLElement, position?: DialogPosition) {
         Show(elementToShow, DialogType.Quick, target, Dialog.DefaultHideInterval, position);
-    }
-    export function Standard(dialogProperties: DialogProperties) {
+    }    
+    export function Standard(dialogProperties: DialogProperties) {               
         var elementToShow = dialogProperties.Container;
-        if (dialogProperties.DialogType == DialogType.Modal) {
+        if (dialogProperties.DialogType == DialogType.Modal)
+        {
             var winDim = window.Dimensions();
             dialogProperties.Modal = "div".CreateElement({ cls: dialogProperties.ModalClass });
             dialogProperties.Modal.style.height = winDim.Height.toString() + "px";
@@ -555,7 +564,8 @@ module Dialog {
         }
         document.body.appendChild(elementToShow);
         SetPosition(elementToShow, dialogProperties);
-        if (dialogProperties.HideInterval > -1) {
+        if (dialogProperties.HideInterval > -1)
+        {
             elementToShow.AddListener("onmouseover", function () { dialogProperties.IsActive = true; });
             elementToShow.AddListener("onmouseout", function () { dialogProperties.IsActive = false; });
             dialogProperties.Interval = setInterval(function () {
@@ -564,7 +574,7 @@ module Dialog {
                 }
             }, dialogProperties.HideInterval);
         }
-    }
+    }   
     export function Show(elementToShow: HTMLElement, dialogType: DialogType, target?: HTMLElement, hideInterval?: number, position?: DialogPosition, modalClass?: string) {
         var offsetx = elementToShow["OffSetX"] ? elementToShow["OffSetX"] : "0";
         var offsety = elementToShow["OffSetY"] ? elementToShow["OffSetY"] : "0";
@@ -577,10 +587,10 @@ module Dialog {
         var dim = elementToShow.Dimensions();
         switch (dialogProperties.Position) {
             case DialogPosition.MiddleOfWindow:
-                var winDim = window.Dimensions();
+                var winDim = window.Dimensions();                
                 y = (winDim.Height - dim.height) / 2;
                 x = (winDim.Width - dim.width) / 2;
-                break;
+                break;            
             case DialogPosition.Below:
                 var targetDetails = dialogProperties.Target.DimAndOff();
                 y = targetDetails.Top + targetDetails.Height;
@@ -595,7 +605,8 @@ module Dialog {
             default:
                 break;
         }
-        if (dialogProperties.Position != DialogPosition.Manual) {
+        if (dialogProperties.Position != DialogPosition.Manual)
+        {
             if (dialogProperties.OffSetX) {
                 x += dialogProperties.OffSetX;
             }
@@ -608,15 +619,18 @@ module Dialog {
         }
     }
     export function Hide(obj) {
-        var ele: HTMLElement;
-        if (Is.String(obj)) {
+        var ele: HTMLElement;        
+        if (Is.String(obj))
+        {
             var temp = <string>obj;
             ele = temp.Element();
         }
-        else if (Is.Element(obj)) {
+        else if (Is.Element(obj))
+        {
             ele = <HTMLElement>obj;
-        }
-        if (ele) {
+        }  
+        if (ele)
+        {
             var dp = <DialogProperties>ele["DialogProperties"];
             if (dp != null) {
                 if (dp.HideInterval > -1) {
@@ -637,7 +651,7 @@ class Route {
     constructor(key: any, parameters: Array<any>, view: IView) {
         this.Key = key;
         this.Parameters = parameters;
-        this.View = view;
+        this.View = view;        
     }
     Show() {
         //get the html 
@@ -647,7 +661,7 @@ class Route {
         var callback = this.SetHTML;
         var view = this.View;
         var router = this;
-        if (!found || window["IsDebug"]) {
+        if (!found || window["IsDebug"]) {            
             Ajax.Html(this.View.ViewUrl, function (result) {
                 if (result) {
                     view.Preload(this);
@@ -674,25 +688,6 @@ class Route {
         }
     }
 }
-class ViewByConvention implements IView {
-    Key: any;
-    ViewUrl: string;
-    Container: HTMLElement;
-    constructor(
-        key: any) {
-        this.Key = key;
-        this.ViewUrl = "/Views/" + key.toString() + ".html";
-    }
-    Url(route: Route): string {
-        return this.Key.toString();
-    }
-    UrlTitle(route: Route): string {
-        return this.Key.toString();
-    }
-    Loaded(route: Route) {
-    }
-    Preload() { }
-};
 enum ActionType {
     Deleted,
     Deleting,
@@ -713,14 +708,14 @@ interface IDataContainer extends HTMLElement {
     FooterHtml: string[];
     RowHtml: string;
     Form: HTMLFormElement;
-    SelectedItemChanged: (obj: any, sender: HTMLElement) => void;
+    SelectedItemChanged: (obj: any, sender:HTMLElement) => void;
     SelectedItemClass: string;
     //just add the UL specific stuff here for ease and clean code allowing the form and ul to use the same setup method?
-}
+} 
 interface IView {
     Key: any;
     Url: (route: Route) => string;
-    UrlTitle: (route: Route) => string;
+    UrlTitle: (route: Route) => string;    
     Preload: (route: Route) => void;
     Loaded: (route: Route) => void;
     ViewUrl: string;
@@ -739,7 +734,7 @@ module Accordion {
             a.className = Accordion.MaximumClass(a, parentRule);
         });
     }
-    export function MaximumClass(ele: HTMLElement, parentRule?) {
+    export function MaximumClass (ele:HTMLElement, parentRule?) {
         var className = parentRule + " input:checked ~ article.Max" + ele.id;
         //find does it already exists
         //yes? then mod it to be like this one
@@ -758,7 +753,7 @@ module Accordion {
         }
         return "Max" + ele.id;
     }
-    export function GetStyleSheet(name) {
+    export function GetStyleSheet(name) {        
         for (var i = 0; i < document.styleSheets.length; i++) {
             var sheet = document.styleSheets[i];
             if (sheet.title == name) {
@@ -766,7 +761,7 @@ module Accordion {
             }
         }
     }
-    export function GetStyleSheetRules(styleSheet): Array<any> {
+    export function GetStyleSheetRules (styleSheet) : Array<any> {
         var rules = document.all ? 'rules' : 'cssRules';
         return <Array<any>>styleSheet[rules];
     }
@@ -777,7 +772,7 @@ module Ajax {
     export var AutoConvert: boolean = true;
     export var ProgressElement: HTMLElement = null;
     export var DisableElement: any = null;
-    export var DefaultHeader: (url: string) => any;
+    export var DefaultHeader: (url: string) => any; 
     export function Resolver(...subDirectories: string[]) {
         var split = window.SplitPathName()[0].toLowerCase();
         var host = window.location.href.replace(window.location.pathname, "");
@@ -786,7 +781,7 @@ module Ajax {
                 Ajax.Host = host + "/" + subDirectories[i], true; break;
             }
         }
-    }
+    }   
     export function ConvertProperties(object) {
         var keyMap: Array<any>;
         if (Is.Array(object)) {
@@ -800,7 +795,7 @@ module Ajax {
                     } catch (e) {
                         if (window.Exception) {
                             window.Exception(e);
-                        }
+                        }                        
                     }
                     Ajax.setValues(obj, keyMap);
                 }
@@ -861,7 +856,7 @@ module Ajax {
             Ajax.ProgressElement.style.display = "none";
         }
         if (Ajax.DisableElement) {
-            if (Is.Array(Ajax.DisableElement)) {
+            if (Is.Array(Ajax.DisableElement)) {                
                 for (var i = 0; i < Ajax.DisableElement.length; i++) {
                     Ajax.DisableElement[i].removeAttribute("disabled");
                 }
@@ -996,7 +991,7 @@ module Ajax {
                             Ajax.ConvertProperties(ret);
                         }
                     }
-                    catch (e) {
+                    catch (e) {                        
                         if (window.Exception) {
                             window.Exception(e);
                         }
@@ -1019,16 +1014,16 @@ module Ajax {
             callBack(stored);
         }
     }
-}
+} 
 module AutoSuggest {
     function onKeyPress(e) {
         var key;
         var sender = null;
         var shiftKey = true;
         if (window.event) {
-            key = window.event.keyCode;
+            key = e.keyCode;
             sender = <HTMLInputElement>window.event.srcElement;
-            shiftKey = window.event.shiftKey;
+            shiftKey = e.shiftKey;
         }
         else if (e) {
             key = e.which;
@@ -1037,7 +1032,7 @@ module AutoSuggest {
         }
         sender["hidelist"] = false;
         var value = sender.value ? sender.value : "";
-        if (key != 13) {
+        if (key != 13) {                    
             if (key != 8) {
                 value += String.fromCharCode(key);
             }
@@ -1051,11 +1046,11 @@ module AutoSuggest {
     }
     function onChange(e) {
         var input = null;
-        if (window.event) {
-            input = <HTMLInputElement>window.event.srcElement;
+        if (window.event) {            
+            input = <HTMLInputElement>window.event.srcElement;            
         }
-        else if (e) {
-            input = <HTMLInputElement>e.srcElement;
+        else if (e) {            
+            input = <HTMLInputElement>e.srcElement;            
         }
         onMouseOut(input);
         var datasource = <Array<any>>input["datasource"];
@@ -1127,11 +1122,11 @@ module AutoSuggest {
             }
         }, 250);
     }
-    function showList(sender: HTMLInputElement, displayValue: string) {
-        displayValue = displayValue.toLowerCase();
+    function showList(sender: HTMLInputElement, displayValue: string) {       
+        displayValue = displayValue.toLowerCase(); 
         var datasource = <Array<any>>sender["datasource"];
         var displaymember = <string>sender["displaymember"];
-        var valuemember = <string>sender["valuemember"]
+        var valuemember = <string>sender["valuemember"]        
         var displaycount = sender["displaycount"] ? <number>sender["displaycount"] : 8;
         var list = <HTMLSelectElement>sender["AutocompleteList"];
         if (!list) {
@@ -1158,7 +1153,7 @@ module AutoSuggest {
         if (showItems.length < displaycount) {
             showItems = datasource;
         }
-        var firstFound = showItems.First(s=> s[displaymember].toLowerCase() == displayValue || s[displaymember].toLowerCase().indexOf(displayValue) > -1);
+        var firstFound = showItems.First(s=> s[displaymember].toLowerCase() == displayValue || s[displaymember].toLowerCase().indexOf(displayValue) > -1);        
         showItems.forEach(s=> list.options[list.options.length] = new Option(s[displaymember], s[valuemember], false, s == firstFound));
         if (list.options.length > 0) {
             var diffAndPos = (<HTMLElement>sender).DimAndOff();
@@ -1180,9 +1175,9 @@ module AutoSuggest {
             var sender = null;
             var shiftKey = true;
             if (window.event) {
-                key = window.event.keyCode;
+                key = e.keyCode;
                 sender = <HTMLInputElement>window.event.srcElement;
-                shiftKey = window.event.shiftKey;
+                shiftKey = e.shiftKey;
             }
             else if (e) {
                 key = e.which;
@@ -1251,32 +1246,32 @@ module AutoSuggest {
             }
         }
     }
-    export function Hook(input: HTMLInputElement, dataSource: Array<any>, valueMember: string, displayMember: string, displayCount?: number) {
+    export function Hook(input: HTMLInputElement, dataSource: Array<any>, valueMember: string, displayMember: string, displayCount?: number) {        
         input["datasource"] = dataSource;
         input["valuemember"] = valueMember;
-        input["displaymember"] = displayMember;
+        input["displaymember"] = displayMember;        
         input["displaycount"] = displayCount ? displayCount : 8;
         hookEvents(input);
     }
     function setValue(input: HTMLInputElement, list: HTMLSelectElement, selectedIndex?: number) {
         selectedIndex = selectedIndex ? selectedIndex : list.selectedIndex;
         input.value = list.options[selectedIndex].text;
-        input["SelectedValue"] = list.options[selectedIndex].value;
+        input["SelectedValue"] = list.options[selectedIndex].value;       
     }
 }
-module Binding {
+module Binding {   
     export module Targets {          
         //for select and auto suggest input
-        export var DataSource = "datasource";
+        export var DataSource = "datasource";        
         export var DisplayMember = "displaymember";
         export var DisplayCount = "displaycount";
         export var ValueMember = "valuemember";
         export var Checked = "checked";
-        export var Radio = "radio";
+        export var Radio = "radio";  
         export var OnMouseOver = "onmouseover";
         export var OnMouseOut = "onmouseout";
         export var OnFocus = "onfocus";
-        export var Formatting = "formatting";
+        export var Formatting = "formatting";        
         export var ClassName = "classname";
         export var InnerHtml = "innerhtml";
         export var Value = "value";
@@ -1292,16 +1287,16 @@ module Binding {
     }
     export module Attributes {
         export var WebApi = "data-webapi";
-        export var Pks = "data-pks";
+        export var Pks = "data-pks";        
         export var Action = "data-action";
         export var SelectedItemChanged = "data-selecteditemchanged";
-        export var SelectedItemClass = "data-selecteditemclass";
+        export var SelectedItemClass = "data-selecteditemclass";               
         export var FormID = "data-formid";
         export var Template = "data-template";      
         //these should only ever be used once
         //right when the autoload window method occurs
         export var Auto = "data-auto";
-        export var AutoParameter = "data-autoparameter";
+        export var AutoParameter = "data-autoparameter";        
     }
     export module DataContainer {
         export function Auto(element: HTMLElement) {
@@ -1336,7 +1331,7 @@ module Binding {
         }
         export function LookForInsert(li: HTMLElement) {
             var elements = li.Get(e=> e.HasDataSet());
-            var possibleInsert = elements.First(e=> e.dataset[Binding.Targets.Action])
+            var possibleInsert = elements.First(e=> e.dataset[Binding.Targets.Action] != null);                
             if (possibleInsert) {
                 var value = possibleInsert.dataset[Binding.Targets.Action].toLowerCase();
                 if (["push", "insert", "unshift"].indexOf(value) > -1) {
@@ -1367,9 +1362,10 @@ module Binding {
                 }
                 var action = container.getAttribute(Binding.Attributes.Action);
                 if (action) {
+                    action += "(obj0);";
                     var fun = Binding.Return(action, 1);
                     container.ActionEvent = function (actionEvent: ActionEvent) {
-                        fun(actionEvent);
+                        [actionEvent].Return(fun);
                     };
                 }
                 else {
@@ -1409,7 +1405,7 @@ module Binding {
                             var tempLi = <HTMLLIElement>li;
                             if (tempLi.className) {
                                 tempLi.OriginalClass = tempLi.className;
-                            }
+                            }                 
                             SetupDataBindingsFromLi(ul, tempLi);
                             ul.RowHtml = li.outerHTML;
                             break;
@@ -1430,7 +1426,7 @@ module Binding {
                 i++;
             });
         }
-        export function SetupDataBindings(dataContainer: IDataContainer, filter?: (d: IDataContainer) => boolean) {
+        export function SetupDataBindings(dataContainer: IDataContainer, filter?: (d: IDataContainer) => boolean) {            
             dataContainer.DataBindings = new Array<DataBinding>();
             if (!filter) {
                 filter = (d) => d.HasDataSet();
@@ -1445,10 +1441,10 @@ module Binding {
                 i++;
             });
         }
-        export function DataBind(dataContainer: IDataContainer, target: HTMLElement, data: any) {
+        export function DataBind(dataContainer: IDataContainer, target: HTMLElement, data:any) {
             var elements = target.Get((d) => d.HasDataSet());
             var i = 0;
-            elements.forEach(e=> {
+            elements.forEach(e=> {               
                 e.DataContainer = dataContainer;
                 e.ElementBindingIndex = i;
                 e.DataObject = data;
@@ -1481,22 +1477,23 @@ module Binding {
             dataContainer.FooterHtml = null;
             dataContainer.RowHtml = null;
         }
-    }
+    }    
     export module Events {
         export function SetObjectValue(obj, property, newValue) {
             var currentValue = obj[property];
             var tempString = <string>newValue;
-            if (typeof currentValue === "number") {
+            if (typeof currentValue === "number")
+            {
                 obj[property] = parseFloat(tempString);
             }
             else {
                 obj[property] = tempString;
             }
         }
-        export function OnChange(element: HTMLElement, dataContainer: IDataContainer, dataBind: DataBinding, field: string) {
+        export function OnChange(element: HTMLElement, dataContainer: IDataContainer, dataBind:DataBinding, field:string) {
             var tempElement = <any>element;
             if (!tempElement.onchange) {
-                tempElement.onchange = function () {
+                tempElement.onchange = function () { 
                     if (element.DataObject) {
                         var actionEvent = new ActionEvent(ActionType.Updating, element.DataObject, field, tempElement.value);
                         dataContainer.ActionEvent(actionEvent);
@@ -1519,6 +1516,11 @@ module Binding {
                                     }
                                 });
                             }
+                            else {
+                                dataContainer.Rebind(field, element);
+                                actionEvent = new ActionEvent(ActionType.Updated, element.DataObject, field, tempElement.value);
+                                dataContainer.ActionEvent(actionEvent);
+                            }
                         }
                         else {
                             tempElement.value = element.DataObject[field];
@@ -1528,11 +1530,11 @@ module Binding {
                 };
             }
         }
-        export function Checked(element: HTMLElement, dataContainer: IDataContainer, dataBind: DataBinding, field: string) {
-            var input = <HTMLInputElement>element;
+        export function Checked(element: HTMLElement, dataContainer: IDataContainer, dataBind: DataBinding, field: string) {            
+            var input = <HTMLInputElement>element;  
             if (!input.onclick) {
                 input.onclick = function () {
-                    var checked = input.checked ? true : false;
+                    var checked = input.checked ? true : false;                                     
                     if (input.DataObject[field] != checked) {
                         var actionEvent = new ActionEvent(ActionType.Updating, input.DataObject, field, checked);
                         dataContainer.ActionEvent(actionEvent);
@@ -1549,6 +1551,11 @@ module Binding {
                                         dataContainer.ActionEvent(actionEvent);
                                     }
                                 });
+                            }
+                            else {
+                                dataContainer.Rebind(field, input);
+                                actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, checked);
+                                dataContainer.ActionEvent(actionEvent);
                             }
                         }
                         else {
@@ -1581,6 +1588,11 @@ module Binding {
                                     dataContainer.ActionEvent(actionEvent);
                                 }
                             });
+                        }
+                        else {
+                            dataContainer.Rebind(field, input);
+                            actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, input.value);
+                            dataContainer.ActionEvent(actionEvent);
                         }
                     }
                     else {
@@ -1627,7 +1639,7 @@ module Binding {
         }
         export function Insert(element: HTMLElement) {
             if (!element.onclick) {
-                element.onclick = function () {
+                element.onclick = function() {
                     var li = element.Parent(p=> p.tagName == "LI");
                     var ul = <HTMLUListElement>li.Parent(p=> p.tagName == "UL");
                     var array = <Array<any>>ul.DataObject;
@@ -1642,7 +1654,7 @@ module Binding {
                                 value = e.style[b.name];
                             }
                             else {
-                                value = e[b.name];
+                                value = e[b.name];                                
                             }
                             if (value) {
                                 newObject[b.value] = value;
@@ -1949,7 +1961,7 @@ module Calendar {
                 }
                 else {
                     ulMonths.Set(Calendar.Format.Table);
-                }
+                }                                
                 for (var i = 0; i < months.length; i++) {
                     ulMonths.appendChild(Calendar.MonthItem(months[i], i, element.MonthNameClicked));
                 }
@@ -1994,7 +2006,7 @@ module Calendar {
                 else {
                     ulYears.Set(Calendar.Format.Table);
                 }
-                years.forEach(y=> ulYears.appendChild(Calendar.YearItem(y, element.YearNameClicked)));
+                years.forEach(y=>ulYears.appendChild(Calendar.YearItem(y, element.YearNameClicked)));
                 Dialog.Popup(ulYears);
             };
             if (element.MonthClass) {
@@ -2005,10 +2017,10 @@ module Calendar {
             }
             var headerRow = "li".CreateElement(Calendar.Format.Row);
             header.appendChild(headerRow);
-            headerRow.AddRange(
-                Calendar.HeaderCell(left),
-                Calendar.HeaderCell([month, year]),
-                Calendar.HeaderCell(right)
+            headerRow.AddRange(                
+                    Calendar.HeaderCell(left),
+                    Calendar.HeaderCell([month, year]),
+                    Calendar.HeaderCell(right)
                 );
             element.appendChild(header);
             var daysContainer = "ul".CreateElement(Calendar.Format.Table);
@@ -2025,13 +2037,13 @@ module Calendar {
                 week.className = element.DayOfWeekClass;
             }
             week.AddRange(
-                Calendar.HeaderCell("Su"),
-                Calendar.HeaderCell("M"),
-                Calendar.HeaderCell("T"),
-                Calendar.HeaderCell("W"),
-                Calendar.HeaderCell("Th"),
-                Calendar.HeaderCell("F"),
-                Calendar.HeaderCell("Sa")
+                    Calendar.HeaderCell("Su"),
+                    Calendar.HeaderCell("M"),
+                    Calendar.HeaderCell("T"),
+                    Calendar.HeaderCell("W"),
+                    Calendar.HeaderCell("Th"),
+                    Calendar.HeaderCell("F"),
+                    Calendar.HeaderCell("Sa")                
                 );
             week = "li".CreateElement(Calendar.Format.Row);
             var dow = startDate.getDay();
@@ -2079,7 +2091,8 @@ module Convert {
         return value;
     }
     export function EmValueToPixelValue(value: any) {
-        if (value) {
+        if (value)
+        {
             value = EmToFloat(value) * 16;
             return value;
         }
@@ -2130,45 +2143,45 @@ module Formatters {
                 utc = true;
             }
             var _ = utc ? "getUTC" : "get",
-                d = date[_ + "Date"](),
-                D = date[_ + "Day"](),
-                m = date[_ + "Month"](),
-                y = date[_ + "FullYear"](),
-                H = date[_ + "Hours"](),
-                M = date[_ + "Minutes"](),
-                s = date[_ + "Seconds"](),
-                L = date[_ + "Milliseconds"](),
-                o = utc ? 0 : date.getTimezoneOffset(),
-                flags = {
-                    d: d,
-                    dd: DateTime.Pad(d),
-                    ddd: DateTime.i18n.dayNames[D],
-                    dddd: DateTime.i18n.dayNames[D + 7],
-                    m: m + 1,
-                    mm: DateTime.Pad(m + 1),
-                    mmm: DateTime.i18n.monthNames[m],
-                    mmmm: DateTime.i18n.monthNames[m + 12],
-                    yy: String(y).slice(2),
-                    yyyy: y,
-                    h: H % 12 || 12,
-                    hh: DateTime.Pad(H % 12 || 12),
-                    H: H,
-                    HH: DateTime.Pad(H),
-                    M: M,
-                    MM: DateTime.Pad(M),
-                    s: s,
-                    ss: DateTime.Pad(s),
-                    l: DateTime.Pad(L, 3),
-                    L: DateTime.Pad(L > 99 ? Math.round(L / 10) : L),
-                    t: H < 12 ? "a" : "p",
-                    tt: H < 12 ? "am" : "pm",
-                    T: H < 12 ? "A" : "P",
-                    TT: H < 12 ? "AM" : "PM",
-                    Z: utc ? "UTC" : (String(date).match(DateTime.Timezone) || [""]).pop().replace(DateTime.TimezoneClip, ""),
-                    o: (o > 0 ? "-" : "+") + DateTime.Pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4)
-                    //,
-                    //S: ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
-                };
+            d = date[_ + "Date"](),
+            D = date[_ + "Day"](),
+            m = date[_ + "Month"](),
+            y = date[_ + "FullYear"](),
+            H = date[_ + "Hours"](),
+            M = date[_ + "Minutes"](),
+            s = date[_ + "Seconds"](),
+            L = date[_ + "Milliseconds"](),
+            o = utc ? 0 : date.getTimezoneOffset(),
+            flags = {
+                d: d,
+                dd: DateTime.Pad(d),
+                ddd: DateTime.i18n.dayNames[D],
+                dddd: DateTime.i18n.dayNames[D + 7],
+                m: m + 1,
+                mm: DateTime.Pad(m + 1),
+                mmm: DateTime.i18n.monthNames[m],
+                mmmm: DateTime.i18n.monthNames[m + 12],
+                yy: String(y).slice(2),
+                yyyy: y,
+                h: H % 12 || 12,
+                hh: DateTime.Pad(H % 12 || 12),
+                H: H,
+                HH: DateTime.Pad(H),
+                M: M,
+                MM: DateTime.Pad(M),
+                s: s,
+                ss: DateTime.Pad(s),
+                l: DateTime.Pad(L, 3),
+                L: DateTime.Pad(L > 99 ? Math.round(L / 10) : L),
+                t: H < 12 ? "a" : "p",
+                tt: H < 12 ? "am" : "pm",
+                T: H < 12 ? "A" : "P",
+                TT: H < 12 ? "AM" : "PM",
+                Z: utc ? "UTC" : (String(date).match(DateTime.Timezone) || [""]).pop().replace(DateTime.TimezoneClip, ""),
+                o: (o > 0 ? "-" : "+") + DateTime.Pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4)
+                //,
+                //S: ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+            };
             return mask.replace(DateTime.Token, function ($0) {
                 return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
             });
@@ -2299,7 +2312,7 @@ module Is {
         }
         return true;
     }
-}
+} 
 module KeyPress {
     export var ADCONTROL_ZERO: number = 48;
     export var ADCONTROL_ONE: number = 49;
@@ -2346,7 +2359,7 @@ module KeyPress {
     }
     export function GetFourLengthString(value: number, currentValue: number, previousValue: number): string {
         if (previousValue == 3 &&
-            value > 1) {
+                value > 1) {
             return String(currentValue).substring(0, String(currentValue).length - 1) + "03/" + String(value);
         }
         else {
@@ -2359,9 +2372,9 @@ module KeyPress {
         var sender = null;
         var shiftKey = true;
         if (window.event) {
-            KeyID = window.event.keyCode;
-            sender = window.event.srcElement;
-            shiftKey = window.event.shiftKey;
+            KeyID = e.keyCode;
+            sender = e.srcElement;
+            shiftKey = e.shiftKey;
             e = window.event;
         }
         else if (e) {
@@ -2392,9 +2405,9 @@ module KeyPress {
         var sender = null;
         var shiftKey = true;
         if (window.event) {
-            KeyID = window.event.keyCode;
-            sender = window.event.srcElement;
-            shiftKey = window.event.shiftKey;
+            KeyID = e.keyCode;
+            sender = e.srcElement;
+            shiftKey = e.shiftKey;
         }
         else if (e) {
             KeyID = e.which;
@@ -2487,9 +2500,9 @@ module KeyPress {
         var sender = null;
         var shiftKey = true;
         if (window.event) {
-            key = window.event.keyCode;
-            sender = window.event.srcElement;
-            shiftKey = window.event.shiftKey;
+            key = e.keyCode;
+            sender = e.srcElement;
+            shiftKey = e.shiftKey;
         }
         else if (e) {
             key = e.which;
@@ -2529,10 +2542,6 @@ module KeyPress {
                 {
                     txt = document.getSelection().toString();
                 }
-                else if (document.selection)  // IE 6/7
-                {
-                    txt = document.selection.createRange().text;
-                }
                 if (txt.length != sender.value.length) {
                     ret = false;
                 }
@@ -2557,7 +2566,7 @@ module KeyPress {
         return ret;
     }
 }
-module Local {
+module Local {    
     export function CanStore(): boolean {
         try {
             return localStorage ? true : false;
@@ -2567,15 +2576,15 @@ module Local {
     }
     export function Remove(key: string): void {
         if (Local.CanStore()) {
-            localStorage.removeItem(key);
+            localStorage.removeItem(key);            
         }
     }
     export function Clear(): void {
         if (Local.CanStore()) {
-            localStorage.clear();
+            localStorage.clear();            
         }
     }
-    export function Save(key: string, obj: any): void {
+    export function Save(key: string, obj: any): void {        
         if (Local.CanStore()) {
             var json = JSON.stringify(obj);
             localStorage.setItem(key, json);
@@ -2600,7 +2609,7 @@ module Local {
         }
         return null;
     }
-}
+} 
 module RegularExpression {
     export var StandardBindingWrapper: RegExp = /{|}/g,
         StandardBindingPattern: RegExp = /{(\w+(\.\w+)*)}/g,
@@ -2643,14 +2652,15 @@ module RegularExpression {
         return sourceString;
     }
 }
-module Thing {
-    export function Merge(object, into): any {
+module Thing {   
+    export function Merge(object, into) : any {
         for (var prop in object) {
             var value = object[prop];
-            if (value) {
+            if (value)
+            {
                 into[prop] = object[prop];
             }
-        }
+        }        
         return into;
     }
     export function Clone(object) {
@@ -2678,7 +2688,7 @@ module Thing {
         return ret;
     }
     export function Concat(object, properties: string[]): string {
-        var ret = "";
+        var ret = "";        
         for (var i = 0; i < properties.length; i++) {
             if (Is.Property(properties[i], object)) {
                 var value = object[properties[i]];
@@ -2690,10 +2700,12 @@ module Thing {
         return ret;
     }
     export function GetValueIn(object, forPropertyName, defaultValue?) {
-        if (object[forPropertyName]) {
+        if (object[forPropertyName])
+        {
             return object[forPropertyName];
         }
-        else if (defaultValue) {
+        else if (defaultValue)
+        {
             return defaultValue;
         }
         return null;
@@ -2705,13 +2717,14 @@ module What {
             for (var prop in inObject) {
                 if (inObject[prop] == forValue) {
                     return <string>prop;
-                }
+                }                
             }
             return null;
         }
         export function EnumValue(inObject, forName: string): any {
+            forName = forName.toLowerCase();
             for (var prop in inObject) {
-                if (prop == forName) {
+                if (prop.toLowerCase() == forName) {
                     return inObject[prop];
                 }
             }
@@ -2785,7 +2798,7 @@ interface Array<T> {
     Add(obj: T);
     Select<U>(keySelector: (element: T) => U): Array<U>;
     Ascend(keySelector: (element: T) => any): T[];
-    Descend(keySelector: (element: T) => any): T[];
+    Descend(keySelector: (element: T) => any): T[];   
     Return(func: (...objs: any[]) => any): any;
 }
 Array.prototype.Return = function (func: (...objs: any[]) => any): any {
@@ -2812,7 +2825,7 @@ Array.prototype.Return = function (func: (...objs: any[]) => any): any {
     return null;
 };
 Array.prototype.Select = function (keySelector: (element: any) => any): Array<any> {
-    var ret = new Array<any>();
+    var ret = new Array<any>();    
     for (var i = 0; i < this.length; i++) {
         var obj = this[i];
         var newObj = keySelector(obj);
@@ -2832,7 +2845,7 @@ Array.prototype.Descend = function (keySelector: (element: any) => any): Array<a
             keySelector(a) > keySelector(b) ? -1 : 0;
     });
 };
-Array.prototype.First = function (func?: (obj) => boolean) {
+Array.prototype.First = function (func?: (obj) => boolean) {    
     if (func) {
         for (var i = 0; i < this.length; i++) {
             var currentObject = this[i];
@@ -2869,7 +2882,7 @@ Array.prototype.Last = function (func?: (obj) => boolean): any {
     return null;
 };
 Array.prototype.Remove = function (func: (obj) => boolean): Array<any> {
-    if (func) {
+    if (func) {        
         if (this.length > 0) {
             var pos = this.length - 1;
             while (pos > 0) {
@@ -2883,7 +2896,7 @@ Array.prototype.Remove = function (func: (obj) => boolean): Array<any> {
     }
     return this;
 };
-Array.prototype.Where = function (func: (obj) => boolean): Array<any> {
+Array.prototype.Where = function (func: (obj) => boolean):Array<any> {
     var matches = new Array();
     for (var i = 0; i < this.length; i++) {
         var currentObject = this[i];
@@ -3033,7 +3046,7 @@ interface Date {
     SmallDate(): Date;
     Equals(date: Date): boolean;
     AddDays(days: number): Date;
-    Add(years?: number, months?: number, days?: number, hours?: number, minutes?: number, seconds?: number): Date;
+    Add(years?:number, months?:number, days?:number, hours?:number, minutes?: number, seconds?:number): Date;
     DaysInMonth(): number;
     MonthName(): string;
     DaysDiff(subtractDate: Date): number;
@@ -3150,32 +3163,6 @@ Date.prototype.MinuteDiff = function (subtractDate) {
     var diff = Math.abs(<any>this - <any>subtractDate);
     return diff / 1000 / 60 / 60;
 };
-interface Element {
-    Popup(target?: HTMLElement, hideInterval?: number, position?: DialogPosition);
-    Modal(modalClass: string, position?: DialogPosition, hideInterval?: number, target?: HTMLElement);
-    Quick(target?: HTMLElement, hideInterval?: number, position?: DialogPosition);
-    Dialog(dialogProperties: any);
-}
-Element.prototype.Popup = function (target?: HTMLElement, position?: DialogPosition, hideInterval?: number) {
-    Dialog.Popup(this, target, position, hideInterval);
-};
-Element.prototype.Modal = function (modalClass: string, position?: DialogPosition, hideInterval?: number, target?: HTMLElement) {
-    Dialog.Modal(this, modalClass, position, hideInterval, target);
-};
-Element.prototype.Quick = function (target?: HTMLElement, position?: DialogPosition, hideInterval?: number) {
-    Dialog.Quick(this, target, position);
-};
-Element.prototype.Dialog = function (dialogProperties: any) {
-    var dp = new DialogProperties(this,
-        Thing.GetValueIn(dialogProperties, "DialogType", DialogType.Standard),
-        Thing.GetValueIn(dialogProperties, "Target"),
-        Thing.GetValueIn(dialogProperties, "HideInterval"),
-        Thing.GetValueIn(dialogProperties, "Position", DialogPosition.MiddleOfWindow),
-        Thing.GetValueIn(dialogProperties, "ModalClass"),
-        Thing.GetValueIn(dialogProperties, "OffSetX"),
-        Thing.GetValueIn(dialogProperties, "OffSetY"));
-    Dialog.Standard(dp);
-};
 interface HTMLElement extends Element {
     Get(predicate: (element: HTMLElement) => boolean, notRecursive?: boolean, nodes?: Array<HTMLElement>): HTMLElement[]
     First(predicate: (element: HTMLElement) => boolean): HTMLElement;
@@ -3185,7 +3172,7 @@ interface HTMLElement extends Element {
     AddRange(...elements: HTMLElement[]): HTMLElement;
     Remove();
     AddHtml: (html: string) => HTMLElement;
-    SetClass(className: string);
+    SetClass(className: string);    
     OffSet(): { top: number; left: number; };
     Dimensions(): { width: number; height: number; };
     DimAndOff(): { Height: number; Width: number; Top: number; Left: number; };
@@ -3202,9 +3189,11 @@ HTMLElement.prototype.Get = function (predicate: (element: HTMLElement) => boole
         nodes = new Array<HTMLElement>();
     }
     var that = <HTMLElement>this;
-    for (var i = 0; i < that.childNodes.length; i++) {
-        if (this.childNodes[i].nodeType == 1) {
-            var child = <HTMLElement>this.childNodes[i]
+    var children = that.children;
+    for (var i = 0; i < children.length; i++) {
+        if (children[i].nodeType == 1
+            && children[i].tagName.toLowerCase() != "svg") {
+            var child = <HTMLElement>children[i]
             var fmatch = predicate(child);
             if (fmatch) {
                 nodes.push(child);
@@ -3218,9 +3207,10 @@ HTMLElement.prototype.Get = function (predicate: (element: HTMLElement) => boole
 };
 HTMLElement.prototype.First = function (predicate: (element: HTMLElement) => boolean): HTMLElement {
     var that = <HTMLElement>this;
-    var children = that.childNodes;
+    var children = that.children;
     for (var i = 0; i < children.length; i++) {
-        if (children[i].nodeType == 1) {
+        if (children[i].nodeType == 1
+            && children[i].tagName.toLowerCase() != "svg") {
             var child = <HTMLElement>children[i];
             if (predicate(child)) {
                 return child;
@@ -3229,7 +3219,7 @@ HTMLElement.prototype.First = function (predicate: (element: HTMLElement) => boo
     }
     var found = null;
     for (var i = 0; i < children.length; i++) {
-        if (children[i].nodeType == 1) {
+        if (children[i].nodeType == 1 && children[i].tagName.toLowerCase() != "svg") {
             var c = <HTMLElement>children[i];
             if (c.First) {
                 found = c.First(predicate);
@@ -3242,11 +3232,12 @@ HTMLElement.prototype.First = function (predicate: (element: HTMLElement) => boo
     return null;
 };
 HTMLElement.prototype.Parent = function (predicate: (element: HTMLElement) => boolean): HTMLElement {
-    if (predicate(this.parentNode)) {
-        return this.parentNode;
-    }
-    else {
-        return this.parentNode.Parent(predicate);
+    var el = this;
+    while (el && el.parentNode) {
+        el = el.parentNode;
+        if (predicate(el)) {
+            return el;
+        }
     }
     return null;
 };
@@ -3292,7 +3283,7 @@ HTMLElement.prototype.AddRange = function (...elements: HTMLElement[]): HTMLElem
 HTMLElement.prototype.Remove = function () {
     this.parentNode.removeChild(this);
 };
-HTMLElement.prototype.AddHtml = function (value: string): HTMLElement {
+HTMLElement.prototype.AddHtml = function (value: string): HTMLElement{
     var ret = value.CreateElementFromHtml();
     this.appendChild(ret);
     return ret;
@@ -3387,7 +3378,7 @@ HTMLElement.prototype.GetDataSetAttributes = function () {
     }
     return ret;
 };
-interface HTMLFormElement extends HTMLElement, IDataContainer {
+interface HTMLFormElement extends HTMLElement, IDataContainer {       
 }
 HTMLFormElement.prototype.Dispose = function () {
     Binding.DataContainer.Dispose(this);
@@ -3395,7 +3386,7 @@ HTMLFormElement.prototype.Dispose = function () {
 HTMLFormElement.prototype.Bind = function (data) {
     var cont = <HTMLFormElement>this;
     var elements: Array<HTMLElement>;
-    this.DataObject = data;
+    this.DataObject = data;    
     if (Binding.DataContainer.Setup(this)) {
         if (this.DataBindings == null) {
             Binding.DataContainer.SetupDataBindings(cont);
@@ -3405,10 +3396,10 @@ HTMLFormElement.prototype.Bind = function (data) {
             elements = cont.Get(e=> e.ElementBindingIndex != null);
         }
         elements.forEach(e=> {
-            e.DataObject = data;
+            e.DataObject = data;            
             cont.DataBindings.Where(d=> d.ElementBindingIndex == e.ElementBindingIndex).forEach(b=> b.Bind(e));
         });
-        elements = null;
+        elements = null;        
         if (Binding.Happened) {
             Binding.Happened(cont);
         }
@@ -3417,38 +3408,44 @@ HTMLFormElement.prototype.Bind = function (data) {
 HTMLFormElement.prototype.Rebind = function (field: string, sender: HTMLElement) {
     Binding.DataContainer.Rebind(<IDataContainer>this, sender, field);
 };
-interface HTMLInputElement {
+interface HTMLInputElement {    
     AutoSuggest(dataSource: Array<any>,
         valueMember: string,
         displayMember: string,
         displayCount?: number);
-}
+} 
 HTMLInputElement.prototype.AutoSuggest = function (dataSource: Array<any>,
     valueMember: string,
     displayMember: string,
     displayCount?: number) {
     AutoSuggest.Hook(this, dataSource, valueMember, displayMember, displayCount);
 };
-interface HTMLLIElement extends HTMLElement {
+interface HTMLLIElement extends HTMLElement{
     OriginalClass: string;
     TemplateType: string;
+    Rebind();
+} 
+HTMLLIElement.prototype.Rebind = function () {
+    var row = <HTMLLIElement>this;    
+    Binding.DataContainer.DataBind(row.DataContainer, row, row.DataObject);
+    return row;
 }
 interface HTMLSelectElement {
     AddOptions(arrayOrObject, valueProperty?: string, displayProperty?: string, selectedValue?): HTMLSelectElement;
     AddOptionsViaObject(obj, selectedValue?, orderedAsIs?);
 }
-HTMLSelectElement.prototype.AddOptions = function (arrayOrObject, valueProperty?: string, displayProperty?: string, selectedValue?): HTMLSelectElement {
+HTMLSelectElement.prototype.AddOptions= function(arrayOrObject, valueProperty ? : string, displayProperty?: string, selectedValue?): HTMLSelectElement {
     var select = <HTMLSelectElement>this;
     if (Is.Array(arrayOrObject)) {
         var tempArray = <Array<any>>arrayOrObject;
         if (displayProperty && valueProperty) {
-            tempArray.forEach(t=> {
+            tempArray.forEach(t=> {                
                 select["options"][select.options.length] = new Option(t[displayProperty], t[valueProperty]);
                 if (selectedValue &&
                     t[valueProperty] == selectedValue) {
                     select["options"][select.options.length - 1].selected = "true";
                 }
-            });
+            });                        
         }
         else if (tempArray.length > 1 && Is.String(tempArray[0])) {
             tempArray.forEach(t => {
@@ -3470,7 +3467,7 @@ HTMLSelectElement.prototype.AddOptions = function (arrayOrObject, valueProperty?
                 }
             }
         }
-    }
+    }    
     return select;
 };
 HTMLSelectElement.prototype.AddOptionsViaObject = function (obj, selectedValue?, orderedAsIs?) {
@@ -3486,12 +3483,13 @@ HTMLSelectElement.prototype.AddOptionsViaObject = function (obj, selectedValue?,
     else {
         var tempArray = new Array();
         for (var prop in obj) {
-            if (Is.Numeric(obj[prop])) {
+            if (Is.Numeric(obj[prop]))
+            {
                 tempArray.push(prop);
             }
         }
         tempArray = tempArray.sort();
-        tempArray.forEach(t=> {
+        tempArray.forEach(t=> {            
             select["options"][select.options.length] = new Option(t, obj[t]);
             if (selectedValue != undefined && selectedValue == obj[t]) {
                 select["options"][select.options.length - 1].selected = "selected";
@@ -3499,7 +3497,7 @@ HTMLSelectElement.prototype.AddOptionsViaObject = function (obj, selectedValue?,
         });
     }
 };
-interface HTMLUListElement extends HTMLElement, IDataContainer {
+interface HTMLUListElement extends HTMLElement, IDataContainer {  
     InsertRow(row: HTMLLIElement, beforeElement?: HTMLLIElement);
     InsertAndBind(dataObject: any, beforeElement?: HTMLLIElement): HTMLLIElement;
     AddRow(dataObject: any, beforeElement?: HTMLLIElement): HTMLLIElement;
@@ -3507,13 +3505,14 @@ interface HTMLUListElement extends HTMLElement, IDataContainer {
     AsyncPosition: number;
     SelectedElement: HTMLLIElement;
     AlreadySetup: boolean;
+    Rebind(field: string, sender: HTMLElement);
 }
 HTMLUListElement.prototype.Dispose = function () {
     Binding.DataContainer.Dispose(this);
 };
 HTMLUListElement.prototype.Bind = function (data?) {
     var that = <HTMLUListElement>this;
-    if (!that.AlreadySetup) {
+    if (!that.AlreadySetup) {        
         that.AlreadySetup = true;
         Binding.DataContainer.Setup(that);
         Binding.DataContainer.SetupUl(that);
@@ -3558,26 +3557,28 @@ HTMLUListElement.prototype.Bind = function (data?) {
             Binding.Happened(that);
         }
     };
-    if (data && that.RowHtml) {
-        var async = function () {
-            var dataObject = that.DataObject[that.AsyncPosition];
-            that.InsertAndBind(dataObject);
-            that.AsyncPosition = that.AsyncPosition + 1;
-            if (that.AsyncPosition == that.DataObject.length) {
-                setTimeout(endAsync, 0);
-            }
-            else {
-                setTimeout(async, 0);
-            }
-        };
+    var async = function () {
+        var dataObject = that.DataObject[that.AsyncPosition];
+        that.InsertAndBind(dataObject);
+        that.AsyncPosition = that.AsyncPosition + 1;
+        if (that.AsyncPosition == that.DataObject.length) {
+            setTimeout(endAsync, 0);
+        }
+        else {
+            setTimeout(async, 0);
+        }
+    };
+    if (data &&
+        data.length &&
+        that.RowHtml) {
+        setTimeout(async, 0);
     }
     else {
         endAsync();
     }
-    setTimeout(async, 0);
 };
 HTMLUListElement.prototype.Rebind = function (field: string, sender: HTMLElement) {
-    Binding.DataContainer.Rebind(<IDataContainer>this, sender, field);
+    Binding.DataContainer.Rebind(<IDataContainer>this, sender, field);    
 };
 HTMLUListElement.prototype.InsertRow = function (row: HTMLLIElement, beforeElement?: HTMLLIElement) {
     if (beforeElement) {
@@ -3587,7 +3588,7 @@ HTMLUListElement.prototype.InsertRow = function (row: HTMLLIElement, beforeEleme
         this.appendChild(row);
     }
 };
-HTMLUListElement.prototype.InsertAndBind = function (dataObject: any, beforeElement?: HTMLLIElement): HTMLLIElement {
+HTMLUListElement.prototype.InsertAndBind = function (dataObject: any, beforeElement?: HTMLLIElement):HTMLLIElement {
     var that = <HTMLUListElement>this;
     var row = <HTMLLIElement>that.RowHtml.CreateElementFromHtml();
     row.DataObject = dataObject;
@@ -3662,25 +3663,17 @@ HTMLUListElement.prototype.SetSelected = function (obj: any, sender: HTMLLIEleme
 interface String {
     Trim(): string;
     TrimCharacters(characterAtZero: string, characterAtEnd: string): string;
-    LeftTrim(): string;
-    RightTrim(): string;
-    ScriptReplace(sourceObjectOrArray, patternToLookFor, trimFromResultPatter); // uses - RegularExpression module
-    SplitOnUpperCase(): string;
     Element(): HTMLElement;
     Form(): HTMLFormElement;
     List(): HTMLUListElement;
     Input(): HTMLInputElement;
     DropDown(): HTMLSelectElement;
-    CreateElement(objectProperties?): HTMLElement;
+    CreateElement(objectProperties?): HTMLElement;    
     CreateElementFromHtml(): HTMLElement;
-    ParseHtml(): { Html: string; Scripts: string[]; LoadScripts(): void; };
-    CreateObject(): any;
     Post(parameters, success?);
     Put(parameters, success?);
     Get(parameters, success?, isRaw?: boolean);
     Delete(parameters, success?);
-    Popup(target: any);
-    Ok(target?: any, title?: string, modalClass?: string, okButton?: DialogButton, containerClass?: string, titleClass?: string);
 }
 String.prototype.Trim = function () {
     return this.replace(/^\s+|\s+$/g, "");
@@ -3700,30 +3693,6 @@ String.prototype.TrimCharacters = function (characterAtZero, characterAtEnd) {
         }
     }
     return ret;
-};
-String.prototype.LeftTrim = function () {
-    return this.replace(/^\s+/, "");
-};
-String.prototype.RightTrim = function () {
-    return this.replace(/\s+$/, "");
-};
-String.prototype.ScriptReplace = function (sourceObjectOrArray, patternToLookFor, trimFromResultPattern) {
-    if (!trimFromResultPattern) {
-        trimFromResultPattern = RegularExpression.StandardBindingWrapper;
-    }
-    if (!patternToLookFor) {
-        patternToLookFor = RegularExpression.StandardBindingPattern;
-    }
-    return RegularExpression.Replace(patternToLookFor, this, sourceObjectOrArray, trimFromResultPattern);
-};
-String.prototype.SplitOnUpperCase = function () {
-    if (this && this.length > 0) {
-        var split = this.match(/[A-Z][a-z]+/g);
-        if (split) {
-            return split.join(" ");
-        }
-    }
-    return this;
 };
 String.prototype.Element = function (): HTMLElement {
     var obj = document.getElementById(this.toString());
@@ -3773,50 +3742,7 @@ String.prototype.CreateElementFromHtml = function (): HTMLElement {
     while (div.children.length > 0) {
         var child = div.children[div.children.length - 1];
         return <HTMLElement>child;
-    }
-};
-String.prototype.ParseHtml = function (): any {
-    var scripts = new Array();
-    var html = this;
-    var matches = this.match(/(<script[^>]*>[\s\S]*?<\/script>)/gi);
-    if (matches) {
-        for (var i = 0; i < matches.length; i++) {
-            scripts.push(matches[i]);
-            html = html.replace(matches[i], "");
-        }
-        html = html.replace(/(\r\n|\n|\r)/gm, "");
-    }
-    var ret = {
-        Html: html, Scripts: scripts, LoadScripts: function () {
-            for (var i = 0; i < ret.Scripts.length; i++) {
-                var script = ret.Scripts[i].replace(/<script[^>]*>/gi, "");
-                script = script.replace(/<\/script>/gi, "");
-                var match = ret.Scripts[i].match(/id=('|")(.*?)('|")/g);
-                var id = null;
-                if (match) {
-                    match = match[0].replace(/(\"|')/gi, "");
-                    match = match.replace("id=", "");
-                    id = match;
-                    match = document.getElementById(match) ? true : false;
-                }
-                if (!match && script) {
-                    var head = document.getElementsByTagName('head')[0];
-                    var scriptElement = document.createElement('script');
-                    scriptElement.setAttribute('type', 'text/javascript');
-                    scriptElement["IsTemporary"] = true;
-                    if (id) {
-                        scriptElement.setAttribute('id', id);
-                    }
-                    scriptElement.textContent = script;
-                    head.appendChild(scriptElement);
-                }
-            }
-        }
-    };
-    return ret;
-};
-String.prototype.CreateObject = function () {
-    return JSON.parse(this);
+    }    
 };
 String.prototype.Put = function (parameters?, success?) {
     Ajax.HttpAction("PUT", this, parameters, success);
@@ -3852,34 +3778,11 @@ String.prototype.Get = function (parameters?, success?, isRaw?: boolean) {
         Ajax.HttpAction("GET", url, null, success, isRaw);
     }
 };
-String.prototype.Ok = function (target?: any, title?: string, modalClass?: string, okButton?: DialogButton, containerClass?: string, titleClass?: string) {
-    if (Is.String(target)) {
-        target = target.E();
-    }
-    Dialog.Ok(this, title, target, modalClass, okButton, containerClass, titleClass);
-};
-String.prototype.Popup = function (target: any) {
-    if (Is.String(target)) {
-        target = target.E();
-    }
-    Dialog.Quick("div".CreateElement({
-        innerHTML: this,
-        border: "solid 1px #000",
-        backgroundColor: "#D3D3D3",
-        textAlign: "center",
-        padding: ".5em"
-    }), <HTMLElement>target);
-};
 interface Window {
     SplitPathName(): Array<string>;
     PageLoaded(postLoadFuntion, e?);
-    UniqueID(): string;
-    MousePosition(e?): { X: number; Y: number; };
-    Sleep(milliseconds: number);
-    ShortDate();
     PushState(stateobj, title, url);
     Dimensions(): { Height: number; Width: number; };
-    SetLocation(url: string);
     Show(viewKey, parameters?: Array<any>);
     Exception(...parameters: any[]);
 }
@@ -3900,10 +3803,6 @@ Window.prototype.Exception = function (...parameters: any[]) {
 };
 Window.prototype.Show = function (viewKey, parameters?: Array<any>) {
     ViewManager.Load(viewKey, parameters);
-};
-Window.prototype.SetLocation = function (url: string) {
-    var temp = <any>window;
-    temp.location = url;
 };
 Window.prototype.Dimensions = function (): { Height: number; Width: number; } {
     var ret = { Height: 0, Width: 0 };
@@ -3938,33 +3837,6 @@ Window.prototype.PushState = function (stateobj, title, url) {
         history.pushState(stateobj, title, url);
     }
 };
-Window.prototype.ShortDate = function () {
-    var date = new Date();
-    var now = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
-    return now;
-};
-Window.prototype.Sleep = function (milliseconds: number) {
-    var date = new Date();
-    var curDate = new Date();
-    while (curDate.getMilliseconds() - date.getMilliseconds() < milliseconds) {
-    }
-};
-Window.prototype.MousePosition = function (e?): { X: number; Y: number; } {
-    if (event || e) {
-        if (Is.InternetExplorer()) { // grab the x-y pos.s if browser is IE
-            return { X: event.clientX + document.body.scrollLeft, Y: event.clientY + document.body.scrollTop };
-        } else {  // grab the x-y pos.s if browser is NS
-            return { X: e.pageX, Y: e.pageY };
-        }
-    }
-    return { X: 0, Y: 0 };
-};
-Window.prototype.UniqueID = function (): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    }).replace("-", "").substring(0, 16);
-};
 Window.prototype.SplitPathName = function (): Array<string> {
     var ret = new Array<string>();
     var pathName = window.location.pathname;
@@ -3976,21 +3848,21 @@ Window.prototype.SplitPathName = function (): Array<string> {
     var split = pathName.split("/");
     return split;
 };
-Window.prototype.PageLoaded = function (postLoadFuntion, e?) {
+Window.prototype.PageLoaded = function (postLoadFuntion, e?) {    
     if (document.readyState === "complete") {
-        postLoadFuntion();
+        postLoadFuntion();        
     }
     else {
         if (window.onload) {
             var curronload = window.onload;
             var newonload = function () {
                 curronload(<Event>e);
-                postLoadFuntion();
+                postLoadFuntion();                
             };
             window.onload = newonload;
         } else {
             window.onload = function () {
-                postLoadFuntion();
+                postLoadFuntion();                
             }
         }
     }

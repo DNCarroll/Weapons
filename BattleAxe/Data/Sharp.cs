@@ -541,5 +541,10 @@ namespace BattleAxe.Sharp
         }
 
         #endregion
+
+        public static d.SqlClient.SqlCommand GetCommand(this string commandText, string connectionString, d.CommandType commandType = d.CommandType.StoredProcedure)
+        {
+            return Common.GetCommand(commandText, connectionString, commandType);
+        }
     }
 }

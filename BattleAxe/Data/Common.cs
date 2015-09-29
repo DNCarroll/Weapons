@@ -200,7 +200,7 @@ where
         /// <param name="connectionString"></param>
         /// <param name="commandType"></param>
         /// <returns></returns>
-        public static d.SqlClient.SqlCommand GetCommand(this string commandText, string connectionString, d.CommandType commandType = d.CommandType.StoredProcedure)
+        public static d.SqlClient.SqlCommand GetCommand(string commandText, string connectionString, d.CommandType commandType = d.CommandType.StoredProcedure)
         {
             connectionString = ConnectionStringTimeout(connectionString);
             var found = cachedCommands.FirstOrDefault(o => o.Item1 == commandText && o.Item2 == connectionString);
@@ -297,9 +297,7 @@ where
                 return sqlCommand;
             }
         }
-
-
-
+        
         public static bool IsConnectionOpen(this d.SqlClient.SqlCommand command)
         {
             var ret = false;
