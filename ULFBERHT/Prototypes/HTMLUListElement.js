@@ -59,9 +59,7 @@ HTMLUListElement.prototype.Bind = function (data) {
             setTimeout(async, 0);
         }
     };
-    if (data &&
-        data.length &&
-        that.RowHtml) {
+    if (data && data.length && that.RowHtml) {
         setTimeout(async, 0);
     }
     else {

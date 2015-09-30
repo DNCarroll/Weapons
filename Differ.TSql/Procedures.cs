@@ -35,7 +35,7 @@ namespace Differ.TSql
 
         public static SqlCommand GetObjectCommand(string connectionString)
         {
-            return Common.GetCommand(objectSelect, connectionString, System.Data.CommandType.Text);
+            return CommandMethods.GetCommand(objectSelect, connectionString, System.Data.CommandType.Text);
         }
 
     }

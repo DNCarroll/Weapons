@@ -47,7 +47,7 @@ var AutoSuggest;
         if (value) {
             if (targetproperty) {
                 if (tempObj) {
-                    var actionEvent = new ActionEvent(ActionType.Updating, tempObj, field, value);
+                    var actionEvent = new ActionEvent(5 /* Updating */, tempObj, field, value);
                     dataContainer.ActionEvent(actionEvent);
                     if (!actionEvent.Cancel) {
                         Binding.Events.SetObjectValue(tempObj, field, value);
@@ -63,7 +63,7 @@ var AutoSuggest;
                                     Binding.Events.SetObjectValue(tempObj, field, result[field].toString());
                                     Thing.Merge(result, tempObj);
                                     dataContainer.Rebind(field, input);
-                                    actionEvent = new ActionEvent(ActionType.Updated, tempObj, field, tempObj[field]);
+                                    actionEvent = new ActionEvent(4 /* Updated */, tempObj, field, tempObj[field]);
                                     dataContainer.ActionEvent(actionEvent);
                                 }
                             }, function (result) {
@@ -173,8 +173,7 @@ var AutoSuggest;
             if (!shiftKey && sender) {
                 var list = sender["AutocompleteList"];
                 if (list) {
-                    if (key == 13 ||
-                        (key == 9 && list.options.length > 0 && list.value.length >= sender.value.length)) {
+                    if (key == 13 || (key == 9 && list.options.length > 0 && list.value.length >= sender.value.length)) {
                         var index = list.selectedIndex > -1 ? list.selectedIndex : 0;
                         if (list.options.length > 0) {
                             setValue(sender, list, index);

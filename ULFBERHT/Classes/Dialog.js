@@ -28,7 +28,7 @@ var DialogButton = (function () {
     function DialogButton(text, buttonType, className) {
         this.Text = text;
         this.ClassName = className;
-        this.ButtonType = buttonType == null ? ButtonType.InputButton : buttonType;
+        this.ButtonType = buttonType == null ? 0 /* InputButton */ : buttonType;
         //        this.ImageSrc = imageSrc;
     }
     return DialogButton;
@@ -46,7 +46,7 @@ var DialogProperties = (function () {
         this.Modal = null;
         this.ModalClass = modalClass;
         if (hideInterval == null) {
-            if (this.DialogType == DialogType.Popup || this.DialogType == DialogType.Quick) {
+            if (this.DialogType == 1 /* Popup */ || this.DialogType == 2 /* Quick */) {
                 this.HideInterval = Dialog.DefaultHideInterval;
             }
             else {
@@ -56,19 +56,19 @@ var DialogProperties = (function () {
         else {
             this.HideInterval = hideInterval;
         }
-        if (position != DialogPosition.Manual) {
+        if (position != 100 /* Manual */) {
             if (position == null && this.Target == null) {
-                this.Position = DialogPosition.MiddleOfWindow;
+                this.Position = 0 /* MiddleOfWindow */;
             }
             else if (position == null && this.Target != null) {
-                this.Position = DialogPosition.Below;
+                this.Position = 1 /* Below */;
             }
             else {
                 this.Position = position;
             }
         }
         else {
-            this.Position = DialogPosition.Manual;
+            this.Position = 100 /* Manual */;
         }
     }
     return DialogProperties;
@@ -76,8 +76,8 @@ var DialogProperties = (function () {
 var Dialog;
 (function (Dialog) {
     function Confirm(message, onclick, title, target, modalClass, yesButton, noButton, containerStyle, titleStyle, position) {
-        yesButton = yesButton == null ? new DialogButton("Yes", ButtonType.InputButton) : yesButton;
-        noButton = noButton == null ? new DialogButton("No", ButtonType.InputButton) : noButton;
+        yesButton = yesButton == null ? new DialogButton("Yes", 0 /* InputButton */) : yesButton;
+        noButton = noButton == null ? new DialogButton("No", 0 /* InputButton */) : noButton;
         title = title == null ? "&nbsp;" : title;
         var container = "ul".CreateElement();
         var liTitle = "li".CreateElement();
@@ -96,8 +96,8 @@ var Dialog;
         var divButton = "div".CreateElement();
         liSubDialog.appendChild(divButton);
         ulDialogContainer.appendChild(liSubDialog);
-        divButton.appendChild(getDialogButton(onclick, noButton, DialogResult.No, container));
-        divButton.appendChild(getDialogButton(onclick, yesButton, DialogResult.Yes, container));
+        divButton.appendChild(getDialogButton(onclick, noButton, 0 /* No */, container));
+        divButton.appendChild(getDialogButton(onclick, yesButton, 1 /* Yes */, container));
         setUL(container);
         setUL(ulDialogContainer);
         setLI(liTitle);
@@ -114,10 +114,10 @@ var Dialog;
         container.appendChild(liMessage);
         container.appendChild(liDialog);
         if (position == null) {
-            position = target == null ? DialogPosition.MiddleOfWindow : DialogPosition.Below;
+            position = target == null ? 0 /* MiddleOfWindow */ : 1 /* Below */;
         }
         if (modalClass == null) {
-            Dialog.Show(container, DialogType.Standard, target, null, position);
+            Dialog.Show(container, 3 /* Standard */, target, null, position);
         }
         else {
             Dialog.Modal(container, modalClass, position, null, target);
@@ -125,7 +125,7 @@ var Dialog;
     }
     Dialog.Confirm = Confirm;
     function Ok(message, title, target, modalClass, okButton, containerClass, titleClass) {
-        okButton = okButton == null ? new DialogButton("Ok", ButtonType.InputButton) : okButton;
+        okButton = okButton == null ? new DialogButton("Ok", 0 /* InputButton */) : okButton;
         title = title == null ? "&nbsp;" : title;
         var container = "ul".CreateElement();
         var liTitle = "li".CreateElement();
@@ -146,7 +146,8 @@ var Dialog;
         var divButton = "div".CreateElement();
         liSubDialog.appendChild(divButton);
         ulDialogContainer.appendChild(liSubDialog);
-        divButton.appendChild(getDialogButton(function (r) { }, okButton, DialogResult.Ok, container));
+        divButton.appendChild(getDialogButton(function (r) {
+        }, okButton, 2 /* Ok */, container));
         if (containerClass != null) {
             container.className = containerClass;
         }
@@ -167,10 +168,10 @@ var Dialog;
         container.appendChild(liMessage);
         container.appendChild(liDialog);
         if (modalClass == null) {
-            Dialog.Show(container, DialogType.Standard, target, null, target == null ? DialogPosition.MiddleOfWindow : DialogPosition.Below);
+            Dialog.Show(container, 3 /* Standard */, target, null, target == null ? 0 /* MiddleOfWindow */ : 1 /* Below */);
         }
         else {
-            Dialog.Modal(container, modalClass, target == null ? DialogPosition.MiddleOfWindow : DialogPosition.Below, null, target);
+            Dialog.Modal(container, modalClass, target == null ? 0 /* MiddleOfWindow */ : 1 /* Below */, null, target);
         }
     }
     Dialog.Ok = Ok;
@@ -195,12 +196,10 @@ var Dialog;
     function getDialogButton(onclick, dialogButton, dialogResult, container, containerClass) {
         var button;
         switch (dialogButton.ButtonType) {
-            case ButtonType.Anchor:
+            case 1 /* Anchor */:
                 button = "a".CreateElement({ innerHTML: dialogButton.Text.toString() });
                 break;
-            //case ButtonType.ImageButton:
-            //    break;
-            case ButtonType.InputButton:
+            case 0 /* InputButton */:
                 button = "input".CreateElement({ type: "button", value: dialogButton.Text.toString() });
                 break;
         }
@@ -214,7 +213,7 @@ var Dialog;
         };
         if (containerClass == null) {
             button.style.margin = ".5em .5em";
-            if (dialogResult == DialogResult.No) {
+            if (dialogResult == 0 /* No */) {
                 button.style.cssFloat = "left";
             }
             else {
@@ -225,20 +224,20 @@ var Dialog;
     }
     Dialog.DefaultHideInterval = 1500;
     function Popup(elementToShow, target, position, hideInterval) {
-        Show(elementToShow, DialogType.Popup, target, hideInterval, position);
+        Show(elementToShow, 1 /* Popup */, target, hideInterval, position);
     }
     Dialog.Popup = Popup;
     function Modal(elementToShow, modalClass, position, hideInterval, target) {
-        Show(elementToShow, DialogType.Modal, target, hideInterval, position, modalClass);
+        Show(elementToShow, 0 /* Modal */, target, hideInterval, position, modalClass);
     }
     Dialog.Modal = Modal;
     function Quick(elementToShow, target, position) {
-        Show(elementToShow, DialogType.Quick, target, Dialog.DefaultHideInterval, position);
+        Show(elementToShow, 2 /* Quick */, target, Dialog.DefaultHideInterval, position);
     }
     Dialog.Quick = Quick;
     function Standard(dialogProperties) {
         var elementToShow = dialogProperties.Container;
-        if (dialogProperties.DialogType == DialogType.Modal) {
+        if (dialogProperties.DialogType == 0 /* Modal */) {
             var winDim = window.Dimensions();
             dialogProperties.Modal = "div".CreateElement({ cls: dialogProperties.ModalClass });
             dialogProperties.Modal.style.height = winDim.Height.toString() + "px";
@@ -252,8 +251,12 @@ var Dialog;
         document.body.appendChild(elementToShow);
         SetPosition(elementToShow, dialogProperties);
         if (dialogProperties.HideInterval > -1) {
-            elementToShow.AddListener("onmouseover", function () { dialogProperties.IsActive = true; });
-            elementToShow.AddListener("onmouseout", function () { dialogProperties.IsActive = false; });
+            elementToShow.AddListener("onmouseover", function () {
+                dialogProperties.IsActive = true;
+            });
+            elementToShow.AddListener("onmouseout", function () {
+                dialogProperties.IsActive = false;
+            });
             dialogProperties.Interval = setInterval(function () {
                 if (!dialogProperties.IsActive) {
                     Dialog.Hide(elementToShow);
@@ -274,26 +277,26 @@ var Dialog;
         var y = 0;
         var dim = elementToShow.Dimensions();
         switch (dialogProperties.Position) {
-            case DialogPosition.MiddleOfWindow:
+            case 0 /* MiddleOfWindow */:
                 var winDim = window.Dimensions();
                 y = (winDim.Height - dim.height) / 2;
                 x = (winDim.Width - dim.width) / 2;
                 break;
-            case DialogPosition.Below:
+            case 1 /* Below */:
                 var targetDetails = dialogProperties.Target.DimAndOff();
                 y = targetDetails.Top + targetDetails.Height;
                 x = targetDetails.Left;
                 break;
-            case DialogPosition.Above:
+            case 2 /* Above */:
                 var targetDetails = dialogProperties.Target.DimAndOff();
                 y = targetDetails.Top - dim.height;
                 x = targetDetails.Left;
                 break;
-            case DialogPosition.Manual:
+            case 100 /* Manual */:
             default:
                 break;
         }
-        if (dialogProperties.Position != DialogPosition.Manual) {
+        if (dialogProperties.Position != 100 /* Manual */) {
             if (dialogProperties.OffSetX) {
                 x += dialogProperties.OffSetX;
             }

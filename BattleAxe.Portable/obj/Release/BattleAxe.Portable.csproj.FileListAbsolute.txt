@@ -54,3 +54,4 @@ C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Release\pri.resf
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Release\qualifiers.txt
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Release\qualifiers.txt.intermediate
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Release\MultipleQualifiersPerDimensionFound.txt
+C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Release\BattleAxe.Portable.csprojResolveAssemblyReference.cache
