@@ -47,6 +47,38 @@ namespace BattleAxe
         {
             return ToList<T>(command, parameter);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="ret"></typeparam>
+        /// <typeparam name="par"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public static List<ret> ToList<ret, par>(this SqlCommand command, par parameter = null)
+            where ret : class, new()
+            where par : class
+        {
+
+            List<ret> newList = new List<ret>();
+            try
+            {
+                if (command.IsConnectionOpen())
+                {
+                    ParameterMethods.SetInputs(parameter, command);
+                    executeReaderAndFillList(command, newList);
+                    ParameterMethods.SetOutputs(parameter, command);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally { command.CloseConnection(); }
+            return newList;
+        }
+
         private static void executeReaderAndFillList<T>(SqlCommand command, List<T> ret) where T : class, new()
         {
             using (var reader = command.ExecuteReader())

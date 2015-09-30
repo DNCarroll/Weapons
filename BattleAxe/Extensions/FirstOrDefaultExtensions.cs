@@ -49,5 +49,39 @@ namespace BattleAxe
         {
             return command.FirstOrDefault(parameter);
         }
+
+        /// <summary>
+        /// the command should have the connections string set,  doesnt have to be open but
+        /// the string should be set. 
+        /// </summary>
+        /// <typeparam name="R"></typeparam>
+        /// <typeparam name="P"></typeparam>
+        /// <param name="parameter"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public static R FirstOrDefault<R, P>(this P parameter, SqlCommand command)
+            where R : class, new()
+            where P : class
+        {
+            R newObj = null;
+            try
+            {
+                if (command.IsConnectionOpen())
+                {
+                    ParameterMethods.SetInputs(parameter, command);
+                    newObj = DataReaderMethods.GetFirst<R>(command);
+                    ParameterMethods.SetOutputs(parameter, command);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                command.CloseConnection();
+            }
+            return newObj;
+        }
     }
 }
