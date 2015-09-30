@@ -7,8 +7,6 @@ using System.Linq;
 
 namespace BattleAxe
 {
-    //modularize this into like responsibilities IE Command Parameter Set Get
-    //Connection Maintenance
     public static class CommandMethods
     {
         /// <summary>
@@ -132,47 +130,6 @@ namespace BattleAxe
                 m_StructureFields = value;
             }
         }
-                       
-
-        ////make sure this method is needed
-        //public static void SetStructuredParameterValue<T>(this SqlCommand command, string parameterName, List<T> data)
-        //{
-        //    var parameter = command.Parameters[parameterName];
-        //    if (parameter != null)
-        //    {
-        //        DataTable ret = new System.Data.DataTable();
-        //        var reference = structureFields.Where(i => i.Item1.CommandText == command.CommandText && i.Item1.Connection.ConnectionString == command.Connection.ConnectionString && i.Item2 == parameter.TypeName).ToList();
-        //        foreach (var item in reference)
-        //        {
-        //            ret.Columns.Add(item.Item3);
-        //        }
-        //        foreach (var obj in data)
-        //        {
-        //            IBattleAxe ibattleAxe = (IBattleAxe)obj;
-        //            DataRow row = ret.NewRow();
-        //            foreach (var item in reference)
-        //            {
-        //                var value = ibattleAxe[item.Item3];
-        //                if (value is Enum)
-        //                {
-        //                    row[item.Item3] = (int)value;
-        //                }
-        //                else
-        //                {
-        //                    row[item.Item3] = value;
-        //                }
-        //            }
-        //            ret.Rows.Add(row);
-        //        }
-        //        parameter.Value = ret;
-        //    }
-        //}
-
-        //public static void SetSimpleParameterValues<T>(this SqlCommand command, T obj)
-        //    where T : IBattleAxe
-        //{
-        //    Sharp.ParameterMethods.SetInputs(obj, command, true);
-        //}
 
         private static void addStructureFieldForParameter(SqlCommand referenceCommand, string typeName, string connectionString)
         {

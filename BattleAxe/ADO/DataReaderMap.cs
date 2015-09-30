@@ -84,6 +84,48 @@ namespace BattleAxe
             {
                 switch (this.SqlType)
                 {
+                    case System.Data.SqlDbType.Int:
+                        obj[FieldName] = reader.GetInt32(this.Index);
+                        break;
+                    case System.Data.SqlDbType.Text:
+                    case System.Data.SqlDbType.NVarChar:
+                    case System.Data.SqlDbType.NText:
+                    case System.Data.SqlDbType.VarChar:
+                    case System.Data.SqlDbType.NChar:
+                        obj[FieldName] = reader.GetString(this.Index);
+                        break;
+                    case System.Data.SqlDbType.Bit:
+                        obj[FieldName] = reader.GetBoolean(this.Index);
+                        break;
+                    case System.Data.SqlDbType.SmallDateTime:
+                    case System.Data.SqlDbType.Date:
+                    case System.Data.SqlDbType.DateTime:
+                    case System.Data.SqlDbType.DateTime2:
+                        obj[FieldName] = reader.GetDateTime(this.Index);
+                        break;
+                    case System.Data.SqlDbType.Float:
+                        obj[FieldName] = reader.GetDouble(this.Index);
+                        break;
+                    case System.Data.SqlDbType.TinyInt:
+                        obj[FieldName] = reader.GetByte(this.Index);
+                        break;
+                    case System.Data.SqlDbType.SmallInt:
+                        obj[FieldName] = reader.GetInt16(this.Index);
+                        break;
+                    case System.Data.SqlDbType.Char:
+                        obj[FieldName] = reader.GetChar(this.Index);
+                        break;
+                    case System.Data.SqlDbType.SmallMoney:
+                    case System.Data.SqlDbType.Money:
+                    case System.Data.SqlDbType.Decimal:
+                        obj[FieldName] = reader.GetDecimal(this.Index);
+                        break;
+                    case System.Data.SqlDbType.Real:
+                        obj[FieldName] = reader.GetFloat(this.Index);
+                        break;
+                    case System.Data.SqlDbType.UniqueIdentifier:
+                        obj[FieldName] = reader.GetGuid(this.Index);
+                        break;
                     case System.Data.SqlDbType.BigInt:
                         obj[FieldName] = reader.GetInt64(this.Index);
                         break;
@@ -101,49 +143,7 @@ namespace BattleAxe
                             curPos += bufferSize;
                         }
                         obj[FieldName] = values;
-                        break;
-                    case System.Data.SqlDbType.Bit:
-                        obj[FieldName] = reader.GetBoolean(this.Index);
-                        break;
-                    case System.Data.SqlDbType.Char:
-                        obj[FieldName] = reader.GetChar(this.Index);
-                        break;
-                    case System.Data.SqlDbType.SmallDateTime:
-                    case System.Data.SqlDbType.Date:
-                    case System.Data.SqlDbType.DateTime:
-                    case System.Data.SqlDbType.DateTime2:
-                        obj[FieldName] = reader.GetDateTime(this.Index);
-                        break;
-                    case System.Data.SqlDbType.SmallMoney:
-                    case System.Data.SqlDbType.Money:
-                    case System.Data.SqlDbType.Decimal:
-                        obj[FieldName] = reader.GetDecimal(this.Index);
-                        break;
-                    case System.Data.SqlDbType.Float:
-                        obj[FieldName] = reader.GetDouble(this.Index);                     
-                        break;
-                    case System.Data.SqlDbType.Int:
-                        obj[FieldName] = reader.GetInt32(this.Index);
-                        break;
-                    case System.Data.SqlDbType.Text:
-                    case System.Data.SqlDbType.NVarChar:
-                    case System.Data.SqlDbType.NText:
-                    case System.Data.SqlDbType.VarChar:
-                    case System.Data.SqlDbType.NChar:
-                        obj[FieldName] = reader.GetString(this.Index);
-                        break;
-                    case System.Data.SqlDbType.Real:
-                        obj[FieldName] = reader.GetFloat(this.Index);
-                        break;
-                    case System.Data.SqlDbType.SmallInt:
-                        obj[FieldName] = reader.GetInt16(this.Index);                        
-                        break;
-                    case System.Data.SqlDbType.TinyInt:
-                        obj[FieldName] = reader.GetByte(this.Index);
-                        break;
-                    case System.Data.SqlDbType.UniqueIdentifier:
-                        obj[FieldName] = reader.GetGuid(this.Index);
-                        break;
+                        break;   
                     default:
                         break;
                 }
