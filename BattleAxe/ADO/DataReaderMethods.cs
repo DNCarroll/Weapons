@@ -7,16 +7,16 @@ namespace BattleAxe
     {
         internal static T GetFirst<T>(SqlCommand command) where T : class, new()
         {
-            T newObject = new T();
             using (var reader = command.ExecuteReader())
             {
                 while (reader.Read())
                 {
+                    T newObject = new T();
                     setValuesFromReader(newObject, reader);
-                    break;
+                    return newObject;                    
                 }
             }
-            return newObject;
+            return null;
         }
 
         private static void setValuesFromReader<T>(T objectAcceptingValuesFromReader, IDataReader reader)
