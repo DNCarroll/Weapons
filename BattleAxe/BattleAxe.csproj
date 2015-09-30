@@ -54,8 +54,6 @@
     <Compile Include="ADO\ParameterMethods.cs" />
     <Compile Include="Extensions\UpdateExtensions.cs" />
     <Compile Include="RegexSql.cs" />
-    <Compile Include="Deprecating\Sharp.cs" />
-    <Compile Include="Deprecating\Blunt.cs" />
     <Compile Include="ADO\DataReaderMap.cs" />
     <Compile Include="Dynamic.cs" />
     <Compile Include="IBattleAxe.cs" />
