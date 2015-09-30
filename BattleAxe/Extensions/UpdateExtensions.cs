@@ -30,7 +30,6 @@ namespace BattleAxe
                         ParameterMethods.SetOutputs(obj, command);
                     }
                 }
-                command.CloseConnection();
             }
             catch (Exception)
             {

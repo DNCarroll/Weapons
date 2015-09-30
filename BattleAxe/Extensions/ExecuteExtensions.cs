@@ -23,7 +23,6 @@ namespace BattleAxe
                     command.ExecuteNonQuery();
                     ParameterMethods.SetOutputs(parameter, command);
                 }
-                command.Connection.Close();
             }
             catch (Exception)
             {
