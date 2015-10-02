@@ -104,7 +104,7 @@ namespace BattleAxe
             return null;
         }
         
-        internal static class SetHelper
+        public static class SetHelper
         {
             static string caseStatement(string propertyName, string type, string convertMethod, string defaultValue)
             {
@@ -307,7 +307,7 @@ namespace BattleAxe
             }
         }
 
-        internal static class GetHelper
+        public static class GetHelper
         {
             public static GetValue<T> Value<T>()
                 where T : class

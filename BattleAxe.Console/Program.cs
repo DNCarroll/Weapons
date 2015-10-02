@@ -39,112 +39,11 @@ namespace BattleAxe.Console
             //its slow,  try dictionary? instead of tuple?
             while (line == "y")
             {
-                TestMethod2();
                 System.Console.WriteLine("Test again (y/n)?");
                 line = System.Console.ReadLine();
             }
         }
-
-        public static void TestMethod2()
-        {
-           // var getSet = Compiler.Get<Test>();
-            var test = new Test();
-            var test1 = new Test();
-            var test2 = new Test();
-            test2["StringCheck"] = "string check";
-            var getstringCHeck = test2["StringCheck"];
-            var vlaue = test2.GetValue("StringCheck");
-            var test3 = new Test();
-            var bytes = new byte[] { 123, 78 };
-            test2["BytesCheck"] = bytes;
-            DateTime start;
-            DateTime stop;
-            int repetitions = 10000;
-            byte zero = 0;
-            byte one = 1;
-            start = DateTime.Now;
-            for (int i = 0; i < repetitions; i++)
-            {
-                test.IntCheck = i;
-                test.StringCheck = i.ToString();
-                test.DecimalCheck = (decimal)i / (decimal)repetitions;
-                test.BoolCheck = !test.BoolCheck;
-                test.ByteCheck = test.ByteCheck >= byte.MaxValue ? zero : (byte)(test.ByteCheck + one);
-                test.CharCheck = i.ToString().ToCharArray()[0];
-                test.DateTime = DateTime.Now;
-                test.DoubleCheck = (double)i / (double)repetitions;
-                test.EnumCheck = test.EnumCheck == EnumCheckValue.Value0 ? EnumCheckValue.Value1 : EnumCheckValue.Value0;
-                test.GuidCheck = new Guid();
-                test.LongCheck = (long)i;
-                test.ShortCheck = (short)test.ByteCheck;
-                test.SingleCheck = (Single)test.ByteCheck;
-            }
-            test.StringCheck = "Test";
-            stop = DateTime.Now;
-            var ts = stop.Subtract(start);
-            System.Console.WriteLine("Original - time: {0} ms, Name: {1}", ts.TotalMilliseconds, test.StringCheck);
-            //start = DateTime.Now;
-            //for (int i = 0; i < repetitions; i++)
-            //{
-
-            //    test1.SetValue("Prop3", i);
-            //    test1.SetValue("Name", i.ToString());
-            //    test1.SetValue("DecimalCheck", (decimal)i / (decimal)repetitions);
-
-            //    //getSet.SetValue(test1, "Prop3", i);
-            //    //getSet.SetValue(test1, "Name", i.ToString());
-            //    //getSet.SetValue(test1, "DecimalCheck", (decimal)i / (decimal)repetitions);
-            //}
-      //      getSet.SetValue(test1, "Name", "Test1");
-            //stop = DateTime.Now;
-            //ts = stop.Subtract(start);
-            //System.Console.WriteLine("BattleAxe - time: {0} ms, Name: {1}", ts.TotalMilliseconds, test1.StringCheck);
-            start = DateTime.Now;
-            for (int i = 0; i < repetitions; i++)
-            {
-                test2["IntCheck"] = i;
-                test2["StringCheck"] = i.ToString();
-                test2["DecimalCheck"] = (decimal)i / (decimal)repetitions;
-                test2["BoolCheck"] = !test2.BoolCheck;
-                test2["ByteCheck"] = i < 254 ? (byte)i : 254;
-                test2["CharCheck"] = i.ToString().ToCharArray()[0];
-                test2["DateTime"] = DateTime.Now;
-                test2["DoubleCheck"] = test2.DecimalCheck;
-                test2["EnumCheck"] = test2.EnumCheck == EnumCheckValue.Value0 ? EnumCheckValue.Value1 : EnumCheckValue.Value0;
-                test2["GuidCheck"] = Guid.NewGuid();
-                test2["LongCheck"] = i;
-                test2["ShortCheck"] = i > 16000 ? 16000 : i;
-                test2["SingleCheck"] = i;
-
-            }
-            test2["StringCheck"] = "Test2";
-            stop = DateTime.Now;
-            ts = stop.Subtract(start);
-            System.Console.WriteLine("BattleAxe w/Indexer - time: {0} ms, Name: {1}", ts.TotalMilliseconds, test2.StringCheck);
-
-
-            //GetSetMap<Test> typedGetSet = (GetSetMap<Test>)getSet;
-            //Ext.nameSet = typedGetSet.Sets["Name"];
-            //Ext.prop3Set = typedGetSet.Sets["Prop3"];
-            //Ext.decimalSet = typedGetSet.Sets["DecimalCheck"];
-            //start = DateTime.Now;
-            //for (int i = 0; i < repetitions; i++)
-            //{
-            //    test3.SetTestValue("Name", i.ToString());
-            //    test3.SetTestValue("Prop3", i);
-            //    test3.SetTestValue("DecimalCheck",(decimal)i / (decimal)repetitions);
-            //    //dtest3.DynamicSet("Prop3", i);
-            //    //dtest3.DynamicSet("Name", i.ToString());
-            //    //dtest3.DynamicSet("DecimalCheck", (decimal)i / (decimal)repetitions);
-            //}
-            //getSet.SetValue(test3, "Name", "Test3");
-            //stop = DateTime.Now;
-            //ts = stop.Subtract(start);
-            //System.Console.WriteLine("BattleAxe with Dynamic - time: {0} ms, Name: {1}", ts.TotalMilliseconds, test3.Name);
-
-
-        }
-
+        
     }
 
     //public class Test2 : DynamicSword
