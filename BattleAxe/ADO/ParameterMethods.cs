@@ -8,11 +8,13 @@ namespace BattleAxe
 {
     public static class ParameterMethods
     {
+        //needs retesting
         internal static void SetInputs<T>(T sourceForInputParameters, SqlCommand command, bool shipStructured = false)
             where T : class
         {
-            if (sourceForInputParameters != null)
+            if (sourceForInputParameters != null && command.Parameters != null && command.Parameters.Count > 0)
             {
+                Func<T, string, object> getMethod = Compiler.GetMethod(sourceForInputParameters);
                 try
                 {
                     foreach (SqlParameter parameter in command.Parameters)
@@ -22,9 +24,7 @@ namespace BattleAxe
                             if (parameter.Direction == ParameterDirection.Input ||
                                 parameter.Direction == ParameterDirection.InputOutput)
                             {
-                                var value = sourceForInputParameters is IBattleAxe ? 
-                                                ((IBattleAxe)sourceForInputParameters)[parameter.SourceColumn] : 
-                                                sourceForInputParameters.GetValue(parameter.SourceColumn);
+                                var value = getMethod(sourceForInputParameters, parameter.SourceColumn);
                                 parameter.Value = value != null ? value : DBNull.Value;
                             }
                         }
@@ -40,6 +40,8 @@ namespace BattleAxe
                 }
             }
         }
+
+
 
         //not ready for object that are not IBattleAxe
         internal static DataTable GetDataTable(object referenceObject, SqlCommand command, SqlParameter parameter)
@@ -97,6 +99,7 @@ namespace BattleAxe
         {
             try
             {
+                var setMethod = Compiler.SetMethod(targetForOutputParameters);
                 foreach (SqlParameter p in command.Parameters)
                 {
                     if (p.Direction == ParameterDirection.Output || p.Direction == ParameterDirection.InputOutput)
@@ -107,14 +110,7 @@ namespace BattleAxe
                             value = null;
                         }
                         var field = !string.IsNullOrEmpty(p.SourceColumn) ? p.SourceColumn : p.ParameterName.Replace("@", "");
-                        if (targetForOutputParameters is IBattleAxe)
-                        {
-                            ((IBattleAxe)targetForOutputParameters)[field] = value;
-                        }
-                        else
-                        {
-                            targetForOutputParameters.SetValue(field, value);
-                        }
+                        setMethod(targetForOutputParameters, field, value);
                     }
                 }
             }

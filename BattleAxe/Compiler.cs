@@ -17,14 +17,37 @@ namespace BattleAxe
     {
         static Dictionary<Type, object> setMethods = new Dictionary<Type, object>();
         static Dictionary<Type, object> getMethods = new Dictionary<Type, object>();
-        public static void SetValue<T>(this T obj, string propertyName, object value)
+
+        public static Action<T, string, object> SetMethod<T>(T obj)
+            where T : class
+        {
+            Action<T, string, object> setMethod = null;
+            if (obj is IBattleAxe)
+            {
+                setMethod = (o, property, value) =>
+                {
+                    ((IBattleAxe)o)[property] = value;
+                };
+            }
+            else
+            {
+                var tempGetSetMethod = getSetMethodFromInitialReflection(obj);
+                setMethod = (o, property, value) =>
+                {
+                    tempGetSetMethod(o, property, value);
+                };
+            }
+            return setMethod;
+        }
+
+        private static SetValue<T> getSetMethodFromInitialReflection<T>(T obj)
             where T : class
         {
             var type = typeof(T);
             if (setMethods.ContainsKey(type))
             {
                 var found = (SetValue<T>)setMethods[typeof(T)];
-                found(obj, propertyName, value);
+                return found;
             }
             else
             {
@@ -32,19 +55,42 @@ namespace BattleAxe
                 if (built != null)
                 {
                     setMethods.Add(typeof(T), built);
-                    built(obj, propertyName, value);
+                    return built;
                 }
             }
+            return null;
+        }
+        
+        public static Func<T, string, object> GetMethod<T>(T sourceForInputParameters) where T : class
+        {
+            Func<T, string, object> getMethod;
+            if (sourceForInputParameters is IBattleAxe)
+            {
+                getMethod = (obj, property) =>
+                {
+                    IBattleAxe temp = (IBattleAxe)obj;
+                    return temp[property];
+                };
+            }
+            else
+            {
+                GetValue<T> tempGetMethod = getGetMethodFromInitialReflection(sourceForInputParameters);
+                getMethod = (obj, property) =>
+                {
+                    return tempGetMethod(obj, property);
+                };
+            }
+            return getMethod;
         }
 
-        public static object GetValue<T>(this T obj, string propertyName)
+        private static GetValue<T> getGetMethodFromInitialReflection<T>(T obj)
             where T : class
         {
             var type = typeof(T);
             if (getMethods.ContainsKey(type))
             {
                 var found = (GetValue<T>)getMethods[typeof(T)];
-                return found(obj, propertyName);
+                return found;
             }
             else
             {
@@ -52,12 +98,13 @@ namespace BattleAxe
                 if (built != null)
                 {
                     getMethods.Add(typeof(T), built);
-                    return built(obj, propertyName);
+                    return built;
                 }
             }
             return null;
         }
-        public static class SetHelper
+        
+        internal static class SetHelper
         {
             static string caseStatement(string propertyName, string type, string convertMethod, string defaultValue)
             {
@@ -260,7 +307,7 @@ namespace BattleAxe
             }
         }
 
-        public static class GetHelper
+        internal static class GetHelper
         {
             public static GetValue<T> Value<T>()
                 where T : class

@@ -22,6 +22,7 @@ namespace BattleAxe
         private static void setValuesFromReader<T>(T objectAcceptingValuesFromReader, IDataReader reader)
             where T : class
         {
+            var setMethod = Compiler.SetMethod(objectAcceptingValuesFromReader);
             for (int i = 0; i < reader.FieldCount; i++)
             {
                 var fieldName = reader.GetName(i);
@@ -37,32 +38,20 @@ namespace BattleAxe
                         bytesRead += reader.GetBytes(i, curPos, values, curPos, bufferSize);
                         curPos += bufferSize;
                     }
-                    setObjectPropertyValue(objectAcceptingValuesFromReader, fieldName, values);
+                    setMethod(objectAcceptingValuesFromReader, fieldName, values);
                 }
                 else
                 {
                     if (reader.IsDBNull(i))
                     {
-                        setObjectPropertyValue(objectAcceptingValuesFromReader, fieldName, null);
+                        setMethod(objectAcceptingValuesFromReader, fieldName, null);
                     }
                     else
                     {
                         var value = reader.GetValue(i);
-                        setObjectPropertyValue(objectAcceptingValuesFromReader, fieldName, value);
+                        setMethod(objectAcceptingValuesFromReader, fieldName, value);
                     }
                 }
-            }
-        }
-
-        private static void setObjectPropertyValue<T>(T objWithPropertyToSet, string propertyName, object propertyValue) where T : class
-        {
-            if (objWithPropertyToSet is IBattleAxe)
-            {
-                ((IBattleAxe)objWithPropertyToSet)[propertyName] = propertyValue;
-            }
-            else
-            {
-                objWithPropertyToSet.SetValue(propertyName, propertyValue);
             }
         }
     }

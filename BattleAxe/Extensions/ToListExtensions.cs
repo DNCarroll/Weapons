@@ -81,13 +81,14 @@ namespace BattleAxe
 
         private static void executeReaderAndFillList<T>(SqlCommand command, List<T> ret) where T : class, new()
         {
+            var setMethod = Compiler.SetMethod(new T());            
             using (var reader = command.ExecuteReader())
             {
                 var map = DataReaderMap.GetReaderMap(reader);
                 while (reader.Read())
                 {
                     T newObj = new T();
-                    DataReaderMap.Set(reader, map, newObj);
+                    DataReaderMap.Set(reader, map, newObj, setMethod);
                     ret.Add(newObj);
                 }
             }
