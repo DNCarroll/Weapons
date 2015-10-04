@@ -17,4 +17,3 @@ C:\Users\Nathan\Documents\GitHub\Weapons\ULFBERHT.Bundled\bin\Microsoft.CodeDom.
 C:\Users\Nathan\Documents\GitHub\Weapons\ULFBERHT.Bundled\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\Nathan\Documents\GitHub\Weapons\ULFBERHT.Bundled\obj\Release\ULFBERHT.Bundled.dll
 C:\Users\Nathan\Documents\GitHub\Weapons\ULFBERHT.Bundled\obj\Release\ULFBERHT.Bundled.pdb
-C:\Users\Nathan\Documents\GitHub\Weapons\ULFBERHT.Bundled\obj\Release\ULFBERHT.Bundled.csprojResolveAssemblyReference.cache

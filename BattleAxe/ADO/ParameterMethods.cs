@@ -30,7 +30,8 @@ namespace BattleAxe
                         }
                         else if (!shipStructured)
                         {
-                            parameter.Value = GetDataTable(((IBattleAxe)sourceForInputParameters)[parameter.SourceColumn], command, parameter);
+                            var structureObj = getMethod(sourceForInputParameters, parameter.SourceColumn);
+                            parameter.Value = GetDataTable(structureObj, command, parameter);
                         }
                     }
                 }
@@ -40,11 +41,9 @@ namespace BattleAxe
                 }
             }
         }
-
-
-
-        //not ready for object that are not IBattleAxe
-        internal static DataTable GetDataTable(object referenceObject, SqlCommand command, SqlParameter parameter)
+                
+        internal static DataTable GetDataTable<T>(T referenceObject, SqlCommand command, SqlParameter parameter)
+            where T : class
         {
             DataTable ret = new System.Data.DataTable();
             if (referenceObject != null)
@@ -54,29 +53,32 @@ namespace BattleAxe
                 {
                     ret.Columns.Add(item.Item3);
                 }
-                if (referenceObject is IBattleAxe)
+                var type = referenceObject.GetType();
+                if (type.Name == "List`1")
                 {
-                    var ibattleAxe = (IBattleAxe)referenceObject;
-                    DataRow row = ret.NewRow();
-                    foreach (var item in reference)
+                    IList data = (IList)referenceObject;
+                    if (data.Count > 0)
                     {
-                        row[item.Item3] = ibattleAxe[item.Item3];
-                    }
-                    ret.Rows.Add(row);
-                }
-                else
-                {
-                    var type = referenceObject.GetType();
-                    if (type.Name == "List`1")
-                    {
-                        IList data = (IList)referenceObject;
+                        Func<object, string, object> getMethod;
+                        if (data[0] is IBattleAxe)
+                        {
+                            getMethod = (o, s) =>
+                            {
+                                return ((IBattleAxe)o)[s];
+                            };
+                        }
+                        else {
+                            var tempMethod = Compiler.GetMethod2(data[0]);
+                            getMethod = (o, s) => {
+                                return tempMethod(o, s);
+                            };
+                        }                        
                         foreach (var obj in data)
                         {
-                            IBattleAxe ibattleAxe = (IBattleAxe)obj;
                             DataRow row = ret.NewRow();
                             foreach (var item in reference)
                             {
-                                var value = ibattleAxe[item.Item3];
+                                var value = getMethod(obj, item.Item3);
                                 if (value is Enum)
                                 {
                                     row[item.Item3] = (int)value;
@@ -89,6 +91,16 @@ namespace BattleAxe
                             ret.Rows.Add(row);
                         }
                     }
+                }
+                else
+                {
+                    Func<T, string, object> getMethod = Compiler.GetMethod(referenceObject);
+                    DataRow row = ret.NewRow();
+                    foreach (var item in reference)
+                    {
+                        row[item.Item3] = getMethod(referenceObject, item.Item3);
+                    }
+                    ret.Rows.Add(row);
                 }
             }
             return ret;

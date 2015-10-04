@@ -8,8 +8,7 @@ using System.Text;
 
 namespace BattleAxe
 {
-    public delegate object GetValue<T>(T obj, string propertyName)
-        where T : class;
+    public delegate object GetValue(object obj, string propertyName);  
     public delegate void SetValue<T>(T obj, string propertyName, object value)
         where T : class;
 
@@ -63,6 +62,8 @@ namespace BattleAxe
         
         public static Func<T, string, object> GetMethod<T>(T sourceForInputParameters) where T : class
         {
+            
+
             Func<T, string, object> getMethod;
             if (sourceForInputParameters is IBattleAxe)
             {
@@ -74,7 +75,7 @@ namespace BattleAxe
             }
             else
             {
-                GetValue<T> tempGetMethod = getGetMethodFromInitialReflection(sourceForInputParameters);
+                GetValue tempGetMethod = getGetMethodFromInitialReflection(sourceForInputParameters);
                 getMethod = (obj, property) =>
                 {
                     return tempGetMethod(obj, property);
@@ -83,18 +84,43 @@ namespace BattleAxe
             return getMethod;
         }
 
-        private static GetValue<T> getGetMethodFromInitialReflection<T>(T obj)
+        public static GetValue GetMethod2(object obj)
+        {
+            var type = obj.GetType();
+            var fullName = type.FullName;
+            var assembly = type.Assembly;
+            var types = assembly.GetTypes();
+            var objectType = type.Assembly.GetTypes().FirstOrDefault(t => t.FullName == type.FullName);
+            if (getMethods.ContainsKey(objectType))
+            {
+                var found = (GetValue)getMethods[objectType];
+                return found;
+            }
+            else
+            {
+                var built = GetHelper.Value(objectType);
+                if (built != null)
+                {
+                    getMethods.Add(objectType, built);
+                    return built;
+                }
+            }
+            return null;
+        }
+
+        //load type form the FullName?
+        private static GetValue getGetMethodFromInitialReflection<T>(T obj)
             where T : class
         {
             var type = typeof(T);
             if (getMethods.ContainsKey(type))
             {
-                var found = (GetValue<T>)getMethods[typeof(T)];
+                var found = (GetValue)getMethods[typeof(T)];
                 return found;
             }
             else
             {
-                var built = GetHelper.Value<T>(type);
+                var built = GetHelper.Value(type);
                 if (built != null)
                 {
                     getMethods.Add(typeof(T), built);
@@ -103,7 +129,7 @@ namespace BattleAxe
             }
             return null;
         }
-        
+
         public static class SetHelper
         {
             static string caseStatement(string propertyName, string type, string convertMethod, string defaultValue)
@@ -309,13 +335,12 @@ namespace BattleAxe
 
         public static class GetHelper
         {
-            public static GetValue<T> Value<T>()
+            public static GetValue Value<T>()
                 where T : class
             {
-                return Value<T>(typeof(T));
+                return Value(typeof(T));
             }
-            public static GetValue<T> Value<T>(Type type)
-                    where T : class
+            public static GetValue Value(Type type)                    
             {
                 var classSet = getClass();
                 var method = getGetMethod(type);
@@ -325,7 +350,23 @@ namespace BattleAxe
                     classSet = classSet.Replace("{method}", method);
                     //ready to build it
                     MethodInfo function = createMethod(classSet, type);
-                    var betterFunction = (GetValue<T>)Delegate.CreateDelegate(typeof(GetValue<T>), function);
+                    var betterFunction = (GetValue)Delegate.CreateDelegate(typeof(GetValue), function);
+                    return betterFunction;
+                }
+                return null;
+            }
+
+            public static Func<object, string, string> Value2(Type type)        
+            {
+                var classSet = getClass();
+                var method = getGetMethod(type);
+                // methods.AppendLine(method);
+                if (method != null)
+                {
+                    classSet = classSet.Replace("{method}", method);
+                    //ready to build it
+                    MethodInfo function = createMethod(classSet, type);
+                    var betterFunction = (Func<object, string, string>)Delegate.CreateDelegate(typeof(Func<object, string, string>), function);
                     return betterFunction;
                 }
                 return null;
@@ -383,15 +424,19 @@ namespace BattleAxe
             {
 
                 string ret = @"
-                    public static object GetValue({type} obj, string propertyName)
+                    public static object GetValue(object justAnObject, string propertyName)
                     {
-                        switch (propertyName)
+                        if(justAnObject is {type})
                         {
-                            {caseStatements}
-                            default:
-                                return null;
+                            {type} obj = ({type})justAnObject;
+                            switch (propertyName)
+                            {
+                                {caseStatements}
+                                default:
+                                    return null;
+                            }
                         }
-        	
+        	            return null;
                     }
          ";
                 ret = ret.Replace("{type}", type);

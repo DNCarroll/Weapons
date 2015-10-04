@@ -53,6 +53,7 @@
     <Compile Include="ListTExtensions.cs" />
     <Compile Include="ADO\ParameterMethods.cs" />
     <Compile Include="Extensions\UpdateExtensions.cs" />
+    <Compile Include="ObjectMapper.cs" />
     <Compile Include="RegexSql.cs" />
     <Compile Include="ADO\DataReaderMap.cs" />
     <Compile Include="Dynamic.cs" />
