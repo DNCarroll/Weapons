@@ -5,7 +5,7 @@
     constructor(key: any, parameters: Array<any>, view: IView) {
         this.Key = key;
         this.Parameters = parameters;
-        this.View = view;        
+        this.View = view;
     }
     Show() {
         //get the html 
@@ -15,7 +15,7 @@
         var callback = this.SetHTML;
         var view = this.View;
         var router = this;
-        if (!found || window["IsDebug"]) {            
+        if (!found || window["IsDebug"]) {
             Ajax.Html(this.View.ViewUrl, function (result) {
                 if (result) {
                     view.Preload(this);
@@ -40,5 +40,9 @@
         if (view.Loaded) {
             view.Loaded(route);
         }
+    }
+    static FormatUrl(url: string) {
+        url = url.replace(/[^A-z0-9/]/g, "");
+        return url;
     }
 }

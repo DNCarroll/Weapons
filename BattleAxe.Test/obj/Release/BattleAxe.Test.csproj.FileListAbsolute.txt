@@ -7,3 +7,5 @@ C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Test\bin\Release\BattleAxe.pd
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Test\bin\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Test\obj\Release\BattleAxe.Test.dll
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Test\obj\Release\BattleAxe.Test.pdb
+C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Test\bin\Release\Newtonsoft.Json.dll
+C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Test\bin\Release\Newtonsoft.Json.xml

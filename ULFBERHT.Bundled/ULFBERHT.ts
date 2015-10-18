@@ -673,6 +673,12 @@ class Route {
             view.Loaded(route);
         }
     }
+    static FormatUrl(url: string) {
+        url = url.replace(/ /g, "-");
+        url = url.replace(/[^a-z0-9-]/g, "");
+        url = url.replace(/[-]+/g, "-");
+        return url;
+    }
 }
 enum ActionType {
     Deleted,
@@ -1232,6 +1238,13 @@ module AutoSuggest {
             }
         }
     }
+    //export function HookWithCallBack(input: HTMLInputElement, callBack: (input: HTMLInputElement) => Array<any>, valueMember: string, displayMember: string, displayCount?: number){
+    //    input["callBack"] = callBack;
+    //    input["valuemember"] = valueMember;
+    //    input["displaymember"] = displayMember;
+    //    input["displaycount"] = displayCount ? displayCount : 8;
+    //    hookEvents(input);
+    //}
     export function Hook(input: HTMLInputElement, dataSource: Array<any>, valueMember: string, displayMember: string, displayCount?: number) {
         input["datasource"] = dataSource;
         input["valuemember"] = valueMember;
@@ -3656,7 +3669,6 @@ interface String {
     Delete(parameters, success?);
 }
 String.prototype.Trim = function () {
-
     return this.replace(/^\s+|\s+$/g, "");
 };
 String.prototype.TrimCharacters = function (characterAtZero, characterAtEnd) {

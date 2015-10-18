@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ADO\SqlCommandCacheObject.cs" />
+    <Compile Include="ADO\SqlExceptionsThatCauseRederivingSqlCommand.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="ADO\ConnectionMaintenance.cs" />
     <Compile Include="ADO\DataReaderMethods.cs" />
@@ -53,7 +55,6 @@
     <Compile Include="ListTExtensions.cs" />
     <Compile Include="ADO\ParameterMethods.cs" />
     <Compile Include="Extensions\UpdateExtensions.cs" />
-    <Compile Include="ObjectMapper.cs" />
     <Compile Include="RegexSql.cs" />
     <Compile Include="ADO\DataReaderMap.cs" />
     <Compile Include="Dynamic.cs" />

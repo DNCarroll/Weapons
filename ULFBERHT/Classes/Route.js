@@ -38,6 +38,10 @@ var Route = (function () {
             view.Loaded(route);
         }
     };
+    Route.FormatUrl = function (url) {
+        url = url.replace(/[^A-z0-9/]/g, "");
+        return url;
+    };
     return Route;
 })();
 //# sourceMappingURL=Route.js.map

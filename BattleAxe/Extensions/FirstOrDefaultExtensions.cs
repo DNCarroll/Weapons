@@ -25,6 +25,21 @@ namespace BattleAxe
                     ParameterMethods.SetOutputs(parameter, command);
                 }
             }
+            catch (SqlException sqlError)
+            {
+                if (SqlExceptionsThatCauseRederivingSqlCommand.Values.Contains(sqlError.Number))
+                {                    
+                    command = CommandMethods.RederiveCommand(command);
+                    if (command != null)
+                    {
+                        return command.FirstOrDefault(parameter);
+                    }
+                }
+                else
+                {
+                    throw sqlError;
+                }
+            }
             catch
             {
                 throw;
@@ -71,6 +86,21 @@ namespace BattleAxe
                     ParameterMethods.SetInputs(parameter, command);
                     newObj = DataReaderMethods.GetFirst<R>(command);
                     ParameterMethods.SetOutputs(parameter, command);
+                }
+            }
+            catch (SqlException sqlError)
+            {
+                if (SqlExceptionsThatCauseRederivingSqlCommand.Values.Contains(sqlError.Number))
+                {                    
+                    command = CommandMethods.RederiveCommand(command);
+                    if (command != null)
+                    {
+                        return FirstOrDefaultExtensions.FirstOrDefault<R, P>(parameter, command);
+                    }
+                }
+                else
+                {
+                    throw sqlError;
                 }
             }
             catch

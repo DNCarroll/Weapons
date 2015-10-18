@@ -24,6 +24,21 @@ namespace BattleAxe
                     ParameterMethods.SetOutputs(parameter, command);
                 }
             }
+            catch (SqlException sqlError)
+            {
+                if (SqlExceptionsThatCauseRederivingSqlCommand.Values.Contains(sqlError.Number))
+                {                    
+                    command = CommandMethods.RederiveCommand(command);
+                    if (command != null)
+                    {
+                        return command.Execute(parameter);
+                    }
+                }
+                else
+                {
+                    throw sqlError;
+                }
+            }
             catch (Exception)
             {
                 throw;
