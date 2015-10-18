@@ -27,6 +27,27 @@ namespace BattleAxe.Test
         }
 
         [TestMethod]
+        public void ForceTimeoutOnCache()
+        {
+            var connString = "Data Source=CEARVALL;Initial Catalog=boosttraining;Integrated Security=True";
+            var commandText = "AAAAADeleteWhenDoneTesting";
+            //System.Threading.Thread.Sleep(30000);
+            BattleAxe.CommandMethods.SqlCommandCacheTimeout = SqlCommandCacheTimeout.FifteenMinutes;
+            var command = commandText.GetCommand(connString);
+
+            var testObject = new TestObjectForDatabase { FirstName = "Nathan", LastName = "Carroll", ID = 1 };
+            try
+            {
+                System.Threading.Thread.Sleep(new TimeSpan(0, 15, 20));
+                command = commandText.GetCommand(connString);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [TestMethod]
         public void SetAndGetOfBattleAxeDynamic()
         {
 

@@ -28,13 +28,9 @@ namespace BattleAxe
             }
             catch (SqlException sqlError)
             {
-                if (SqlExceptionsThatCauseRederivingSqlCommand.Values.Contains(sqlError.Number))
+                if (SqlExceptionsThatCauseRederivingSqlCommand.ReexecuteCommand(sqlError, ref command))
                 {
-                    command = CommandMethods.RederiveCommand(command);
-                    if (command != null)
-                    {
-                        return command.ToList(parameter);
-                    }
+                    return command.ToList(parameter);
                 }
                 else
                 {
@@ -86,19 +82,15 @@ namespace BattleAxe
                     ParameterMethods.SetOutputs(parameter, command);
                 }
             }
-            catch (SqlException sqlError)
+            catch (SqlException sqlException)
             {
-                if (SqlExceptionsThatCauseRederivingSqlCommand.Values.Contains(sqlError.Number))
+                if (SqlExceptionsThatCauseRederivingSqlCommand.ReexecuteCommand(sqlException, ref command))
                 {
-                    command = CommandMethods.RederiveCommand(command);
-                    if (command != null)
-                    {
-                        return ToListExtensions.ToList<ret, par>(command, parameter);
-                    }
+                    return ToListExtensions.ToList<ret, par>(command, parameter);
                 }
                 else
                 {
-                    throw sqlError;
+                    throw sqlException;
                 }
             }
             catch

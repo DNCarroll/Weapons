@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ADO\SqlCommandCacheObject.cs" />
-    <Compile Include="ADO\SqlExceptionsThatCauseRederivingSqlCommand.cs" />
+    <Compile Include="Extensions\SqlExceptionsThatCauseRederivingSqlCommand.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="ADO\ConnectionMaintenance.cs" />
     <Compile Include="ADO\DataReaderMethods.cs" />
