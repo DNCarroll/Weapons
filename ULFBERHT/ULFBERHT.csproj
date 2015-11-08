@@ -123,7 +123,6 @@
   <ItemGroup>
     <TypeScriptCompile Include="Classes\ActionTypeEvent.ts" />
     <TypeScriptCompile Include="Classes\DataBinding.ts" />
-    <TypeScriptCompile Include="Classes\Dialog.ts" />
     <TypeScriptCompile Include="Classes\Route.ts" />
     <TypeScriptCompile Include="Enums\ActionType.ts" />
     <TypeScriptCompile Include="Interfaces\IDataContainer.ts" />

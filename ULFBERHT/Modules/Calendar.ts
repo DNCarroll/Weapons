@@ -171,7 +171,6 @@ module Calendar {
                     element.Set(element.RequestedDate);
                 }
             }
-            Dialog.Hide("workoutMonthpopup".Element());
         };
         element.YearNameClicked = function (year) {
             if (year != element.SelectedDate.getFullYear()) {
@@ -189,7 +188,6 @@ module Calendar {
                     element.Set(element.RequestedDate);
                 }
             }
-            Dialog.Hide("workoutYearpopup".Element());
         };
         element.Build = function () {
             element.Clear();
@@ -260,7 +258,6 @@ module Calendar {
                 for (var i = 0; i < months.length; i++) {
                     ulMonths.appendChild(Calendar.MonthItem(months[i], i, element.MonthNameClicked));
                 }
-                Dialog.Popup(ulMonths);
             };
             var year = "a".CreateElement({ innerHTML: element.SelectedDate.getFullYear(), marginLeft: ".25em", href: "javascript:" });
             year.onclick = function () {
@@ -301,8 +298,7 @@ module Calendar {
                 else {
                     ulYears.Set(Calendar.Format.Table);
                 }
-                years.forEach(y=>ulYears.appendChild(Calendar.YearItem(y, element.YearNameClicked)));
-                Dialog.Popup(ulYears);
+                years.forEach(y=>ulYears.appendChild(Calendar.YearItem(y, element.YearNameClicked)));                
             };
             if (element.MonthClass) {
                 month.className = element.MonthClass;
