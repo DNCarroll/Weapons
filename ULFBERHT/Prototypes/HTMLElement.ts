@@ -214,7 +214,8 @@ HTMLElement.prototype.GetDataSetAttributes = function () {
     if (this["dataset"]) {
         var dataset = this["dataset"];
         for (var prop in dataset) {
-            ret.Add({ name: prop, value: dataset[prop] });
+            var name = prop.split(/(?=[A-Z])/).join("-").toLowerCase();
+            ret.Add({ name: name, value: dataset[prop] });
         }
     }
     return ret;

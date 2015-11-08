@@ -44,6 +44,9 @@ HTMLUListElement.prototype.Bind = function (data) {
             });
         }
         Ajax.HideProgress();
+        if (that.ActionEvent != null) {
+            that.ActionEvent(new ActionEvent(ActionType.Bound, that.DataObject, null, null));
+        }
         if (Binding.Happened) {
             Binding.Happened(that);
         }
@@ -59,7 +62,9 @@ HTMLUListElement.prototype.Bind = function (data) {
             setTimeout(async, 0);
         }
     };
-    if (data && data.length && that.RowHtml) {
+    if (data &&
+        data.length &&
+        that.RowHtml) {
         setTimeout(async, 0);
     }
     else {
@@ -149,4 +154,3 @@ HTMLUListElement.prototype.SetSelected = function (obj, sender) {
         }
     }
 };
-//# sourceMappingURL=HTMLUListElement.js.map

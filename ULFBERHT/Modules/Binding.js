@@ -247,7 +247,7 @@ var Binding;
             if (!tempElement.onchange) {
                 tempElement.onchange = function () {
                     if (element.DataObject) {
-                        var actionEvent = new ActionEvent(5 /* Updating */, element.DataObject, field, tempElement.value);
+                        var actionEvent = new ActionEvent(ActionType.Updating, element.DataObject, field, tempElement.value);
                         dataContainer.ActionEvent(actionEvent);
                         if (!actionEvent.Cancel) {
                             SetObjectValue(element.DataObject, field, tempElement.value);
@@ -257,22 +257,20 @@ var Binding;
                                         tempElement.value = result[field];
                                         SetObjectValue(element.DataObject, field, result[field].toString());
                                         Thing.Merge(result, element.DataObject);
-                                        var formatting = element.DataContainer.DataBindings.First(function (o) {
-                                            return o.Target == Binding.Targets.Formatting;
-                                        });
+                                        var formatting = element.DataContainer.DataBindings.First(function (o) { return o.Target == Binding.Targets.Formatting; });
                                         if (formatting) {
                                             var formattedValue = formatting.ExecuteReturn(element);
                                             tempElement.value = formattedValue;
                                         }
                                         dataContainer.Rebind(field, element);
-                                        actionEvent = new ActionEvent(4 /* Updated */, element.DataObject, field, tempElement.value);
+                                        actionEvent = new ActionEvent(ActionType.Updated, element.DataObject, field, tempElement.value);
                                         dataContainer.ActionEvent(actionEvent);
                                     }
                                 });
                             }
                             else {
                                 dataContainer.Rebind(field, element);
-                                actionEvent = new ActionEvent(4 /* Updated */, element.DataObject, field, tempElement.value);
+                                actionEvent = new ActionEvent(ActionType.Updated, element.DataObject, field, tempElement.value);
                                 dataContainer.ActionEvent(actionEvent);
                             }
                         }
@@ -291,7 +289,7 @@ var Binding;
                 input.onclick = function () {
                     var checked = input.checked ? true : false;
                     if (input.DataObject[field] != checked) {
-                        var actionEvent = new ActionEvent(5 /* Updating */, input.DataObject, field, checked);
+                        var actionEvent = new ActionEvent(ActionType.Updating, input.DataObject, field, checked);
                         dataContainer.ActionEvent(actionEvent);
                         if (!actionEvent.Cancel) {
                             input.DataObject[field] = checked;
@@ -302,14 +300,14 @@ var Binding;
                                         input.DataObject[field] = result[field];
                                         Thing.Merge(result, input.DataObject);
                                         dataContainer.Rebind(field, input);
-                                        actionEvent = new ActionEvent(4 /* Updated */, input.DataObject, field, checked);
+                                        actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, checked);
                                         dataContainer.ActionEvent(actionEvent);
                                     }
                                 });
                             }
                             else {
                                 dataContainer.Rebind(field, input);
-                                actionEvent = new ActionEvent(4 /* Updated */, input.DataObject, field, checked);
+                                actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, checked);
                                 dataContainer.ActionEvent(actionEvent);
                             }
                         }
@@ -327,7 +325,7 @@ var Binding;
             if (!input.onclick) {
                 input.onclick = function () {
                     var checked = input.checked ? true : false;
-                    var actionEvent = new ActionEvent(5 /* Updating */, input.DataObject, field, input.value);
+                    var actionEvent = new ActionEvent(ActionType.Updating, input.DataObject, field, input.value);
                     dataContainer.ActionEvent(actionEvent);
                     if (!actionEvent.Cancel) {
                         SetObjectValue(input.DataObject, field, input.value);
@@ -340,14 +338,14 @@ var Binding;
                                     }
                                     Thing.Merge(result, input.DataObject);
                                     dataContainer.Rebind(field, input);
-                                    actionEvent = new ActionEvent(4 /* Updated */, input.DataObject, field, input.value);
+                                    actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, input.value);
                                     dataContainer.ActionEvent(actionEvent);
                                 }
                             });
                         }
                         else {
                             dataContainer.Rebind(field, input);
-                            actionEvent = new ActionEvent(4 /* Updated */, input.DataObject, field, input.value);
+                            actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, input.value);
                             dataContainer.ActionEvent(actionEvent);
                         }
                     }
@@ -366,12 +364,12 @@ var Binding;
                     if (dataContainer.Pks) {
                         dataContainer.Pks.forEach(function (pk) { return parameter[pk] = element.DataObject[pk]; });
                     }
-                    var actionEvent = new ActionEvent(1 /* Deleting */, element.DataObject, field, null);
+                    var actionEvent = new ActionEvent(ActionType.Deleting, element.DataObject, field, null);
                     dataContainer.ActionEvent(actionEvent);
                     if (!actionEvent.Cancel) {
                         if (dataContainer.WebApi) {
                             dataContainer.WebApi.Delete(parameter, function (result) {
-                                actionEvent = new ActionEvent(0 /* Deleted */, element.DataObject, field, null);
+                                actionEvent = new ActionEvent(ActionType.Deleted, element.DataObject, field, null);
                                 dataContainer.ActionEvent(actionEvent);
                                 var ul = element.Parent(function (p) { return p.tagName == "UL"; });
                                 var li = ul.First(function (l) { return l.tagName == "LI" && l.DataObject == element.DataObject; });
@@ -419,7 +417,7 @@ var Binding;
                             }
                         });
                     });
-                    var actionEvent = new ActionEvent(3 /* Inserting */, newObject, "insert", null);
+                    var actionEvent = new ActionEvent(ActionType.Inserting, newObject, "insert", null);
                     ul.ActionEvent(actionEvent);
                     if (!actionEvent.Cancel) {
                         if (ul.WebApi) {
@@ -441,7 +439,7 @@ var Binding;
                                     }
                                     var row = ul.InsertAndBind(newObject, before);
                                     ul.SetSelected(newObject, row);
-                                    actionEvent = new ActionEvent(2 /* Inserted */, newObject, "insert", null);
+                                    actionEvent = new ActionEvent(ActionType.Inserted, newObject, "insert", null);
                                     ul.ActionEvent(actionEvent);
                                 }
                             });
@@ -466,4 +464,3 @@ var Binding;
     Binding.Return = Return;
     Binding.Happened;
 })(Binding || (Binding = {}));
-//# sourceMappingURL=Binding.js.map

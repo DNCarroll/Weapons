@@ -4,5 +4,6 @@
     Inserted,
     Inserting,
     Updated,
-    Updating
+    Updating,
+    Bound
 }

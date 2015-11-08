@@ -273,19 +273,14 @@
             case Binding.Targets.ValueMember:            
                 break;  
             default:
-                if (this.Target.indexOf("-")>-1)
-                {
-                    var split = this.Target.split("-");
-                    if (split.length > 1)
-                    {
-                        element.style[split[0]][split[1]] = value;
-                    }
+                if (this.Target.indexOf("style") == 0) {
+                    this.Target = this.Target.replace("style", "");
                 }
-                else if (Is.Style(this.Target)) {
-                    element.style[this.Target] = value;                    
-                    break;
+                var styleProperty = Convert.ToStyleProperty(this.Target);
+                if (styleProperty) {
+                    element.style[styleProperty] = value;
                 }
-                else {                    
+                else {
                     element[this.Target] = value;
                 }
                 break;

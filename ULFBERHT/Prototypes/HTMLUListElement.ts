@@ -54,6 +54,9 @@ HTMLUListElement.prototype.Bind = function (data?) {
             });
         }
         Ajax.HideProgress();
+        if (that.ActionEvent != null) {
+            that.ActionEvent(new ActionEvent(ActionType.Bound, that.DataObject, null, null));
+        }
         if (Binding.Happened) {
             Binding.Happened(that);
         }

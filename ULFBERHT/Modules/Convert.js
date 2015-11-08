@@ -17,5 +17,16 @@ var Convert;
         return 0;
     }
     Convert.EmValueToPixelValue = EmValueToPixelValue;
+    var styleProperties = new Array();
+    function ToStyleProperty(name) {
+        if (styleProperties.length == 0) {
+            for (var prop in document.body.style) {
+                styleProperties.Add({ prop: prop, toLower: prop.toLowerCase() });
+            }
+        }
+        var temp = name.toLowerCase();
+        var found = styleProperties.First(function (o) { return o.toLower == temp; });
+        return found ? found.prop : null;
+    }
+    Convert.ToStyleProperty = ToStyleProperty;
 })(Convert || (Convert = {}));
-//# sourceMappingURL=Convert.js.map
