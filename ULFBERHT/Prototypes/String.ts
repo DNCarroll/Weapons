@@ -8,7 +8,6 @@ interface String {
     DropDown(): HTMLSelectElement;
     CreateElement(objectProperties?): HTMLElement;    
     CreateElementFromHtml(): HTMLElement;
-
     Post(parameters, success?);
     Put(parameters, success?);
     Get(parameters, success?, isRaw?: boolean);

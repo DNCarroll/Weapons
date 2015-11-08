@@ -1,4 +1,3 @@
-/// <reference path="../Prototypes/HTMLElement.ts"/>
 var Accordion;
 (function (Accordion) {
     function Hook(ele, parentRule) {

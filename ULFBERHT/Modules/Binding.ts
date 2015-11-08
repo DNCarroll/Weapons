@@ -83,15 +83,9 @@
         }
         export function Setup(container: IDataContainer): boolean {
             var ret = true;
-            //if (container.WebApi == null || container.Pks == null) {
             if (container.Pks == null) {
                 var webApi = container.getAttribute(Binding.Attributes.WebApi);
                 var pks = container.getAttribute(Binding.Attributes.Pks);
-                //if (!webApi) {
-                //    alert("data-webapi must be supplied to use Halberd binding");
-                //    return false;
-                //}
-                //else {
                 container.WebApi = webApi;
                 if (!pks) {
                     alert("data-pks must be supplied to use Halberd binding");
@@ -160,10 +154,7 @@
             var elements = li.Get((d) => d.HasDataSet());
             var i = 0;
             elements.forEach(e=> {
-                var bindingAttributes = e.GetDataSetAttributes().Ascend(x=> x.name);
-                bindingAttributes.forEach(ba=> dataContainer.DataBindings.Add(new DataBinding(dataContainer, i, ba.name, ba.value)));
-                e.DataContainer = dataContainer;
-                e.ElementBindingIndex = i;
+                Binding.DataContainer.SetUpBindingAttributes(dataContainer, e, i);
                 i++;
             });
         }
@@ -175,12 +166,15 @@
             var elements = dataContainer.Get(filter);
             var i = 0;
             elements.forEach(e=> {
-                var bindingAttributes = e.GetDataSetAttributes().Ascend(x=> x.name);
-                bindingAttributes.forEach(ba=> dataContainer.DataBindings.Add(new DataBinding(dataContainer, i, ba.name, ba.value)));
-                e.DataContainer = dataContainer;
-                e.ElementBindingIndex = i;
+                Binding.DataContainer.SetUpBindingAttributes(dataContainer, e, i);
                 i++;
             });
+        }
+        export function SetUpBindingAttributes(dataContainer: IDataContainer, element: HTMLElement, index: number) {
+            var bindingAttributes = element.GetDataSetAttributes().Ascend(x=> x.name);
+            bindingAttributes.forEach(ba=> dataContainer.DataBindings.Add(new DataBinding(dataContainer, index, ba.name, ba.value)));
+            element.DataContainer = dataContainer;
+            element.ElementBindingIndex = index;
         }
         export function DataBind(dataContainer: IDataContainer, target: HTMLElement, data:any) {
             var elements = target.Get((d) => d.HasDataSet());
@@ -252,16 +246,12 @@
                                             var formattedValue = formatting.ExecuteReturn(element);
                                             tempElement.value = formattedValue;
                                         }
-                                        dataContainer.Rebind(field, element);
-                                        actionEvent = new ActionEvent(ActionType.Updated, element.DataObject, field, tempElement.value);
-                                        dataContainer.ActionEvent(actionEvent);
+                                        Events.OnRebindAndActionEvent(dataContainer, field, tempElement, tempElement.value);
                                     }
                                 });
                             }
                             else {
-                                dataContainer.Rebind(field, element);
-                                actionEvent = new ActionEvent(ActionType.Updated, element.DataObject, field, tempElement.value);
-                                dataContainer.ActionEvent(actionEvent);
+                                Events.OnRebindAndActionEvent(dataContainer, field, tempElement, tempElement.value);
                             }
                         }
                         else {
@@ -271,6 +261,11 @@
                     }
                 };
             }
+        }
+        export function OnRebindAndActionEvent(dataContainer:IDataContainer, field:string, element:any, value:any) {
+            dataContainer.Rebind(field, element);
+            var actionEvent = new ActionEvent(ActionType.Updated, element.DataObject, field, value);
+            dataContainer.ActionEvent(actionEvent);
         }
         export function Checked(element: HTMLElement, dataContainer: IDataContainer, dataBind: DataBinding, field: string) {            
             var input = <HTMLInputElement>element;  
@@ -288,16 +283,12 @@
                                         input.checked = result[field] ? true : false;
                                         input.DataObject[field] = result[field];
                                         Thing.Merge(result, input.DataObject);
-                                        dataContainer.Rebind(field, input);
-                                        actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, checked);
-                                        dataContainer.ActionEvent(actionEvent);
+                                        Events.OnRebindAndActionEvent(dataContainer, field, input, checked);
                                     }
                                 });
                             }
                             else {
-                                dataContainer.Rebind(field, input);
-                                actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, checked);
-                                dataContainer.ActionEvent(actionEvent);
+                                Events.OnRebindAndActionEvent(dataContainer, field, input, checked);
                             }
                         }
                         else {
@@ -325,16 +316,12 @@
                                         input.checked = false;
                                     }
                                     Thing.Merge(result, input.DataObject);
-                                    dataContainer.Rebind(field, input);
-                                    actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, input.value);
-                                    dataContainer.ActionEvent(actionEvent);
+                                    Events.OnRebindAndActionEvent(dataContainer, field, input, input.value);
                                 }
                             });
                         }
                         else {
-                            dataContainer.Rebind(field, input);
-                            actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, input.value);
-                            dataContainer.ActionEvent(actionEvent);
+                            Events.OnRebindAndActionEvent(dataContainer, field, input, input.value);
                         }
                     }
                     else {

@@ -66,7 +66,7 @@ namespace Differ
                 
 
         static SetValue<SqlObject> SetMethod;
-        static GetValue<SqlObject> GetMethod;
+        static GetValue GetMethod;
 
         public object this[string property]
         {
@@ -74,7 +74,7 @@ namespace Differ
             {
                 if (SqlObject.GetMethod == null)
                 {
-                    SqlObject.GetMethod = Compiler.GetHelper.Value<SqlObject>(this.GetType());
+                    SqlObject.GetMethod = Compiler.GetHelper.Value(this.GetType());                        
                 }
                 if (SqlObject.GetMethod != null)
                 {

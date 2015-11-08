@@ -92,16 +92,9 @@ HTMLUListElement.prototype.InsertRow = function (row: HTMLLIElement, beforeEleme
         this.appendChild(row);
     }
 };
-HTMLUListElement.prototype.InsertAndBind = function (dataObject: any, beforeElement?: HTMLLIElement):HTMLLIElement {
+HTMLUListElement.prototype.InsertAndBind = function (dataObject: any, beforeElement?: HTMLLIElement): HTMLLIElement {
     var that = <HTMLUListElement>this;
-    var row = <HTMLLIElement>that.RowHtml.CreateElementFromHtml();
-    row.DataObject = dataObject;
-    row.DataContainer = that;
-    row.OriginalClass = row.className ? row.className : null;
-    row.TemplateType = "row";
-    row.onclick = function () {
-        that.SetSelected(row.DataObject, row);
-    };
+    var row = HTMLHelper.UL.CreateRow(that, dataObject);
     that.InsertRow(row, beforeElement);
     Binding.DataContainer.DataBind(that, row, dataObject);
     return row;
@@ -109,14 +102,7 @@ HTMLUListElement.prototype.InsertAndBind = function (dataObject: any, beforeElem
 HTMLUListElement.prototype.AddRow = function (dataObject: any, beforeElement?: HTMLLIElement): HTMLLIElement {
     var that = <HTMLUListElement>this;
     that.DataObject.Add(dataObject);
-    var row = <HTMLLIElement>that.RowHtml.CreateElementFromHtml();
-    row.DataObject = dataObject;
-    row.DataContainer = that;
-    row.OriginalClass = row.className ? row.className : null;
-    row.TemplateType = "row";
-    row.onclick = function () {
-        that.SetSelected(row.DataObject, row);
-    };
+    var row = HTMLHelper.UL.CreateRow(that, dataObject);
     if (!beforeElement) {
         var elements = that.Get(e=> e.tagName == "LI");
         var pos = elements.length - 1;

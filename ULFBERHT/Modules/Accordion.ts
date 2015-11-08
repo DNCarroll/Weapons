@@ -1,5 +1,3 @@
-/// <reference path="../Prototypes/HTMLElement.ts"/>
-
 module Accordion {
     export function Hook(ele: HTMLElement, parentRule?) {
         if (!parentRule) {

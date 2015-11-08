@@ -11,13 +11,13 @@ var DataBinding = (function () {
             attributeValue = attributeValue.Trim();
             if (this.Target == Binding.Targets.Formatting ||
                 this.Target == Binding.Targets.DataSource) {
-                attributeValue = attributeValue.indexOf("return") == -1 ? "return " + attributeValue : attributeValue;
+                attributeValue = this.returnAttributeValue(attributeValue);
             }
             else if (this.Target == Binding.Targets.OnFocus ||
                 this.Target == Binding.Targets.OnClick ||
                 this.Target == Binding.Targets.OnMouseOut ||
                 this.Target == Binding.Targets.OnMouseOver) {
-                attributeValue = attributeValue.indexOf("return") == -1 ? "return " + attributeValue : attributeValue;
+                attributeValue = this.returnAttributeValue(attributeValue);
                 this.IsEventBinding = true;
             }
             if (attributeValue.indexOf("return ") == 0) {
@@ -49,6 +49,9 @@ var DataBinding = (function () {
         enumerable: true,
         configurable: true
     });
+    DataBinding.prototype.returnAttributeValue = function (attributeValue) {
+        return attributeValue.indexOf("return") == -1 ? "return " + attributeValue : attributeValue;
+    };
     DataBinding.prototype.Dispose = function () {
         this.DataContainer = null;
         this.ElementBindingIndex = null;
@@ -86,11 +89,11 @@ var DataBinding = (function () {
                 Binding.Events.Radio(element, this.DataContainer, this, this.Fields[0]);
                 break;
             case Binding.Targets.Value:
-                if (element.tagName == "INPUT" && element["type"] == "text") {
+                if (this.isInputText(element)) {
                     if (element["datasource"]) {
                         var datasource = element["datasource"];
-                        var displayMember = this.DataContainer.DataBindings.First(function (d) { return d.Target == Binding.Targets.DisplayMember && d.ElementBindingIndex == element.ElementBindingIndex; });
-                        var valueMember = this.DataContainer.DataBindings.First(function (d) { return d.Target == Binding.Targets.ValueMember && d.ElementBindingIndex == element.ElementBindingIndex; });
+                        var displayMember = this.getDisplayMember(element);
+                        var valueMember = this.getValueMember(element);
                         var displayCountBinding = this.DataContainer.DataBindings.First(function (d) { return d.Target == Binding.Targets.DisplayCount && d.ElementBindingIndex == element.ElementBindingIndex; });
                         var displayCount = 8;
                         if (displayCountBinding) {
@@ -114,6 +117,12 @@ var DataBinding = (function () {
             default:
                 break;
         }
+    };
+    DataBinding.prototype.getDisplayMember = function (element) {
+        return this.DataContainer.DataBindings.First(function (d) { return d.Target == Binding.Targets.DisplayMember && d.ElementBindingIndex == element.ElementBindingIndex; });
+    };
+    DataBinding.prototype.getValueMember = function (element) {
+        return this.DataContainer.DataBindings.First(function (d) { return d.Target == Binding.Targets.ValueMember && d.ElementBindingIndex == element.ElementBindingIndex; });
     };
     DataBinding.prototype.returnBinding = function (attributeValue) {
         var inlineMatches = attributeValue.match(RegularExpression.StandardBindingPattern);
@@ -185,17 +194,20 @@ var DataBinding = (function () {
             this.HookUpEvent(element);
         };
     };
+    DataBinding.prototype.isInputText = function (element) {
+        return element.tagName == "INPUT" && element["type"] == "text";
+    };
     DataBinding.prototype.setAttribute = function (value, element) {
         switch (this.Target) {
             case Binding.Targets.Value:
-                if (element.tagName == "INPUT" && element["type"] == "text") {
-                    var displayMember = this.DataContainer.DataBindings.First(function (d) { return d.Target == Binding.Targets.DisplayMember && d.ElementBindingIndex == element.ElementBindingIndex; });
-                    var valueMember = this.DataContainer.DataBindings.First(function (d) { return d.Target == Binding.Targets.ValueMember && d.ElementBindingIndex == element.ElementBindingIndex; });
+                if (this.isInputText(element)) {
+                    var displayMember = this.getDisplayMember(element);
+                    var valueMember = this.getValueMember(element);
                     if (valueMember) {
                         var input = element;
                         var datasource = element["datasource"];
-                        var displayMember = this.DataContainer.DataBindings.First(function (d) { return d.Target == Binding.Targets.DisplayMember && d.ElementBindingIndex == element.ElementBindingIndex; });
-                        var valueMember = this.DataContainer.DataBindings.First(function (d) { return d.Target == Binding.Targets.ValueMember && d.ElementBindingIndex == element.ElementBindingIndex; });
+                        var displayMember = this.getDisplayMember(element);
+                        var valueMember = this.getValueMember(element);
                         if (datasource && displayMember && valueMember) {
                             var found = datasource.First(function (o) { return o[valueMember.Fields[0]] == value; });
                             if (found) {
@@ -208,8 +220,8 @@ var DataBinding = (function () {
                 element[this.Target] = value;
                 break;
             case Binding.Targets.DataSource:
-                var displayMember = this.DataContainer.DataBindings.First(function (d) { return d.Target == Binding.Targets.DisplayMember && d.ElementBindingIndex == element.ElementBindingIndex; });
-                var valueMember = this.DataContainer.DataBindings.First(function (d) { return d.Target == Binding.Targets.ValueMember && d.ElementBindingIndex == element.ElementBindingIndex; });
+                var displayMember = this.getDisplayMember(element);
+                var valueMember = this.getValueMember(element);
                 if (element.tagName == "SELECT") {
                     var select = element;
                     select.Clear();
@@ -220,7 +232,7 @@ var DataBinding = (function () {
                         select.AddOptionsViaObject(value, null);
                     }
                 }
-                else if (element.tagName == "INPUT" && element["type"] == "text") {
+                else if (this.isInputText(element)) {
                     element["datasource"] = value;
                 }
                 break;
@@ -261,15 +273,12 @@ var DataBinding = (function () {
             case Binding.Targets.ValueMember:
                 break;
             default:
-                if (this.Target.indexOf("-") > -1) {
-                    var split = this.Target.split("-");
-                    if (split.length > 1) {
-                        element.style[split[0]][split[1]] = value;
-                    }
+                if (this.Target.indexOf("style") == 0) {
+                    this.Target = this.Target.replace("style", "");
                 }
-                else if (Is.Style(this.Target)) {
-                    element.style[this.Target] = value;
-                    break;
+                var styleProperty = Convert.ToStyleProperty(this.Target);
+                if (styleProperty) {
+                    element.style[styleProperty] = value;
                 }
                 else {
                     element[this.Target] = value;

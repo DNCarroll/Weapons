@@ -139,6 +139,7 @@
     <TypeScriptCompile Include="Modules\RegularExpression.ts" />
     <TypeScriptCompile Include="Modules\Local.ts" />
     <TypeScriptCompile Include="Modules\Thing.ts" />
+    <TypeScriptCompile Include="Modules\HTMLHelper.ts" />
     <TypeScriptCompile Include="Modules\ViewManager.ts" />
     <TypeScriptCompile Include="Prototypes\Array.ts" />
     <TypeScriptCompile Include="Prototypes\Date.ts" />

@@ -56,7 +56,7 @@ Window.prototype.PushState = function (stateobj, title, url) {
         }
         history.pushState(stateobj, title, url);
     }
-};
+}
 Window.prototype.SplitPathName = function (): Array<string> {
     var ret = new Array<string>();
     var pathName = window.location.pathname;
@@ -67,7 +67,7 @@ Window.prototype.SplitPathName = function (): Array<string> {
     }
     var split = pathName.split("/");
     return split;
-};
+}
 Window.prototype.PageLoaded = function (postLoadFuntion, e?) {    
     if (document.readyState === "complete") {
         postLoadFuntion();        
@@ -86,7 +86,7 @@ Window.prototype.PageLoaded = function (postLoadFuntion, e?) {
             }
         }
     }
-};
+}
 function autoBindForms() {
     var elements = document.body.Get(ele=> {
         return !Is.NullOrEmpty(ele.getAttribute(Binding.Attributes.Auto));
@@ -94,35 +94,32 @@ function autoBindForms() {
     for (var i = 0; i < elements.length; i++) {
         Binding.DataContainer.Auto(elements[i]);
     }
-};
+}
 function WindowLoad(e?) {
     if (document.readyState === "complete") {
-        var pg = document.getElementById("progress");
-        if (pg != null && Ajax) {
-            Ajax.ProgressElement = pg;
-        }
+        setProgressElement();
         autoBindForms();
     } else {
         if (window.onload) {
             var curronload = window.onload;
             var newonload = function () {
-                var pg = document.getElementById("progress");
-                if (pg != null && Ajax) {
-                    Ajax.ProgressElement = pg;
-                }
+                setProgressElement();
                 curronload(e);
                 autoBindForms();
             };
             window.onload = newonload;
         } else {
             window.onload = function () {
-                var pg = document.getElementById("progress");
-                if (pg != null && Ajax) {
-                    Ajax.ProgressElement = pg;
-                }
+                setProgressElement();
                 autoBindForms();
             };
         }
     }
-};
+}
+function setProgressElement() {
+    var pg = document.getElementById("progress");
+    if (pg != null && Ajax) {
+        Ajax.ProgressElement = pg;
+    }
+}
 WindowLoad();

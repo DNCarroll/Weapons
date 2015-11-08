@@ -92,23 +92,16 @@ function autoBindForms() {
         Binding.DataContainer.Auto(elements[i]);
     }
 }
-;
 function WindowLoad(e) {
     if (document.readyState === "complete") {
-        var pg = document.getElementById("progress");
-        if (pg != null && Ajax) {
-            Ajax.ProgressElement = pg;
-        }
+        setProgressElement();
         autoBindForms();
     }
     else {
         if (window.onload) {
             var curronload = window.onload;
             var newonload = function () {
-                var pg = document.getElementById("progress");
-                if (pg != null && Ajax) {
-                    Ajax.ProgressElement = pg;
-                }
+                setProgressElement();
                 curronload(e);
                 autoBindForms();
             };
@@ -116,14 +109,16 @@ function WindowLoad(e) {
         }
         else {
             window.onload = function () {
-                var pg = document.getElementById("progress");
-                if (pg != null && Ajax) {
-                    Ajax.ProgressElement = pg;
-                }
+                setProgressElement();
                 autoBindForms();
             };
         }
     }
 }
-;
+function setProgressElement() {
+    var pg = document.getElementById("progress");
+    if (pg != null && Ajax) {
+        Ajax.ProgressElement = pg;
+    }
+}
 WindowLoad();

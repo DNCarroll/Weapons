@@ -38,7 +38,7 @@
             attributeValue = attributeValue.Trim();
             if (this.Target == Binding.Targets.Formatting ||
                 this.Target == Binding.Targets.DataSource) {
-                attributeValue = attributeValue.indexOf("return") == -1 ? "return " + attributeValue : attributeValue;
+                attributeValue = this.returnAttributeValue(attributeValue);
             }
             else if (
                 this.Target == Binding.Targets.OnFocus ||
@@ -46,7 +46,7 @@
                 this.Target == Binding.Targets.OnMouseOut ||
                 this.Target == Binding.Targets.OnMouseOver               
             ) {
-                attributeValue = attributeValue.indexOf("return") == -1 ? "return " + attributeValue : attributeValue;
+                attributeValue = this.returnAttributeValue(attributeValue);
                 this.IsEventBinding = true;
             }
             if (attributeValue.indexOf("return ") == 0) {                
@@ -58,12 +58,14 @@
             }
         }        
     }
+   private returnAttributeValue(attributeValue: string):string {
+       return attributeValue.indexOf("return") == -1 ? "return " + attributeValue : attributeValue
+    }
     Dispose() {
         this.DataContainer = null;
         this.ElementBindingIndex = null;
         this.Bind = null;
         this.Target = null;
-
         this.Fields = null;
         this.returnParameters = null;
         this.return = null;
@@ -96,11 +98,11 @@
                 Binding.Events.Radio(element, this.DataContainer, this, this.Fields[0]);
                 break;
             case Binding.Targets.Value:
-                if (element.tagName == "INPUT" && element["type"] == "text") {
+                if (this.isInputText(element)) {
                     if (element["datasource"]) {
                         var datasource = <Array<any>>element["datasource"];
-                        var displayMember = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.DisplayMember && d.ElementBindingIndex == element.ElementBindingIndex);
-                        var valueMember = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.ValueMember && d.ElementBindingIndex == element.ElementBindingIndex);
+                        var displayMember = this.getDisplayMember(element);
+                        var valueMember = this.getValueMember(element);
                         var displayCountBinding = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.DisplayCount && d.ElementBindingIndex == element.ElementBindingIndex);
                         var displayCount = 8;
                         if (displayCountBinding) {
@@ -124,6 +126,12 @@
             default:
                 break;
         }        
+    }
+    getDisplayMember(element: HTMLElement): DataBinding {
+        return this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.DisplayMember && d.ElementBindingIndex == element.ElementBindingIndex);
+    }
+    getValueMember(element: HTMLElement): DataBinding {
+        return this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.ValueMember && d.ElementBindingIndex == element.ElementBindingIndex);
     }
     private returnBinding(attributeValue: string) {
 
@@ -197,17 +205,20 @@
             this.HookUpEvent(element);
         };
     }
+    private isInputText(element: HTMLElement): boolean {
+        return element.tagName == "INPUT" && element["type"] == "text";
+    }
     private setAttribute(value: any, element:HTMLElement) {
         switch (this.Target) {
             case Binding.Targets.Value:
-                if (element.tagName == "INPUT" && element["type"] == "text") {
-                    var displayMember = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.DisplayMember && d.ElementBindingIndex == element.ElementBindingIndex);
-                    var valueMember = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.ValueMember && d.ElementBindingIndex == element.ElementBindingIndex);
+                if (this.isInputText(element)) {
+                    var displayMember = this.getDisplayMember(element);
+                    var valueMember = this.getValueMember(element);
                     if (valueMember) {
                         var input = <HTMLInputElement>element;                        
                         var datasource = <Array<any>>element["datasource"];
-                        var displayMember = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.DisplayMember && d.ElementBindingIndex == element.ElementBindingIndex);
-                        var valueMember = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.ValueMember && d.ElementBindingIndex == element.ElementBindingIndex);
+                        var displayMember = this.getDisplayMember(element);
+                        var valueMember = this.getValueMember(element);
                         if (datasource && displayMember && valueMember) {
                             var found = datasource.First(o => o[valueMember.Fields[0]] == value);
                             if (found) {
@@ -220,8 +231,8 @@
                 element[this.Target] = value;
                 break;
             case Binding.Targets.DataSource:
-                var displayMember = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.DisplayMember && d.ElementBindingIndex == element.ElementBindingIndex);
-                var valueMember = this.DataContainer.DataBindings.First(d=> d.Target == Binding.Targets.ValueMember && d.ElementBindingIndex == element.ElementBindingIndex);
+                var displayMember = this.getDisplayMember(element);
+                var valueMember = this.getValueMember(element);
                 if (element.tagName == "SELECT") {
                     var select = <HTMLSelectElement>element;
                     select.Clear();
@@ -232,7 +243,7 @@
                         select.AddOptionsViaObject(value, null);
                     }
                 }
-                else if (element.tagName == "INPUT" && element["type"] == "text") {
+                else if (this.isInputText(element)) {
                     element["datasource"] = value;
                 }
                 break;
