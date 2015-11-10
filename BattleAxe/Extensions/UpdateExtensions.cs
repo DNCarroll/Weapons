@@ -31,6 +31,17 @@ namespace BattleAxe
                     }
                 }
             }
+            catch (SqlException sqlException)
+            {
+                if (SqlExceptionsThatCauseRederivingSqlCommand.ReexecuteCommand(sqlException, ref command))
+                {
+                    return command.Update(objs);
+                }
+                else
+                {
+                    throw sqlException;
+                }
+            }
             catch (Exception)
             {
                 throw;

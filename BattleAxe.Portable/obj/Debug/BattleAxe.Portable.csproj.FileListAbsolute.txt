@@ -35,3 +35,4 @@ C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Debug\pri.resfil
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Debug\qualifiers.txt
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Debug\qualifiers.txt.intermediate
 C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Debug\MultipleQualifiersPerDimensionFound.txt
+C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Portable\obj\Debug\BattleAxe.Portable.csprojResolveAssemblyReference.cache

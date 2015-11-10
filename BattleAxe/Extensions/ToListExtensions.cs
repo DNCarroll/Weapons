@@ -26,6 +26,17 @@ namespace BattleAxe
                     ParameterMethods.SetOutputs(parameter, command);
                 }
             }
+            catch (SqlException sqlError)
+            {
+                if (SqlExceptionsThatCauseRederivingSqlCommand.ReexecuteCommand(sqlError, ref command))
+                {
+                    return command.ToList(parameter);
+                }
+                else
+                {
+                    throw sqlError;
+                }
+            }
             catch
             {
                 throw;
@@ -71,6 +82,17 @@ namespace BattleAxe
                     ParameterMethods.SetOutputs(parameter, command);
                 }
             }
+            catch (SqlException sqlException)
+            {
+                if (SqlExceptionsThatCauseRederivingSqlCommand.ReexecuteCommand(sqlException, ref command))
+                {
+                    return ToListExtensions.ToList<ret, par>(command, parameter);
+                }
+                else
+                {
+                    throw sqlException;
+                }
+            }
             catch
             {
                 throw;
@@ -81,13 +103,14 @@ namespace BattleAxe
 
         private static void executeReaderAndFillList<T>(SqlCommand command, List<T> ret) where T : class, new()
         {
+            var setMethod = Compiler.SetMethod(new T());            
             using (var reader = command.ExecuteReader())
             {
                 var map = DataReaderMap.GetReaderMap(reader);
                 while (reader.Read())
                 {
                     T newObj = new T();
-                    DataReaderMap.Set(reader, map, newObj);
+                    DataReaderMap.Set(reader, map, newObj, setMethod);
                     ret.Add(newObj);
                 }
             }
