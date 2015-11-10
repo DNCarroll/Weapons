@@ -7,9 +7,10 @@ using System.Web.Http;
 
 namespace ULFBERHT.Api
 {
-    [Route("Api/ListTest")]
+    [RoutePrefix("Api/ListTest")]
     public class ListTestController : ApiController
     {
+        [Route]
         public List<ListObject> Get([FromUri] ListObject obj)
         {
             var listObject = new List<ListObject>();

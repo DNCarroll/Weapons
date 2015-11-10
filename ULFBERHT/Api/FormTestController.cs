@@ -7,20 +7,21 @@ using System.Web.Http;
 
 namespace ULFBERHT.Api
 {
-    [Route("Api/FormTest")]
+    [RoutePrefix("Api/FormTest")]
     public class FormTestController : ApiController
     {
-        [Route("Api/FormTest/{id}/{name}")]
-        public FormObject Get(int id, string name)
-        {
-            var formObject = new FormObject();
-            formObject.ID = id;
-            formObject.Name = name;
-            formObject.Value = "with a value";
-            formObject.Selected = true;
-            return formObject;
-        }
+        //[Route("Api/FormTest/{id}/{name}")]
+        //public FormObject Get(int id, string name)
+        //{
+        //    var formObject = new FormObject();
+        //    formObject.ID = id;
+        //    formObject.Name = name;
+        //    formObject.Value = "with a value";
+        //    formObject.Selected = true;
+        //    return formObject;
+        //}
 
+        [Route]
         public FormObject Get([FromUri] FormObject obj)
         {
             var formObject = new FormObject();
