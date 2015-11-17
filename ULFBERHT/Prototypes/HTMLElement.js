@@ -178,21 +178,48 @@ HTMLElement.prototype.Set = function (objectProperties) {
     return that;
 };
 HTMLElement.prototype.HasDataSet = function () {
-    if (this["dataset"]) {
-        var dataset = this["dataset"];
-        for (var prop in dataset) {
-            return true;
+    if (!Is.OldishInternetExplorer()) {
+        if (this["dataset"]) {
+            var dataset = this["dataset"];
+            for (var prop in dataset) {
+                return true;
+            }
+        }
+    }
+    else {
+        var length = this.attributes.length;
+        var position = 0;
+        while (position < length) {
+            var attribute = this.attributes[position];
+            if (attribute && attribute.name && attribute.name.indexOf("data-") > -1) {
+                return true;
+            }
+            position++;
         }
     }
     return false;
 };
 HTMLElement.prototype.GetDataSetAttributes = function () {
     var ret = new Array();
-    if (this["dataset"]) {
-        var dataset = this["dataset"];
-        for (var prop in dataset) {
-            var name = prop.split(/(?=[A-Z])/).join("-").toLowerCase();
-            ret.Add({ name: name, value: dataset[prop] });
+    if (!Is.OldishInternetExplorer()) {
+        if (this["dataset"]) {
+            var dataset = this["dataset"];
+            for (var prop in dataset) {
+                ret.Add({ name: prop, value: dataset[prop] });
+            }
+        }
+    }
+    else {
+        var length = this.attributes.length;
+        var position = 0;
+        while (position < length) {
+            var attribute = this.attributes[position];
+            if (attribute && attribute.name && attribute.name.indexOf("data-") > -1) {
+                var name = attribute.name.replace("data-", "");
+                var value = this.getAttribute(attribute.name);
+                ret.Add({ name: name, value: value });
+            }
+            position++;
         }
     }
     return ret;

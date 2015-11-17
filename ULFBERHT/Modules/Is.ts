@@ -37,7 +37,16 @@
         //        return msie > 0;
         return '\v' == 'v';
     }
-
+    export function OldishInternetExplorer(): boolean {
+        var rv = 11;
+        if (navigator.appName == 'Microsoft Internet Explorer') {
+            var ua = navigator.userAgent;
+            var re = new RegExp("MSIE ([0-9])");
+            if (re.exec(ua) != null)
+                rv = parseFloat(RegExp.$1);
+        }
+        return rv < 11;
+    }
     export function NullOrEmpty(value): boolean {
         if (value == null) {
             return true;

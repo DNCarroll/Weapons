@@ -46,8 +46,16 @@ var ViewManager;
         });
         if (found) {
             var route = new Route(viewKey, parameters, found);
+            var url = found.Url(this);
+            var title = found.UrlTitle(this);
+            var documentTitle = found.DocumentTitle(this);
             ViewManager.Routes.push(route);
-            window.PushState(null, found.UrlTitle(this), found.Url(route));
+            if (Is.NullOrEmpty(url) && Is.NullOrEmpty(title)) {
+                window.PushState(null, title, url);
+            }
+            if (documentTitle) {
+                document.title = documentTitle;
+            }
             route.Show();
         }
     }
