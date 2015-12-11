@@ -3,73 +3,7 @@ HTMLUListElement.prototype.Dispose = function () {
 };
 HTMLUListElement.prototype.Bind = function (data) {
     var that = this;
-    if (!that.AlreadySetup) {
-        that.AlreadySetup = true;
-        Binding.DataContainer.Setup(that);
-        Binding.DataContainer.SetupUl(that);
-    }
-    var tempArray;
-    if (Is.Array(data)) {
-        tempArray = data;
-    }
-    else {
-        tempArray = new Array();
-        tempArray.push(data);
-    }
-    that.DataObject = tempArray;
-    that.Clear();
-    Ajax.ShowProgress();
-    if (that.style.display == "none") {
-        that.style.display = "table";
-    }
-    if (that.HeaderHtml) {
-        that.HeaderHtml.forEach(function (h) {
-            var header = that.AddHtml(h);
-            header.DataContainer = that;
-            header.TemplateType = "header";
-            Binding.DataContainer.LookForInsert(header);
-        });
-    }
-    that.AsyncPosition = 0;
-    var endAsync = function () {
-        if (that.FooterHtml) {
-            that.FooterHtml.forEach(function (f) {
-                var footer = that.AddHtml(f);
-                footer.DataContainer = that;
-                footer.TemplateType = "footer";
-                Binding.DataContainer.LookForInsert(footer);
-                if (that.DataObject && that.DataObject.length > 0) {
-                    that.SetSelected(that.DataObject[0], that.First(function (e) { return e.DataObject == that.DataObject[0]; }));
-                }
-            });
-        }
-        Ajax.HideProgress();
-        if (that.ActionEvent != null) {
-            that.ActionEvent(new ActionEvent(ActionType.Bound, that.DataObject, null, null));
-        }
-        if (Binding.Happened) {
-            Binding.Happened(that);
-        }
-    };
-    var async = function () {
-        var dataObject = that.DataObject[that.AsyncPosition];
-        that.InsertAndBind(dataObject);
-        that.AsyncPosition = that.AsyncPosition + 1;
-        if (that.AsyncPosition == that.DataObject.length) {
-            setTimeout(endAsync, 0);
-        }
-        else {
-            setTimeout(async, 0);
-        }
-    };
-    if (data &&
-        data.length &&
-        that.RowHtml) {
-        setTimeout(async, 0);
-    }
-    else {
-        endAsync();
-    }
+    HTMLHelper.UL.Bind(that, data);
 };
 HTMLUListElement.prototype.Rebind = function (field, sender) {
     Binding.DataContainer.Rebind(this, sender, field);
@@ -140,3 +74,4 @@ HTMLUListElement.prototype.SetSelected = function (obj, sender) {
         }
     }
 };
+//# sourceMappingURL=HTMLUListElement.js.map

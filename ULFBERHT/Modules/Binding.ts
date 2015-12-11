@@ -27,7 +27,8 @@
     }
     export module Attributes {
         export var WebApi = "data-webapi";
-        export var Pks = "data-pks";        
+        export var Pks = "data-pks";       
+        export var AsyncBinding = "data-asyncbinding"; 
         export var Action = "data-action";
         export var SelectedItemChanged = "data-selecteditemchanged";
         export var SelectedItemClass = "data-selecteditemclass";               
@@ -86,6 +87,7 @@
             if (container.Pks == null) {
                 var webApi = container.getAttribute(Binding.Attributes.WebApi);
                 var pks = container.getAttribute(Binding.Attributes.Pks);
+                var asyncBind = container.getAttribute(Binding.Attributes.AsyncBinding);
                 container.WebApi = webApi;
                 if (!pks) {
                     alert("data-pks must be supplied to use Halberd binding");
@@ -94,6 +96,10 @@
                 else {
                     container.Pks = new Array<string>();
                     pks.split(";").forEach(pk=> container.Pks.Add(pk.Trim()));
+                }
+                if (asyncBind)
+                {
+                    container.AsyncBinding = asyncBind === "true" ? true : false;
                 }
                 var action = container.getAttribute(Binding.Attributes.Action);
                 if (action) {

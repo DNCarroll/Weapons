@@ -13,5 +13,6 @@
     Form: HTMLFormElement;
     SelectedItemChanged: (obj: any, sender:HTMLElement) => void;
     SelectedItemClass: string;
+    AsyncBinding: boolean;
     //just add the UL specific stuff here for ease and clean code allowing the form and ul to use the same setup method?
 } 

@@ -88,7 +88,7 @@ namespace BattleAxe.Console
     public class Test : IBattleAxe
     {
         static SetValue<Test> SetMethod;
-        static GetValue<Test> GetMethod;
+        static GetValue GetMethod;
         //public override string[] GetStaticallyTypedPropertyNames()
         //{
         //    return new string[]{"Name", "Prop3", "DecimalCheck"};

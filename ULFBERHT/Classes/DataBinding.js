@@ -9,14 +9,10 @@ var DataBinding = (function () {
         this.Target = attribute;
         if (this.Target && attributeValue) {
             attributeValue = attributeValue.Trim();
-            if (this.Target == Binding.Targets.Formatting ||
-                this.Target == Binding.Targets.DataSource) {
+            if (this.Target == Binding.Targets.Formatting || this.Target == Binding.Targets.DataSource) {
                 attributeValue = this.returnAttributeValue(attributeValue);
             }
-            else if (this.Target == Binding.Targets.OnFocus ||
-                this.Target == Binding.Targets.OnClick ||
-                this.Target == Binding.Targets.OnMouseOut ||
-                this.Target == Binding.Targets.OnMouseOver) {
+            else if (this.Target == Binding.Targets.OnFocus || this.Target == Binding.Targets.OnClick || this.Target == Binding.Targets.OnMouseOut || this.Target == Binding.Targets.OnMouseOver) {
                 attributeValue = this.returnAttributeValue(attributeValue);
                 this.IsEventBinding = true;
             }
@@ -288,3 +284,4 @@ var DataBinding = (function () {
     };
     return DataBinding;
 })();
+//# sourceMappingURL=DataBinding.js.map

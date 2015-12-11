@@ -51,7 +51,9 @@ namespace BattleAxe
                 var reference = CommandMethods.structureFields.Where(i => i.Item1.CommandText == command.CommandText && i.Item1.Connection.ConnectionString == command.Connection.ConnectionString && i.Item2 == parameter.TypeName).ToList();
                 foreach (var item in reference)
                 {
-                    ret.Columns.Add(item.Item3);
+                    if (!ret.Columns.Contains(item.Item3)) {
+                        ret.Columns.Add(item.Item3);
+                    }
                 }
                 var type = referenceObject.GetType();
                 if (type.Name == "List`1")
