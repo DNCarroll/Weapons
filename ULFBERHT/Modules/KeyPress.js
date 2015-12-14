@@ -47,7 +47,8 @@ var KeyPress;
     }
     KeyPress.GetThreeLengthString = GetThreeLengthString;
     function GetFourLengthString(value, currentValue, previousValue) {
-        if (previousValue == 3 && value > 1) {
+        if (previousValue == 3 &&
+            value > 1) {
             return String(currentValue).substring(0, String(currentValue).length - 1) + "03/" + String(value);
         }
         else {
@@ -261,4 +262,3 @@ var KeyPress;
     }
     KeyPress.Number = Number;
 })(KeyPress || (KeyPress = {}));
-//# sourceMappingURL=KeyPress.js.map

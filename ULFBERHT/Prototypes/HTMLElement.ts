@@ -239,7 +239,7 @@ HTMLElement.prototype.GetDataSetAttributes = function () {
             if (attribute && attribute.name && attribute.name.indexOf("data-") > -1) {
                 var name = attribute.name.replace("data-", "");
                 var value = this.getAttribute(attribute.name);
-                ret.Add({ name: name, value: value });
+                ret.Add({ name: name.toLowerCase(), value: value });
             }
             position++;
         }

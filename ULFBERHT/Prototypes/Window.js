@@ -24,13 +24,18 @@ Window.prototype.Dimensions = function () {
     var ret = { Height: 0, Width: 0 };
     var temp = window;
     if (typeof temp.innerWidth != 'undefined') {
-        ret.Width = temp.innerWidth, ret.Height = temp.innerHeight;
+        ret.Width = temp.innerWidth,
+            ret.Height = temp.innerHeight;
     }
-    else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientWidth != 'undefined' && document.documentElement.clientWidth != 0) {
-        ret.Width = document.documentElement.clientWidth, ret.Height = document.documentElement.clientHeight;
+    else if (typeof document.documentElement != 'undefined'
+        && typeof document.documentElement.clientWidth !=
+            'undefined' && document.documentElement.clientWidth != 0) {
+        ret.Width = document.documentElement.clientWidth,
+            ret.Height = document.documentElement.clientHeight;
     }
     else {
-        ret.Width = document.getElementsByTagName('body')[0].clientWidth, ret.Height = document.getElementsByTagName('body')[0].clientHeight;
+        ret.Width = document.getElementsByTagName('body')[0].clientWidth,
+            ret.Height = document.getElementsByTagName('body')[0].clientHeight;
     }
     return ret;
 };
@@ -117,4 +122,3 @@ function setProgressElement() {
     }
 }
 WindowLoad();
-//# sourceMappingURL=Window.js.map

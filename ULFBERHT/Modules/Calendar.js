@@ -135,7 +135,8 @@ var Calendar;
             }
         };
         element.Set = function (selectedDate) {
-            var rebuild = selectedDate.getMonth() != element.SelectedDate.getMonth() || selectedDate.getFullYear() != element.SelectedDate.getFullYear();
+            var rebuild = selectedDate.getMonth() != element.SelectedDate.getMonth() ||
+                selectedDate.getFullYear() != element.SelectedDate.getFullYear();
             element.SelectedDate = selectedDate;
             if (rebuild) {
                 element.Build();
@@ -360,4 +361,3 @@ var Calendar;
     }
     Calendar.Create = Create;
 })(Calendar || (Calendar = {}));
-//# sourceMappingURL=Calendar.js.map
