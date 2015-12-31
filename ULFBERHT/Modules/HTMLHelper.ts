@@ -61,6 +61,7 @@
                 list.RowHtml) {
                 tempArray.forEach(o=> {
                     list.InsertAndBind(o);
+                    list.AsyncPosition = list.AsyncPosition + 1;
                 });
                 endAsync();
             }

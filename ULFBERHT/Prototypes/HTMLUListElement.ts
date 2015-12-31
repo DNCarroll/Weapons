@@ -29,6 +29,9 @@ HTMLUListElement.prototype.InsertRow = function (row: HTMLLIElement, beforeEleme
 HTMLUListElement.prototype.InsertAndBind = function (dataObject: any, beforeElement?: HTMLLIElement): HTMLLIElement {
     var that = <HTMLUListElement>this;
     var row = HTMLHelper.UL.CreateRow(that, dataObject);
+    if (that.AlternatingRowClass && that.AsyncPosition % 2 == 0) {
+        row.className = that.AlternatingRowClass;
+    }
     that.InsertRow(row, beforeElement);
     Binding.DataContainer.DataBind(that, row, dataObject);
     return row;

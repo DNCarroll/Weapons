@@ -49,12 +49,13 @@
                 attributeValue = this.returnAttributeValue(attributeValue);
                 this.IsEventBinding = true;
             }
-            if (attributeValue.indexOf("return ") == 0) {                
-                this.returnBinding(attributeValue);              
-            }            
-            else {
+            if (attributeValue.match(RegularExpression.PropertyName)) {
                 this.Fields.Add(attributeValue);
-                this.easyBinding();           
+                this.easyBinding();
+            }
+            else {
+                attributeValue = this.returnAttributeValue(attributeValue);
+                this.returnBinding(attributeValue);
             }
         }        
     }

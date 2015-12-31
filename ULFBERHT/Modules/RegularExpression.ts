@@ -4,6 +4,7 @@
         MethodPattern: RegExp = /\w+(\.\w+)*\(/g,
         ObjectAndMethod: RegExp = /{(\w+(\.\w+)*)}\.\w+\(\)/g,
         ObjectMethod: RegExp = /\.\w+\(\)/g,
+        PropertyName: RegExp = /^\w+\w$/,
         ParameterPattern: RegExp = /\(.*(,\s*.*)*\)/g,
         ZDate: RegExp = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g,
         UTCDate: RegExp = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/i;
