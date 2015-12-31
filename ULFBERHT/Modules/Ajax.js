@@ -5,7 +5,6 @@ var Ajax;
     Ajax.AutoConvert = true;
     Ajax.ProgressElement = null;
     Ajax.DisableElement = null;
-    Ajax.DefaultHeader;
     function Resolver() {
         var subDirectories = [];
         for (var _i = 0; _i < arguments.length; _i++) {

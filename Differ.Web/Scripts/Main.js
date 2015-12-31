@@ -3,8 +3,8 @@ window.PageLoaded(function () {
     Ajax.UseAsDateUTC = true;
     Ajax.Resolver("SqlCompare");
     //Binding.Happened = Main.SomethingBound;    
-    ViewManager.Initialize(new Compare(0 /* Compare */));
-    window.Show(0 /* Compare */);
+    ViewManager.Initialize(new Compare(ViewType.Compare));
+    window.Show(ViewType.Compare);
     //Main.Authenticate();
     //there is only one view
 });
@@ -42,7 +42,9 @@ var Compare = (function () {
         progress.style.top = (dim.Top + 4) + "px";
         progress.style.left = (dim.Width + dim.Left + 6) + "px";
         //progress.style.top = 
-        var height = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+        var height = "innerHeight" in window
+            ? window.innerHeight
+            : document.documentElement.offsetHeight;
         //subtract the top margin
         var cont = "ObjectSummaryContainer".Element();
         var marginTop = parseFloat(cont.style.top.replace("em", ""));
@@ -84,4 +86,3 @@ var ViewType;
 (function (ViewType) {
     ViewType[ViewType["Compare"] = 0] = "Compare";
 })(ViewType || (ViewType = {}));
-//# sourceMappingURL=Main.js.map

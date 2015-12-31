@@ -31,6 +31,7 @@ var Binding;
         Attributes.WebApi = "data-webapi";
         Attributes.Pks = "data-pks";
         Attributes.AsyncBinding = "data-asyncbinding";
+        Attributes.AlternatingRowClass = "data-alternatingrowclass";
         Attributes.Action = "data-action";
         Attributes.SelectedItemChanged = "data-selecteditemchanged";
         Attributes.SelectedItemClass = "data-selecteditemclass";
@@ -93,6 +94,7 @@ var Binding;
                 var webApi = container.getAttribute(Binding.Attributes.WebApi);
                 var pks = container.getAttribute(Binding.Attributes.Pks);
                 var asyncBind = container.getAttribute(Binding.Attributes.AsyncBinding);
+                var alternatingRowClass = container.getAttribute(Binding.Attributes.AlternatingRowClass);
                 container.WebApi = webApi;
                 if (!pks) {
                     alert("data-pks must be supplied to use Halberd binding");
@@ -105,6 +107,7 @@ var Binding;
                 if (asyncBind) {
                     container.AsyncBinding = asyncBind === "true" ? true : false;
                 }
+                container.AlternatingRowClass = alternatingRowClass ? alternatingRowClass : null;
                 var action = container.getAttribute(Binding.Attributes.Action);
                 if (action) {
                     action += "(obj0);";
@@ -456,5 +459,4 @@ var Binding;
         return Function.apply(null, parameters);
     }
     Binding.Return = Return;
-    Binding.Happened;
 })(Binding || (Binding = {}));

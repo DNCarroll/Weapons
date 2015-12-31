@@ -62,6 +62,9 @@ class DataBinding {
                 attributeValue = attributeValue.indexOf("return") == -1 ? "return " + attributeValue : attributeValue;
                 this.IsEventBinding = true;
             }
+            //is it complex?
+            //yes then its return 
+            //other wise its easy
             if (attributeValue.indexOf("return ") == 0) {                
                 this.returnBinding(attributeValue);              
             }            

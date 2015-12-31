@@ -19,13 +19,20 @@ var DataBinding = (function () {
         this.Target = attribute;
         if (this.Target && attributeValue) {
             attributeValue = attributeValue.Trim();
-            if (this.Target == Binding.Targets.Formatting || this.Target == Binding.Targets.DataSource) {
+            if (this.Target == Binding.Targets.Formatting ||
+                this.Target == Binding.Targets.DataSource) {
                 attributeValue = attributeValue.indexOf("return") == -1 ? "return " + attributeValue : attributeValue;
             }
-            else if (this.Target == Binding.Targets.OnFocus || this.Target == Binding.Targets.OnClick || this.Target == Binding.Targets.OnMouseOut || this.Target == Binding.Targets.OnMouseOver) {
+            else if (this.Target == Binding.Targets.OnFocus ||
+                this.Target == Binding.Targets.OnClick ||
+                this.Target == Binding.Targets.OnMouseOut ||
+                this.Target == Binding.Targets.OnMouseOver) {
                 attributeValue = attributeValue.indexOf("return") == -1 ? "return " + attributeValue : attributeValue;
                 this.IsEventBinding = true;
             }
+            //is it complex?
+            //yes then its return 
+            //other wise its easy
             if (attributeValue.indexOf("return ") == 0) {
                 this.returnBinding(attributeValue);
             }
@@ -315,7 +322,7 @@ var DialogButton = (function () {
     function DialogButton(text, buttonType, className) {
         this.Text = text;
         this.ClassName = className;
-        this.ButtonType = buttonType == null ? 0 /* InputButton */ : buttonType;
+        this.ButtonType = buttonType == null ? ButtonType.InputButton : buttonType;
         //        this.ImageSrc = imageSrc;
     }
     return DialogButton;
@@ -333,7 +340,7 @@ var DialogProperties = (function () {
         this.Modal = null;
         this.ModalClass = modalClass;
         if (hideInterval == null) {
-            if (this.DialogType == 1 /* Popup */ || this.DialogType == 2 /* Quick */) {
+            if (this.DialogType == DialogType.Popup || this.DialogType == DialogType.Quick) {
                 this.HideInterval = Dialog.DefaultHideInterval;
             }
             else {
@@ -343,19 +350,19 @@ var DialogProperties = (function () {
         else {
             this.HideInterval = hideInterval;
         }
-        if (position != 100 /* Manual */) {
+        if (position != DialogPosition.Manual) {
             if (position == null && this.Target == null) {
-                this.Position = 0 /* MiddleOfWindow */;
+                this.Position = DialogPosition.MiddleOfWindow;
             }
             else if (position == null && this.Target != null) {
-                this.Position = 1 /* Below */;
+                this.Position = DialogPosition.Below;
             }
             else {
                 this.Position = position;
             }
         }
         else {
-            this.Position = 100 /* Manual */;
+            this.Position = DialogPosition.Manual;
         }
     }
     return DialogProperties;
@@ -363,8 +370,8 @@ var DialogProperties = (function () {
 var Dialog;
 (function (Dialog) {
     function Confirm(message, onclick, title, target, modalClass, yesButton, noButton, containerStyle, titleStyle, position) {
-        yesButton = yesButton == null ? new DialogButton("Yes", 0 /* InputButton */) : yesButton;
-        noButton = noButton == null ? new DialogButton("No", 0 /* InputButton */) : noButton;
+        yesButton = yesButton == null ? new DialogButton("Yes", ButtonType.InputButton) : yesButton;
+        noButton = noButton == null ? new DialogButton("No", ButtonType.InputButton) : noButton;
         title = title == null ? "&nbsp;" : title;
         var container = "ul".CreateElement();
         var liTitle = "li".CreateElement();
@@ -383,8 +390,8 @@ var Dialog;
         var divButton = "div".CreateElement();
         liSubDialog.appendChild(divButton);
         ulDialogContainer.appendChild(liSubDialog);
-        divButton.appendChild(getDialogButton(onclick, noButton, 0 /* No */, container));
-        divButton.appendChild(getDialogButton(onclick, yesButton, 1 /* Yes */, container));
+        divButton.appendChild(getDialogButton(onclick, noButton, DialogResult.No, container));
+        divButton.appendChild(getDialogButton(onclick, yesButton, DialogResult.Yes, container));
         setUL(container);
         setUL(ulDialogContainer);
         setLI(liTitle);
@@ -401,10 +408,10 @@ var Dialog;
         container.appendChild(liMessage);
         container.appendChild(liDialog);
         if (position == null) {
-            position = target == null ? 0 /* MiddleOfWindow */ : 1 /* Below */;
+            position = target == null ? DialogPosition.MiddleOfWindow : DialogPosition.Below;
         }
         if (modalClass == null) {
-            Dialog.Show(container, 3 /* Standard */, target, null, position);
+            Dialog.Show(container, DialogType.Standard, target, null, position);
         }
         else {
             Dialog.Modal(container, modalClass, position, null, target);
@@ -412,7 +419,7 @@ var Dialog;
     }
     Dialog.Confirm = Confirm;
     function Ok(message, title, target, modalClass, okButton, containerClass, titleClass) {
-        okButton = okButton == null ? new DialogButton("Ok", 0 /* InputButton */) : okButton;
+        okButton = okButton == null ? new DialogButton("Ok", ButtonType.InputButton) : okButton;
         title = title == null ? "&nbsp;" : title;
         var container = "ul".CreateElement();
         var liTitle = "li".CreateElement();
@@ -433,8 +440,7 @@ var Dialog;
         var divButton = "div".CreateElement();
         liSubDialog.appendChild(divButton);
         ulDialogContainer.appendChild(liSubDialog);
-        divButton.appendChild(getDialogButton(function (r) {
-        }, okButton, 2 /* Ok */, container));
+        divButton.appendChild(getDialogButton(function (r) { }, okButton, DialogResult.Ok, container));
         if (containerClass != null) {
             container.className = containerClass;
         }
@@ -455,10 +461,10 @@ var Dialog;
         container.appendChild(liMessage);
         container.appendChild(liDialog);
         if (modalClass == null) {
-            Dialog.Show(container, 3 /* Standard */, target, null, target == null ? 0 /* MiddleOfWindow */ : 1 /* Below */);
+            Dialog.Show(container, DialogType.Standard, target, null, target == null ? DialogPosition.MiddleOfWindow : DialogPosition.Below);
         }
         else {
-            Dialog.Modal(container, modalClass, target == null ? 0 /* MiddleOfWindow */ : 1 /* Below */, null, target);
+            Dialog.Modal(container, modalClass, target == null ? DialogPosition.MiddleOfWindow : DialogPosition.Below, null, target);
         }
     }
     Dialog.Ok = Ok;
@@ -483,10 +489,12 @@ var Dialog;
     function getDialogButton(onclick, dialogButton, dialogResult, container, containerClass) {
         var button;
         switch (dialogButton.ButtonType) {
-            case 1 /* Anchor */:
+            case ButtonType.Anchor:
                 button = "a".CreateElement({ innerHTML: dialogButton.Text.toString() });
                 break;
-            case 0 /* InputButton */:
+            //case ButtonType.ImageButton:
+            //    break;
+            case ButtonType.InputButton:
                 button = "input".CreateElement({ type: "button", value: dialogButton.Text.toString() });
                 break;
         }
@@ -500,7 +508,7 @@ var Dialog;
         };
         if (containerClass == null) {
             button.style.margin = ".5em .5em";
-            if (dialogResult == 0 /* No */) {
+            if (dialogResult == DialogResult.No) {
                 button.style.cssFloat = "left";
             }
             else {
@@ -511,20 +519,20 @@ var Dialog;
     }
     Dialog.DefaultHideInterval = 1500;
     function Popup(elementToShow, target, position, hideInterval) {
-        Show(elementToShow, 1 /* Popup */, target, hideInterval, position);
+        Show(elementToShow, DialogType.Popup, target, hideInterval, position);
     }
     Dialog.Popup = Popup;
     function Modal(elementToShow, modalClass, position, hideInterval, target) {
-        Show(elementToShow, 0 /* Modal */, target, hideInterval, position, modalClass);
+        Show(elementToShow, DialogType.Modal, target, hideInterval, position, modalClass);
     }
     Dialog.Modal = Modal;
     function Quick(elementToShow, target, position) {
-        Show(elementToShow, 2 /* Quick */, target, Dialog.DefaultHideInterval, position);
+        Show(elementToShow, DialogType.Quick, target, Dialog.DefaultHideInterval, position);
     }
     Dialog.Quick = Quick;
     function Standard(dialogProperties) {
         var elementToShow = dialogProperties.Container;
-        if (dialogProperties.DialogType == 0 /* Modal */) {
+        if (dialogProperties.DialogType == DialogType.Modal) {
             var winDim = window.Dimensions();
             dialogProperties.Modal = "div".CreateElement({ cls: dialogProperties.ModalClass });
             dialogProperties.Modal.style.height = winDim.Height.toString() + "px";
@@ -538,12 +546,8 @@ var Dialog;
         document.body.appendChild(elementToShow);
         SetPosition(elementToShow, dialogProperties);
         if (dialogProperties.HideInterval > -1) {
-            elementToShow.AddListener("onmouseover", function () {
-                dialogProperties.IsActive = true;
-            });
-            elementToShow.AddListener("onmouseout", function () {
-                dialogProperties.IsActive = false;
-            });
+            elementToShow.AddListener("onmouseover", function () { dialogProperties.IsActive = true; });
+            elementToShow.AddListener("onmouseout", function () { dialogProperties.IsActive = false; });
             dialogProperties.Interval = setInterval(function () {
                 if (!dialogProperties.IsActive) {
                     Dialog.Hide(elementToShow);
@@ -564,26 +568,26 @@ var Dialog;
         var y = 0;
         var dim = elementToShow.Dimensions();
         switch (dialogProperties.Position) {
-            case 0 /* MiddleOfWindow */:
+            case DialogPosition.MiddleOfWindow:
                 var winDim = window.Dimensions();
                 y = (winDim.Height - dim.height) / 2;
                 x = (winDim.Width - dim.width) / 2;
                 break;
-            case 1 /* Below */:
+            case DialogPosition.Below:
                 var targetDetails = dialogProperties.Target.DimAndOff();
                 y = targetDetails.Top + targetDetails.Height;
                 x = targetDetails.Left;
                 break;
-            case 2 /* Above */:
+            case DialogPosition.Above:
                 var targetDetails = dialogProperties.Target.DimAndOff();
                 y = targetDetails.Top - dim.height;
                 x = targetDetails.Left;
                 break;
-            case 100 /* Manual */:
+            case DialogPosition.Manual:
             default:
                 break;
         }
-        if (dialogProperties.Position != 100 /* Manual */) {
+        if (dialogProperties.Position != DialogPosition.Manual) {
             if (dialogProperties.OffSetX) {
                 x += dialogProperties.OffSetX;
             }
@@ -728,7 +732,6 @@ var Ajax;
     Ajax.AutoConvert = true;
     Ajax.ProgressElement = null;
     Ajax.DisableElement = null;
-    Ajax.DefaultHeader;
     function Resolver() {
         var subDirectories = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -1036,7 +1039,7 @@ var AutoSuggest;
         if (value) {
             if (targetproperty) {
                 if (tempObj) {
-                    var actionEvent = new ActionEvent(5 /* Updating */, tempObj, field, value);
+                    var actionEvent = new ActionEvent(ActionType.Updating, tempObj, field, value);
                     dataContainer.ActionEvent(actionEvent);
                     if (!actionEvent.Cancel) {
                         Binding.Events.SetObjectValue(tempObj, field, value);
@@ -1052,7 +1055,7 @@ var AutoSuggest;
                                     Binding.Events.SetObjectValue(tempObj, field, result[field].toString());
                                     Thing.Merge(result, tempObj);
                                     dataContainer.Rebind(field, input);
-                                    actionEvent = new ActionEvent(4 /* Updated */, tempObj, field, tempObj[field]);
+                                    actionEvent = new ActionEvent(ActionType.Updated, tempObj, field, tempObj[field]);
                                     dataContainer.ActionEvent(actionEvent);
                                 }
                             }, function (result) {
@@ -1162,7 +1165,8 @@ var AutoSuggest;
             if (!shiftKey && sender) {
                 var list = sender["AutocompleteList"];
                 if (list) {
-                    if (key == 13 || (key == 9 && list.options.length > 0 && list.value.length >= sender.value.length)) {
+                    if (key == 13 ||
+                        (key == 9 && list.options.length > 0 && list.value.length >= sender.value.length)) {
                         var index = list.selectedIndex > -1 ? list.selectedIndex : 0;
                         if (list.options.length > 0) {
                             setValue(sender, list, index);
@@ -1478,7 +1482,7 @@ var Binding;
             if (!tempElement.onchange) {
                 tempElement.onchange = function () {
                     if (element.DataObject) {
-                        var actionEvent = new ActionEvent(5 /* Updating */, element.DataObject, field, tempElement.value);
+                        var actionEvent = new ActionEvent(ActionType.Updating, element.DataObject, field, tempElement.value);
                         dataContainer.ActionEvent(actionEvent);
                         if (!actionEvent.Cancel) {
                             SetObjectValue(element.DataObject, field, tempElement.value);
@@ -1488,22 +1492,20 @@ var Binding;
                                         tempElement.value = result[field];
                                         SetObjectValue(element.DataObject, field, result[field].toString());
                                         Thing.Merge(result, element.DataObject);
-                                        var formatting = element.DataContainer.DataBindings.First(function (o) {
-                                            return o.Target == Binding.Targets.Formatting;
-                                        });
+                                        var formatting = element.DataContainer.DataBindings.First(function (o) { return o.Target == Binding.Targets.Formatting; });
                                         if (formatting) {
                                             var formattedValue = formatting.ExecuteReturn(element);
                                             tempElement.value = formattedValue;
                                         }
                                         dataContainer.Rebind(field, element);
-                                        actionEvent = new ActionEvent(4 /* Updated */, element.DataObject, field, tempElement.value);
+                                        actionEvent = new ActionEvent(ActionType.Updated, element.DataObject, field, tempElement.value);
                                         dataContainer.ActionEvent(actionEvent);
                                     }
                                 });
                             }
                             else {
                                 dataContainer.Rebind(field, element);
-                                actionEvent = new ActionEvent(4 /* Updated */, element.DataObject, field, tempElement.value);
+                                actionEvent = new ActionEvent(ActionType.Updated, element.DataObject, field, tempElement.value);
                                 dataContainer.ActionEvent(actionEvent);
                             }
                         }
@@ -1522,7 +1524,7 @@ var Binding;
                 input.onclick = function () {
                     var checked = input.checked ? true : false;
                     if (input.DataObject[field] != checked) {
-                        var actionEvent = new ActionEvent(5 /* Updating */, input.DataObject, field, checked);
+                        var actionEvent = new ActionEvent(ActionType.Updating, input.DataObject, field, checked);
                         dataContainer.ActionEvent(actionEvent);
                         if (!actionEvent.Cancel) {
                             input.DataObject[field] = checked;
@@ -1533,14 +1535,14 @@ var Binding;
                                         input.DataObject[field] = result[field];
                                         Thing.Merge(result, input.DataObject);
                                         dataContainer.Rebind(field, input);
-                                        actionEvent = new ActionEvent(4 /* Updated */, input.DataObject, field, checked);
+                                        actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, checked);
                                         dataContainer.ActionEvent(actionEvent);
                                     }
                                 });
                             }
                             else {
                                 dataContainer.Rebind(field, input);
-                                actionEvent = new ActionEvent(4 /* Updated */, input.DataObject, field, checked);
+                                actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, checked);
                                 dataContainer.ActionEvent(actionEvent);
                             }
                         }
@@ -1558,7 +1560,7 @@ var Binding;
             if (!input.onclick) {
                 input.onclick = function () {
                     var checked = input.checked ? true : false;
-                    var actionEvent = new ActionEvent(5 /* Updating */, input.DataObject, field, input.value);
+                    var actionEvent = new ActionEvent(ActionType.Updating, input.DataObject, field, input.value);
                     dataContainer.ActionEvent(actionEvent);
                     if (!actionEvent.Cancel) {
                         SetObjectValue(input.DataObject, field, input.value);
@@ -1571,14 +1573,14 @@ var Binding;
                                     }
                                     Thing.Merge(result, input.DataObject);
                                     dataContainer.Rebind(field, input);
-                                    actionEvent = new ActionEvent(4 /* Updated */, input.DataObject, field, input.value);
+                                    actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, input.value);
                                     dataContainer.ActionEvent(actionEvent);
                                 }
                             });
                         }
                         else {
                             dataContainer.Rebind(field, input);
-                            actionEvent = new ActionEvent(4 /* Updated */, input.DataObject, field, input.value);
+                            actionEvent = new ActionEvent(ActionType.Updated, input.DataObject, field, input.value);
                             dataContainer.ActionEvent(actionEvent);
                         }
                     }
@@ -1597,12 +1599,12 @@ var Binding;
                     if (dataContainer.Pks) {
                         dataContainer.Pks.forEach(function (pk) { return parameter[pk] = element.DataObject[pk]; });
                     }
-                    var actionEvent = new ActionEvent(1 /* Deleting */, element.DataObject, field, null);
+                    var actionEvent = new ActionEvent(ActionType.Deleting, element.DataObject, field, null);
                     dataContainer.ActionEvent(actionEvent);
                     if (!actionEvent.Cancel) {
                         if (dataContainer.WebApi) {
                             dataContainer.WebApi.Delete(parameter, function (result) {
-                                actionEvent = new ActionEvent(0 /* Deleted */, element.DataObject, field, null);
+                                actionEvent = new ActionEvent(ActionType.Deleted, element.DataObject, field, null);
                                 dataContainer.ActionEvent(actionEvent);
                                 var ul = element.Parent(function (p) { return p.tagName == "UL"; });
                                 var li = ul.First(function (l) { return l.tagName == "LI" && l.DataObject == element.DataObject; });
@@ -1650,7 +1652,7 @@ var Binding;
                             }
                         });
                     });
-                    var actionEvent = new ActionEvent(3 /* Inserting */, newObject, "insert", null);
+                    var actionEvent = new ActionEvent(ActionType.Inserting, newObject, "insert", null);
                     ul.ActionEvent(actionEvent);
                     if (!actionEvent.Cancel) {
                         if (ul.WebApi) {
@@ -1672,7 +1674,7 @@ var Binding;
                                     }
                                     var row = ul.InsertAndBind(newObject, before);
                                     ul.SetSelected(newObject, row);
-                                    actionEvent = new ActionEvent(2 /* Inserted */, newObject, "insert", null);
+                                    actionEvent = new ActionEvent(ActionType.Inserted, newObject, "insert", null);
                                     ul.ActionEvent(actionEvent);
                                 }
                             });
@@ -1695,7 +1697,6 @@ var Binding;
         return Function.apply(null, parameters);
     }
     Binding.Return = Return;
-    Binding.Happened;
 })(Binding || (Binding = {}));
 var Calendar;
 (function (Calendar) {
@@ -1834,7 +1835,8 @@ var Calendar;
             }
         };
         element.Set = function (selectedDate) {
-            var rebuild = selectedDate.getMonth() != element.SelectedDate.getMonth() || selectedDate.getFullYear() != element.SelectedDate.getFullYear();
+            var rebuild = selectedDate.getMonth() != element.SelectedDate.getMonth() ||
+                selectedDate.getFullYear() != element.SelectedDate.getFullYear();
             element.SelectedDate = selectedDate;
             if (rebuild) {
                 element.Build();
@@ -2364,7 +2366,8 @@ var KeyPress;
     }
     KeyPress.GetThreeLengthString = GetThreeLengthString;
     function GetFourLengthString(value, currentValue, previousValue) {
-        if (previousValue == 3 && value > 1) {
+        if (previousValue == 3 &&
+            value > 1) {
             return String(currentValue).substring(0, String(currentValue).length - 1) + "03/" + String(value);
         }
         else {
@@ -2646,7 +2649,8 @@ var RegularExpression;
             if (Is.Array(sourceObjectOrArray)) {
                 regMatches.forEach(function (r) {
                     for (var j = 0; j < sourceObjectOrArray.length; j++) {
-                        if (sourceObjectOrArray[j] && sourceObjectOrArray[j].hasOwnProperty(r.PropertyName)) {
+                        if (sourceObjectOrArray[j] &&
+                            sourceObjectOrArray[j].hasOwnProperty(r.PropertyName)) {
                             sourceString = sourceString.replace(r.Match, sourceObjectOrArray[j][r.PropertyName]);
                             break;
                         }
@@ -2655,7 +2659,8 @@ var RegularExpression;
             }
             else {
                 for (var i = 0; i < regMatches.length; i++) {
-                    if (sourceObjectOrArray && sourceObjectOrArray.hasOwnProperty(regMatches[i].PropertyName)) {
+                    if (sourceObjectOrArray &&
+                        sourceObjectOrArray.hasOwnProperty(regMatches[i].PropertyName)) {
                         sourceString = sourceString.replace(regMatches[i].Match, sourceObjectOrArray[regMatches[i].PropertyName]);
                     }
                 }
@@ -2841,12 +2846,14 @@ Array.prototype.Select = function (keySelector) {
 };
 Array.prototype.Ascend = function (keySelector) {
     return this.sort(function (a, b) {
-        return keySelector(a) < keySelector(b) ? -1 : keySelector(a) > keySelector(b) ? 1 : 0;
+        return keySelector(a) < keySelector(b) ? -1 :
+            keySelector(a) > keySelector(b) ? 1 : 0;
     });
 };
 Array.prototype.Descend = function (keySelector) {
     return this.sort(function (a, b) {
-        return keySelector(a) < keySelector(b) ? 1 : keySelector(a) > keySelector(b) ? -1 : 0;
+        return keySelector(a) < keySelector(b) ? 1 :
+            keySelector(a) > keySelector(b) ? -1 : 0;
     });
 };
 Array.prototype.First = function (func) {
@@ -3160,7 +3167,8 @@ HTMLElement.prototype.Get = function (predicate, notRecursive, nodes) {
     var that = this;
     var children = that.children;
     for (var i = 0; i < children.length; i++) {
-        if (children[i].nodeType == 1 && children[i].tagName.toLowerCase() != "svg") {
+        if (children[i].nodeType == 1
+            && children[i].tagName.toLowerCase() != "svg") {
             var child = children[i];
             var fmatch = predicate(child);
             if (fmatch) {
@@ -3177,7 +3185,8 @@ HTMLElement.prototype.First = function (predicate) {
     var that = this;
     var children = that.children;
     for (var i = 0; i < children.length; i++) {
-        if (children[i].nodeType == 1 && children[i].tagName.toLowerCase() != "svg") {
+        if (children[i].nodeType == 1
+            && children[i].tagName.toLowerCase() != "svg") {
             var child = children[i];
             if (predicate(child)) {
                 return child;
@@ -3392,7 +3401,8 @@ HTMLSelectElement.prototype.AddOptions = function (arrayOrObject, valueProperty,
         if (displayProperty && valueProperty) {
             tempArray.forEach(function (t) {
                 select["options"][select.options.length] = new Option(t[displayProperty], t[valueProperty]);
-                if (selectedValue && t[valueProperty] == selectedValue) {
+                if (selectedValue &&
+                    t[valueProperty] == selectedValue) {
                     select["options"][select.options.length - 1].selected = "true";
                 }
             });
@@ -3400,13 +3410,15 @@ HTMLSelectElement.prototype.AddOptions = function (arrayOrObject, valueProperty,
         else if (tempArray.length > 1 && Is.String(tempArray[0])) {
             tempArray.forEach(function (t) {
                 select["options"][select.options.length] = new Option(t, t);
-                if (selectedValue && t == selectedValue) {
+                if (selectedValue &&
+                    t == selectedValue) {
                     select["options"][select.options.length - 1].selected = "true";
                 }
             });
         }
     }
     else if (arrayOrObject) {
+        //if its a object prop
         for (var prop in arrayOrObject) {
             if (Is.Function(prop)) {
                 select["options"][select.options.length] = new Option(prop, prop);
@@ -3505,7 +3517,9 @@ HTMLUListElement.prototype.Bind = function (data) {
             setTimeout(async, 0);
         }
     };
-    if (data && data.length && that.RowHtml) {
+    if (data &&
+        data.length &&
+        that.RowHtml) {
         setTimeout(async, 0);
     }
     else {
@@ -3724,13 +3738,18 @@ Window.prototype.Dimensions = function () {
     var ret = { Height: 0, Width: 0 };
     var temp = window;
     if (typeof temp.innerWidth != 'undefined') {
-        ret.Width = temp.innerWidth, ret.Height = temp.innerHeight;
+        ret.Width = temp.innerWidth,
+            ret.Height = temp.innerHeight;
     }
-    else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientWidth != 'undefined' && document.documentElement.clientWidth != 0) {
-        ret.Width = document.documentElement.clientWidth, ret.Height = document.documentElement.clientHeight;
+    else if (typeof document.documentElement != 'undefined'
+        && typeof document.documentElement.clientWidth !=
+            'undefined' && document.documentElement.clientWidth != 0) {
+        ret.Width = document.documentElement.clientWidth,
+            ret.Height = document.documentElement.clientHeight;
     }
     else {
-        ret.Width = document.getElementsByTagName('body')[0].clientWidth, ret.Height = document.getElementsByTagName('body')[0].clientHeight;
+        ret.Width = document.getElementsByTagName('body')[0].clientWidth,
+            ret.Height = document.getElementsByTagName('body')[0].clientHeight;
     }
     return ret;
 };
@@ -3822,4 +3841,3 @@ function WindowLoad(e) {
 }
 ;
 WindowLoad();
-//# sourceMappingURL=ULFBERHT.js.map
