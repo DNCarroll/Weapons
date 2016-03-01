@@ -52,6 +52,7 @@
     <Compile Include="Extensions\ExecuteExtensions.cs" />
     <Compile Include="Extensions\FirstOrDefaultExtensions.cs" />
     <Compile Include="Extensions\ToListExtensions.cs" />
+    <Compile Include="Extensions\TryParseExtension.cs" />
     <Compile Include="ListTExtensions.cs" />
     <Compile Include="ADO\ParameterMethods.cs" />
     <Compile Include="Extensions\UpdateExtensions.cs" />

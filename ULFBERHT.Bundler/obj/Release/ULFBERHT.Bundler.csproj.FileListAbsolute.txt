@@ -10,3 +10,6 @@ C:\Users\Nathan\Documents\GitHub\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERT.Bu
 C:\Users\ncarroll\Documents\GitHub\Weapons\ULFBERHT.Bundler\bin\Release\ULFBERT.Bundler.exe.config
 C:\Users\ncarroll\Documents\GitHub\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERT.Bundler.exe
 C:\Users\ncarroll\Documents\GitHub\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERT.Bundler.pdb
+C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT.Bundler\bin\Release\ULFBERT.Bundler.exe.config
+C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERT.Bundler.exe
+C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERT.Bundler.pdb

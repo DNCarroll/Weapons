@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleAxe", "BattleAxe\BattleAxe.csproj", "{4E224103-83CF-46D0-A785-0B9D38F90B2F}"
 EndProject
@@ -34,6 +34,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ULFBERHT.Bundled", "ULFBERHT.Bundled\ULFBERHT.Bundled.csproj", "{2C41A07C-FB39-427A-BC6F-A06C2F950FB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleAxe.Test", "BattleAxe.Test\BattleAxe.Test.csproj", "{AD5A3F3A-284F-4363-AD43-CD15AE1A0F30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleAxe.IBattleAxeFixer", "BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer.csproj", "{2C402541-EC70-414A-824A-3EDB6304247E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleAxe.IBattleAxeFixer.Test", "BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer.Test\BattleAxe.IBattleAxeFixer.Test.csproj", "{F602061E-F6AE-4CB0-8B47-0EC86B5D336D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleAxe.IBattleAxeFixer.Vsix", "BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer.Vsix\BattleAxe.IBattleAxeFixer.Vsix.csproj", "{CB643A1F-6205-4104-91F4-534E9A1B2729}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +87,18 @@ Global
 		{AD5A3F3A-284F-4363-AD43-CD15AE1A0F30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD5A3F3A-284F-4363-AD43-CD15AE1A0F30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD5A3F3A-284F-4363-AD43-CD15AE1A0F30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C402541-EC70-414A-824A-3EDB6304247E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C402541-EC70-414A-824A-3EDB6304247E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C402541-EC70-414A-824A-3EDB6304247E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C402541-EC70-414A-824A-3EDB6304247E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F602061E-F6AE-4CB0-8B47-0EC86B5D336D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F602061E-F6AE-4CB0-8B47-0EC86B5D336D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F602061E-F6AE-4CB0-8B47-0EC86B5D336D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F602061E-F6AE-4CB0-8B47-0EC86B5D336D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB643A1F-6205-4104-91F4-534E9A1B2729}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB643A1F-6205-4104-91F4-534E9A1B2729}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB643A1F-6205-4104-91F4-534E9A1B2729}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB643A1F-6205-4104-91F4-534E9A1B2729}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
