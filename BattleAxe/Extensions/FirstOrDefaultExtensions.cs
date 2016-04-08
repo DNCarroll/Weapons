@@ -4,6 +4,11 @@ namespace BattleAxe
 {
     public static class FirstOrDefaultExtensions
     {
+
+        public static BattleAxe.Dynamic FirstOrDefault(this SqlCommand command, BattleAxe.Dynamic parameter = null)
+        {
+            return command.FirstOrDefault<Dynamic>(parameter);
+        }
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. 
@@ -59,6 +64,12 @@ namespace BattleAxe
             where T : class, new()
         {
             return command.FirstOrDefault(parameter);
+        }
+
+
+        public static Dynamic FirstOrDefault(this Dynamic parameter, SqlCommand command)
+        {
+            return command.FirstOrDefault<Dynamic>(parameter);
         }
 
         /// <summary>

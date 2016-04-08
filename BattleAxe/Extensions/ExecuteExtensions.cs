@@ -5,6 +5,17 @@ namespace BattleAxe
 {
     public static class ExecuteExtensions
     {
+
+        public static Dynamic Execute(this SqlCommand command, Dynamic parameter)
+        {
+            return command.Execute<Dynamic>(parameter);
+        }
+
+        public static void Execute(this SqlCommand command)
+        {
+            command.Execute(new object());
+        }
+
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. 

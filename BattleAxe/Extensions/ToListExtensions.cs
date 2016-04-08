@@ -5,6 +5,12 @@ namespace BattleAxe
 {
     public static class ToListExtensions
     {
+
+        public static List<Dynamic> ToList(this SqlCommand command, Dynamic parameter = null)
+        {
+            return command.ToList<Dynamic>(parameter);
+        }
+
         /// <summary>
         /// the command should have the connections string set,  doesnt have to be open but
         /// the string should be set. 
@@ -57,6 +63,11 @@ namespace BattleAxe
             where T : class, new()
         {
             return ToList<T>(command, parameter);
+        }
+
+        public static List<Dynamic> ToList(this Dynamic parameter, SqlCommand command)
+        {
+            return ToList<Dynamic>(command, parameter);
         }
 
         /// <summary>
