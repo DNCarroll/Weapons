@@ -248,3 +248,4 @@ var AutoSuggest;
         input["SelectedValue"] = list.options[selectedIndex].value;
     }
 })(AutoSuggest || (AutoSuggest = {}));
+//# sourceMappingURL=AutoSuggest.js.map

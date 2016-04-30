@@ -6,16 +6,7 @@ using System.Text;
 namespace ULFBERHT.Bundler
 {
     public class TypeScriptFile
-    {
-
-        private bool m_Selected = true;
-        public bool Selected
-        {
-            get { return m_Selected; }
-            set { m_Selected = value; }
-        }
-                
-
+    {        
         private string m_FullName;
         public string FullName
         {
@@ -26,22 +17,9 @@ namespace ULFBERHT.Bundler
                 m_FullName = value; 
             }
         }       
-
-        private string m_Name;
-        public string Name
-        {
-            get { return m_Name; }
-            set { m_Name = value; }
-        }
-
-
-        private string m_JavaScriptFile;
-        public string JavaScriptFile
-        {
-            get { return m_JavaScriptFile; }
-            set { m_JavaScriptFile = value; }
-        }
-                
-                
+        
+        public string Name { get; set; }
+        public string JavaScriptFile { get; set; }
+        public bool Selected { get; set; } = true;
     }
 }

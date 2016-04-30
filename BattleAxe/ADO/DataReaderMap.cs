@@ -1,67 +1,38 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace BattleAxe
-{
-    public class DataReaderMap
-    {
-                private string m_FieldName;
-        public string FieldName
-        {
-            get { return m_FieldName; }
-            set { m_FieldName = value; }
-        }
+namespace BattleAxe {
+    public class DataReaderMap {
+        public string FieldName { get; set; }
+        public System.Data.SqlDbType SqlType { get; set; }
+        public int Index { get; set; }
 
-        private System.Data.SqlDbType m_SqlType;
-        public System.Data.SqlDbType SqlType
-        {
-            get { return m_SqlType; }
-            set { m_SqlType = value; }
-        }
-
-        private int m_Index;
-        public int Index
-        {
-            get { return m_Index; }
-            set { m_Index = value; }
-        }
-
-        public static List<DataReaderMap> GetReaderMap(System.Data.IDataReader reader)
-        {
+        public static List<DataReaderMap> GetReaderMap(System.Data.IDataReader reader) {
             var ret = new List<DataReaderMap>();
-            for (int i = 0; i < reader.FieldCount; i++)
-            {
+            for (int i = 0; i < reader.FieldCount; i++) {
                 var newMap = new DataReaderMap(i, reader);
                 ret.Add(newMap);
             }
             return ret;
         }
 
-        public DataReaderMap(int index, System.Data.IDataReader reader)
-        {
+        public DataReaderMap(int index, System.Data.IDataReader reader) {
             this.Index = index;
             this.FieldName = reader.GetName(this.Index);
             this.SqlType = sqlType(reader);
         }
 
         public static void Set<T>(System.Data.IDataReader reader, List<DataReaderMap> map, T obj, Action<T, string, object> setMethod)
-            where T: class
-        {
-            foreach (var item in map)
-            {
+            where T : class {
+            foreach (var item in map) {
                 item.SetFromReader(obj, reader, setMethod);
             }
         }
 
-
-
         public void SetFromReader<T>(T obj, System.Data.IDataReader reader, Action<T, string, object> setMethod)
-            where T : class
-        {
-            if (!reader.IsDBNull(this.Index))
-            {
-                switch (this.SqlType)
-                {
+            where T : class {
+            if (!reader.IsDBNull(this.Index)) {
+                switch (this.SqlType) {
                     case System.Data.SqlDbType.BigInt:
                         setMethod(obj, FieldName, reader.GetInt64(this.Index));
                         break;
@@ -73,8 +44,7 @@ namespace BattleAxe
                         int bufferSize = 1024;
                         long bytesRead = 0;
                         int curPos = 0;
-                        while (bytesRead < size)
-                        {
+                        while (bytesRead < size) {
                             bytesRead += reader.GetBytes(this.Index, curPos, values, curPos, bufferSize);
                             curPos += bufferSize;
                         }
@@ -126,18 +96,14 @@ namespace BattleAxe
                         break;
                 }
             }
-            else
-            {
+            else {
                 setMethod(obj, FieldName, null);
             }
         }
-        
 
-        System.Data.SqlDbType sqlType(System.Data.IDataReader reader)
-        {
+        System.Data.SqlDbType sqlType(System.Data.IDataReader reader) {
             var name = reader.GetFieldType(this.Index).Name;
-            switch (name)
-            {
+            switch (name) {
                 case "Int32": return System.Data.SqlDbType.Int;
                 case "DateTime": return System.Data.SqlDbType.DateTime;
                 case "String":
@@ -156,9 +122,6 @@ namespace BattleAxe
                 default:
                     return System.Data.SqlDbType.Variant;
             }
-        }       
-
-        
+        }
     }
-
 }

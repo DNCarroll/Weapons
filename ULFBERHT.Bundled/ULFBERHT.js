@@ -735,7 +735,6 @@ var Ajax;
     Ajax.AutoConvert = true;
     Ajax.ProgressElement = null;
     Ajax.DisableElement = null;
-    Ajax.DefaultHeader;
     function Resolver() {
         var subDirectories = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -1708,7 +1707,6 @@ var Binding;
         return Function.apply(null, parameters);
     }
     Binding.Return = Return;
-    Binding.Happened;
 })(Binding || (Binding = {}));
 var Calendar;
 (function (Calendar) {

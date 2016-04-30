@@ -34,3 +34,12 @@ C:\Users\ncarroll\Documents\GitHub\Weapons\Differ\bin\Release\Newtonsoft.Json.xm
 C:\Users\ncarroll\Documents\GitHub\Weapons\Differ\obj\Release\Differ.csprojResolveAssemblyReference.cache
 C:\Users\ncarroll\Documents\GitHub\Weapons\Differ\obj\Release\Differ.dll
 C:\Users\ncarroll\Documents\GitHub\Weapons\Differ\obj\Release\Differ.pdb
+C:\Users\Nathan\Source\Repos\Weapons\Differ\bin\Release\Differ.dll
+C:\Users\Nathan\Source\Repos\Weapons\Differ\bin\Release\Differ.pdb
+C:\Users\Nathan\Source\Repos\Weapons\Differ\bin\Release\BattleAxe.dll
+C:\Users\Nathan\Source\Repos\Weapons\Differ\bin\Release\Newtonsoft.Json.dll
+C:\Users\Nathan\Source\Repos\Weapons\Differ\bin\Release\BattleAxe.pdb
+C:\Users\Nathan\Source\Repos\Weapons\Differ\bin\Release\Newtonsoft.Json.xml
+C:\Users\Nathan\Source\Repos\Weapons\Differ\obj\Release\Differ.csprojResolveAssemblyReference.cache
+C:\Users\Nathan\Source\Repos\Weapons\Differ\obj\Release\Differ.dll
+C:\Users\Nathan\Source\Repos\Weapons\Differ\obj\Release\Differ.pdb

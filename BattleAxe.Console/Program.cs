@@ -116,7 +116,7 @@ namespace BattleAxe.Console
             {
                 if (Test.GetMethod == null)
                 {
-                    Test.GetMethod = Compiler.GetHelper.Value<Test>(this.GetType());
+                    Test.GetMethod = Compiler.GetHelper.Value<Test>();
                 }
                 if(Test.GetMethod !=null)
                 {

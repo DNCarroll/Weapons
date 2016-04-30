@@ -12,7 +12,8 @@ namespace BattleAxe
         internal static void SetInputs<T>(T sourceForInputParameters, SqlCommand command, bool shipStructured = false)
             where T : class
         {
-            if (sourceForInputParameters != null && command.Parameters != null && command.Parameters.Count > 0)
+            if (sourceForInputParameters != null  && command?.Parameters.Count > 0)
+                //if (sourceForInputParameters != null && command.Parameters != null && command.Parameters.Count > 0)
             {
                 Func<T, string, object> getMethod = Compiler.GetMethod(sourceForInputParameters);
                 try
@@ -64,16 +65,11 @@ namespace BattleAxe
                         Func<object, string, object> getMethod;
                         if (data[0] is IBattleAxe)
                         {
-                            getMethod = (o, s) =>
-                            {
-                                return ((IBattleAxe)o)[s];
-                            };
+                            getMethod = (o, s) => ((IBattleAxe)o)[s];                           
                         }
                         else {
                             var tempMethod = Compiler.GetMethod2(data[0]);
-                            getMethod = (o, s) => {
-                                return tempMethod(o, s);
-                            };
+                            getMethod = (o, s) => tempMethod(o, s);
                         }                        
                         foreach (var obj in data)
                         {

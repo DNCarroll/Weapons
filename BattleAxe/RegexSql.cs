@@ -2,10 +2,8 @@
 using System.Data;
 using System.Data.SqlClient;
 
-namespace BattleAxe
-{
-    public static class RegexSql
-    {
+namespace BattleAxe {
+    public static class RegexSql {
 
         /// <summary>
         /// execute a string back to the database using group names from regex to supply to the stored procedures
@@ -18,39 +16,30 @@ namespace BattleAxe
         /// <returns></returns>
         public static T ExecuteWithRegex<T>(this SqlCommand command, string source, System.Text.RegularExpressions.Regex regex,
             Func<string, object> regexNotFoundOrValueIsNull = null)
-            where T : class, IBattleAxe, new()
-        {
+            where T : class, IBattleAxe, new() {
             var outputParameters = new T();
-            if (regex.TrySetSqlCommandParameterValues(source, command, regexNotFoundOrValueIsNull))
-            {
-                try
-                {
-                    if (command.IsConnectionOpen())
-                    {
+            if (regex.TrySetSqlCommandParameterValues(source, command, regexNotFoundOrValueIsNull)) {
+                try {
+                    if (command.IsConnectionOpen()) {
                         command.ExecuteNonQuery();
                         command.Connection.Close();
-                        foreach (IDbDataParameter parameter in command.Parameters)
-                        {
-                            if (parameter.Direction == ParameterDirection.InputOutput || parameter.Direction == ParameterDirection.Output)
-                            {
+                        foreach (IDbDataParameter parameter in command.Parameters) {
+                            if (parameter.Direction == ParameterDirection.InputOutput || parameter.Direction == ParameterDirection.Output) {
                                 var field = parameter.ParameterName.Replace("@", "");
                                 outputParameters[field] = parameter.Value;
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     string formatted = string.Format("Execution of 'ExecuteWithRegex' SqlCommand:{0}, ErrorMessage:{1}", command.CommandText, ex.Message);
                     throw new Exception(formatted);
                 }
-                finally
-                {
+                finally {
                     command.Connection.Close();
                 }
             }
-            else
-            {
+            else {
                 string formatted = string.Format("Failed to 'ExecuteWithRegex' SqlCommand:{0}", command.CommandText);
                 throw new Exception(formatted);
             }
@@ -60,25 +49,19 @@ namespace BattleAxe
         public static bool TrySetSqlCommandParameterValues(this System.Text.RegularExpressions.Regex regex,
             string source,
             IDbCommand command,
-            Func<string, object> regexNotFoundOrValueIsNull)
-        {
+            Func<string, object> regexNotFoundOrValueIsNull) {
             var match = regex.Match(source);
-            if (match.Success)
-            {
-                foreach (SqlParameter item in command.Parameters)
-                {
+            if (match.Success) {
+                foreach (SqlParameter item in command.Parameters) {
                     item.Value = DBNull.Value;
                     var group = match.Groups[item.SourceColumn];
                     if (group != null &&
-                        !string.IsNullOrEmpty(group.Value))
-                    {
+                        !string.IsNullOrEmpty(group.Value)) {
                         item.Value = group.Value.Trim();
                     }
-                    else if (regexNotFoundOrValueIsNull != null)
-                    {
+                    else if (regexNotFoundOrValueIsNull != null) {
                         var value = regexNotFoundOrValueIsNull(item.SourceColumn);
-                        if (value != null)
-                        {
+                        if (value != null) {
                             item.Value = value;
                         }
                     }

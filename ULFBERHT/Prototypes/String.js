@@ -101,3 +101,4 @@ String.prototype.Get = function (parameters, success, isRaw) {
         Ajax.HttpAction("GET", url, null, success, isRaw);
     }
 };
+//# sourceMappingURL=String.js.map

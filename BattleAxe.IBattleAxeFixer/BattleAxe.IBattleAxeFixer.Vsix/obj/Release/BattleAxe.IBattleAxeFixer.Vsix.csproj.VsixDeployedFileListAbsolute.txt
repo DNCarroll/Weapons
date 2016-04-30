@@ -1,0 +1,6 @@
+C:\Users\Nathan\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\Nathan\BattleAxe.IBattleAxeFixer\1.0\\BattleAxe.IBattleAxeFixer.dll
+C:\Users\Nathan\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\Nathan\BattleAxe.IBattleAxeFixer\1.0\\extension.vsixmanifest
+C:\Users\Nathan\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\Nathan\BattleAxe.IBattleAxeFixer\1.0\\Diagnostic.nuspec
+C:\Users\Nathan\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\Nathan\BattleAxe.IBattleAxeFixer\1.0\\tools\install.ps1
+C:\Users\Nathan\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\Nathan\BattleAxe.IBattleAxeFixer\1.0\\tools\uninstall.ps1
+C:\Users\Nathan\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\Nathan\BattleAxe.IBattleAxeFixer\1.0\\BattleAxe.IBattleAxeFixer.pdb
