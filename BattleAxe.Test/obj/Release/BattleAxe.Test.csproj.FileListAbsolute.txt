@@ -12,11 +12,9 @@ C:\Users\Nathan\Documents\GitHub\Weapons\BattleAxe.Test\bin\Release\Newtonsoft.J
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Release\BattleAxe.Test.dll
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Release\BattleAxe.Test.pdb
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Release\BattleAxe.dll
-C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Release\Newtonsoft.Json.dll
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Release\BattleAxe.pdb
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Release\Newtonsoft.Json.xml
-C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\obj\Release\BattleAxe.Test.csprojResolveAssemblyReference.cache
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\obj\Release\BattleAxe.Test.dll
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\obj\Release\BattleAxe.Test.pdb

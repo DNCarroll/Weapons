@@ -1,0 +1,9 @@
+C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Debug\BattleAxe.Test.dll
+C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Debug\BattleAxe.Test.pdb
+C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Debug\BattleAxe.dll
+C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Debug\BattleAxe.pdb
+C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\obj\Debug\BattleAxe.Test.csprojResolveAssemblyReference.cache
+C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\obj\Debug\BattleAxe.Test.dll
+C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.Test\obj\Debug\BattleAxe.Test.pdb
