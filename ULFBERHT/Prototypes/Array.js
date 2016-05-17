@@ -20,7 +20,6 @@ Array.prototype.Return = function (func) {
         default:
             return null;
     }
-    return null;
 };
 Array.prototype.Select = function (keySelector) {
     var ret = new Array();
@@ -241,4 +240,3 @@ Array.prototype.ToArray = function (property) {
     }
     return ret;
 };
-//# sourceMappingURL=Array.js.map

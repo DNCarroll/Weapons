@@ -61,4 +61,3 @@ var ViewManager;
     }
     ViewManager.Load = Load;
 })(ViewManager || (ViewManager = {}));
-//# sourceMappingURL=ViewManager.js.map

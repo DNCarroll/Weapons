@@ -8,20 +8,22 @@ HTMLSelectElement.prototype.AddOptions= function(arrayOrObject, valueProperty ? 
     if (Is.Array(arrayOrObject)) {
         var tempArray = <Array<any>>arrayOrObject;
         if (displayProperty && valueProperty) {
-            tempArray.forEach(t=> {                
-                select["options"][select.options.length] = new Option(t[displayProperty], t[valueProperty]);
+            tempArray.forEach(t => {  
+                var option = new Option(t[displayProperty], t[valueProperty]);              
+                select["options"][select.options.length] = option;
                 if (selectedValue &&
                     t[valueProperty] == selectedValue) {
-                    select["options"][select.options.length - 1].selected = "true";
+                    option.selected = true;
                 }
             });                        
         }
         else if (tempArray.length > 1 && Is.String(tempArray[0])) {
             tempArray.forEach(t => {
-                select["options"][select.options.length] = new Option(t, t);
+                var option = new Option(t, t);
+                select["options"][select.options.length] = option;
                 if (selectedValue &&
                     t == selectedValue) {
-                    select["options"][select.options.length - 1].selected = "true";
+                    option.selected = true;
                 }
             });
         }
@@ -30,9 +32,10 @@ HTMLSelectElement.prototype.AddOptions= function(arrayOrObject, valueProperty ? 
         //if its a object prop
         for (var prop in arrayOrObject) {
             if (Is.Function(prop)) {
-                select["options"][select.options.length] = new Option(prop, prop);
+                var option = new Option(prop, prop);
+                select["options"][select.options.length] = option;
                 if (selectedValue && selectedValue == prop) {
-                    select["options"][select.options.length - 1].selected = "selected";
+                    option.selected = true;
                 }
             }
         }
@@ -43,9 +46,10 @@ HTMLSelectElement.prototype.AddOptionsViaObject = function (obj, selectedValue?,
     var select = <HTMLSelectElement>this;
     if (orderedAsIs) {
         for (var prop in obj) {
-            select["options"][select.options.length] = new Option(prop, obj[prop]);
+            var option = new Option(prop, obj[prop]);
+            select["options"][select.options.length] = option;
             if (selectedValue && selectedValue == obj[prop]) {
-                select["options"][select.options.length - 1].selected = "selected";
+                option.selected = true;
             }
         }
     }
@@ -58,10 +62,11 @@ HTMLSelectElement.prototype.AddOptionsViaObject = function (obj, selectedValue?,
             }
         }
         tempArray = tempArray.sort();
-        tempArray.forEach(t=> {            
-            select["options"][select.options.length] = new Option(t, obj[t]);
+        tempArray.forEach(t => {   
+            var option = new Option(t, obj[t]);         
+            select["options"][select.options.length] = option;
             if (selectedValue != undefined && selectedValue == obj[t]) {
-                select["options"][select.options.length - 1].selected = "selected";
+                option.selected = true;
             }
         });
     }

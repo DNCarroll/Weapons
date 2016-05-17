@@ -48,4 +48,3 @@ var Accordion;
     }
     Accordion.GetStyleSheetRules = GetStyleSheetRules;
 })(Accordion || (Accordion = {}));
-//# sourceMappingURL=Accordion.js.map

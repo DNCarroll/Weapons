@@ -23,6 +23,6 @@ C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT\bin\Newtonsoft.Json.xml
 C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT\bin\System.Net.Http.Formatting.xml
 C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT\bin\System.Web.Http.xml
 C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT\bin\System.Web.Http.WebHost.xml
-C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT\obj\Release\ULFBERHT.csprojResolveAssemblyReference.cache
 C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT\obj\Release\ULFBERHT.dll
 C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT\obj\Release\ULFBERHT.pdb
+C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT\obj\Release\ULFBERHT.csprojResolveAssemblyReference.cache

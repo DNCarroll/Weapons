@@ -224,4 +224,3 @@ HTMLElement.prototype.GetDataSetAttributes = function () {
     }
     return ret;
 };
-//# sourceMappingURL=HTMLElement.js.map

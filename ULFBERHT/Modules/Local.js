@@ -46,8 +46,6 @@ var Local;
         catch (e) {
             throw e;
         }
-        return null;
     }
     Local.Get = Get;
 })(Local || (Local = {}));
-//# sourceMappingURL=Local.js.map

@@ -262,4 +262,3 @@ var KeyPress;
     }
     KeyPress.Number = Number;
 })(KeyPress || (KeyPress = {}));
-//# sourceMappingURL=KeyPress.js.map

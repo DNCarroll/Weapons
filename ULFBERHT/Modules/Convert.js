@@ -30,4 +30,3 @@ var Convert;
     }
     Convert.ToStyleProperty = ToStyleProperty;
 })(Convert || (Convert = {}));
-//# sourceMappingURL=Convert.js.map

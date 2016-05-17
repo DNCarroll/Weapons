@@ -38,10 +38,10 @@ namespace ULFBERHT.Bundler {
             }
             try {
                 if (Environment.MachineName.ToUpper() == "TECH028") {
-                    System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.7", @"--declaration " + path);
+                    System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.8", @"--declaration " + path);
                 }
                 else {
-                    System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.7", @"--declaration " + path);
+                    System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.8", @"--declaration " + path);
                 }
             }
             catch (Exception) {

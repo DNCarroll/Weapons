@@ -39,6 +39,5 @@
         } catch (e) {
             throw e;
         }
-        return null;
     }
 } 

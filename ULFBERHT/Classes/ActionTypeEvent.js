@@ -7,5 +7,4 @@ var ActionEvent = (function () {
         this.Value = value;
     }
     return ActionEvent;
-})();
-//# sourceMappingURL=ActionTypeEvent.js.map
+}());

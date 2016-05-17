@@ -8,4 +8,3 @@ var ActionType;
     ActionType[ActionType["Updating"] = 5] = "Updating";
     ActionType[ActionType["Bound"] = 6] = "Bound";
 })(ActionType || (ActionType = {}));
-//# sourceMappingURL=ActionType.js.map

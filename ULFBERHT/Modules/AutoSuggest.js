@@ -191,18 +191,22 @@ var AutoSuggest;
                     }
                     else if (key == 38) {
                         if (list.selectedIndex > 0) {
-                            list.options[list.selectedIndex - 1].selected = "selected";
+                            var option = list.options[list.selectedIndex - 1];
+                            option.selected = true;
                         }
                         else {
-                            list.options[0].selected = "selected";
+                            var option = list.options[0];
+                            option.selected = true;
                         }
                     }
                     else if (key == 40) {
                         if (list.selectedIndex < list.options.length - 1) {
-                            list.options[list.selectedIndex + 1].selected = "selected";
+                            var option = list.options[list.selectedIndex + 1];
+                            option.selected = true;
                         }
                         else {
-                            list.options[0].selected = "selected";
+                            var option = list.options[0];
+                            option.selected = true;
                         }
                     }
                     else if (key == 8) {
@@ -244,8 +248,8 @@ var AutoSuggest;
     AutoSuggest.Hook = Hook;
     function setValue(input, list, selectedIndex) {
         selectedIndex = selectedIndex ? selectedIndex : list.selectedIndex;
-        input.value = list.options[selectedIndex].text;
-        input["SelectedValue"] = list.options[selectedIndex].value;
+        var option = list.options[selectedIndex];
+        input.value = option.text;
+        input["SelectedValue"] = option.value;
     }
 })(AutoSuggest || (AutoSuggest = {}));
-//# sourceMappingURL=AutoSuggest.js.map

@@ -26,4 +26,3 @@ HTMLFormElement.prototype.Bind = function (data) {
 HTMLFormElement.prototype.Rebind = function (field, sender) {
     Binding.DataContainer.Rebind(this, sender, field);
 };
-//# sourceMappingURL=HTMLFormElement.js.map

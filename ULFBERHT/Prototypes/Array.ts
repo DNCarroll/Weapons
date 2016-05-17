@@ -43,7 +43,6 @@ Array.prototype.Return = function (func: (...objs: any[]) => any): any {
         default:
             return null;
     }
-    return null;
 };
 Array.prototype.Select = function (keySelector: (element: any) => any): Array<any> {
     var ret = new Array<any>();    
