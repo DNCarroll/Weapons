@@ -1,6 +1,8 @@
 ﻿using System;
 using BattleAxe;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BattleAxe.Test {
     [TestClass]
@@ -17,8 +19,10 @@ namespace BattleAxe.Test {
 
         [TestMethod]
         public void TestUpdate() {
-            var item = "testTable_Get".GetCommand(ConnectionString).FirstOrDefault<testTable>();
+            var items = "testTable_Get".GetCommand(ConnectionString).ToList<testTable>();
+            var item = items.FirstOrDefault();
             item.value = Guid.NewGuid().ToString();
+            item.valueStatus = ValueStatus.Updated;
             "testTable_Update".GetCommand(ConnectionString).Execute(item);
             var updateditem = $"SELECT * FROM testTable WHERE id ={item.id}".GetCommand(ConnectionString, System.Data.CommandType.Text).FirstOrDefault<testTable>();
             Assert.IsTrue(item != null && item.value == updateditem.value && item.name == updateditem.name);
@@ -37,5 +41,12 @@ namespace BattleAxe.Test {
         public int id { get; set; }
         public string value { get; set; }
         public string name { get; set; }
+        public ValueStatus valueStatus { get; set; } = ValueStatus.New;
+
+        //void asdf() {
+        //   // "obj.{propertyName} = ({type})System.Enum.Parse(typeof({type}), value.ToString()); break;";
+        //    object value = null;
+        //    obj.{propertyName} = value == null ? default({type}) : ({type})System.Enum.Parse(typeof({type}), value.ToString()); break;
+        //}
     }
 }

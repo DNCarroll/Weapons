@@ -241,7 +241,7 @@ namespace BattleAxe {
                         else if (propertyType.IsEnum) {
                             var typeName = propertyType.FullName;
                             var caseStatement = "case \"{propertyName}\":";
-                            caseStatement += "obj.{propertyName} = ({type})System.Enum.Parse(typeof({type}), value.ToString()); break;";
+                            caseStatement += "obj.{propertyName} = value == null ? default({type}) : ({type})System.Enum.Parse(typeof({type}), value.ToString()); break;";
                             caseStatement = caseStatement.Replace("{propertyName}", propertyName).Replace("{type}", typeName);
                             cases.AppendLine(caseStatement);
                         }

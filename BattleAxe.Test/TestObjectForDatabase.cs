@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace BattleAxe.Test
 {
+    public enum ValueStatus {
+        New = 0,
+        Updated = 1
+    }
+
     public class TestObjectForDatabase
     {
+
+
 
         private int _ID;
         public int ID
