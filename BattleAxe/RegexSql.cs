@@ -32,16 +32,14 @@ namespace BattleAxe {
                     }
                 }
                 catch (Exception ex) {
-                    string formatted = string.Format("Execution of 'ExecuteWithRegex' SqlCommand:{0}, ErrorMessage:{1}", command.CommandText, ex.Message);
-                    throw new Exception(formatted);
+                    throw new Exception($"Execution of 'ExecuteWithRegex' SqlCommand:{command.CommandText}, ErrorMessage:{ex.Message}");
                 }
                 finally {
                     command.Connection.Close();
                 }
             }
-            else {
-                string formatted = string.Format("Failed to 'ExecuteWithRegex' SqlCommand:{0}", command.CommandText);
-                throw new Exception(formatted);
+            else {                
+                throw new Exception($"Failed to 'ExecuteWithRegex' SqlCommand:{command.CommandText}");
             }
             return outputParameters;
         }

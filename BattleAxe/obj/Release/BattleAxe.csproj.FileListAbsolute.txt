@@ -7,3 +7,8 @@ C:\Users\Nathan\Source\Repos\Weapons\BattleAxe\bin\Release\BattleAxe.pdb
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe\obj\Release\BattleAxe.dll
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe\obj\Release\BattleAxe.pdb
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe\obj\Release\BattleAxe.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe\bin\Release\BattleAxe.dll
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe\bin\Release\BattleAxe.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe\obj\Release\BattleAxe.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe\obj\Release\BattleAxe.dll
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe\obj\Release\BattleAxe.pdb

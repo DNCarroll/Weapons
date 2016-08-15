@@ -101,15 +101,16 @@ namespace BattleAxe {
         }
 
         public static class SetHelper {
-            static string caseStatement(string propertyName, string type, string convertMethod, string defaultValue) {
-                var ret = "case \"{propertyName}\":";
-                ret += "obj.{propertyName} = value is {type} ? ({type})value : value != null ? {convertMethod} : {defaultValue}; break;";
-                ret = ret.Replace("{propertyName}", propertyName)
-                         .Replace("{type}", type)
-                         .Replace("{convertMethod}", convertMethod)
-                         .Replace("{defaultValue}", defaultValue);
+            static string caseStatement(string propertyName, string type, string convertMethod, string defaultValue = null) {
+
+                var ret = $"case \"{propertyName}\": obj.{propertyName} = value is {type} ? ({type})value : " +
+                    (defaultValue != null ?
+                        $"value != null ? {convertMethod} : {defaultValue};" :
+                        $"{convertMethod};"
+                    ) + "break;";                
                 return ret;
             }
+            
 
             public static SetValue<T> Value<T>() where T : class => Value<T>(typeof(T));
 
@@ -151,7 +152,9 @@ namespace BattleAxe {
                 foreach (var a in referencedAssemblies) {
                     parameters.ReferencedAssemblies.Add(a.Location);
                 }
-
+                var location = new BattleAxe.Dynamic().GetType().Assembly.Location;
+                //added so that we can use NullableConverter,  there were no references to BattleAxe
+                parameters.ReferencedAssemblies.Add(location);
                 CompilerResults results = provider.CompileAssemblyFromSource(parameters, code);
 
                 Type binaryFunction = results.CompiledAssembly.GetType("BattleAxe.SetMethods");
@@ -238,26 +241,52 @@ namespace BattleAxe {
                         else if (propertyType.Equals(typeof(DateTime))) {
                             cases.AppendLine(caseStatement(propertyName, "DateTime", "Convert.ToDateTime(value)", "System.DateTime.MinValue"));
                         }
+                        else if (propertyType.Equals(typeof(int?))) {
+                            cases.AppendLine(caseStatement(propertyName, "int", "BattleAxe.NullConverter.ToInt(value)"));
+                        }
+                        else if (propertyType.Equals(typeof(bool?))) {
+                            cases.AppendLine(caseStatement(propertyName, "bool", "BattleAxe.NullConverter.ToBoolean(value)"));
+                        }
+                        else if (propertyType.Equals(typeof(double?))) {
+                            cases.AppendLine(caseStatement(propertyName, "double", "BattleAxe.NullConverter.ToDouble(value)"));
+                        }
+                        else if (propertyType.Equals(typeof(byte?))) {
+                            cases.AppendLine(caseStatement(propertyName, "byte", "BattleAxe.NullConverter.ToByte(value)"));
+                        }
+                        else if (propertyType.Equals(typeof(short?))) {
+                            cases.AppendLine(caseStatement(propertyName, "short", "BattleAxe.NullConverter.ToShort(value)"));
+                        }
+                        else if (propertyType.Equals(typeof(long?))) {
+                            cases.AppendLine(caseStatement(propertyName, "long", "BattleAxe.NullConverter.ToLong(value)"));
+                        }
+                        else if (propertyType.Equals(typeof(Single?))) {
+                            cases.AppendLine(caseStatement(propertyName, "Single", "BattleAxe.NullConverter.ToSingle(value)"));
+                        }
+                        else if (propertyType.Equals(typeof(decimal?))) {
+                            cases.AppendLine(caseStatement(propertyName, "decimal", "BattleAxe.NullConverter.ToDecimal(value)"));
+                        }
+                        else if (propertyType.Equals(typeof(char?))) {
+                            cases.AppendLine(caseStatement(propertyName, "char", "BattleAxe.NullConverter.ToChar(value)"));
+                        }
+                        else if (propertyType.Equals(typeof(Guid?))) {
+                            cases.AppendLine(caseStatement(propertyName, "Guid", "BattleAxe.NullConverter.ToGuid(value)"));
+                        }
+                        else if (propertyType.Equals(typeof(DateTime?))) {
+                            cases.AppendLine(caseStatement(propertyName, "DateTime", "BattleAxe.NullConverter.ToDateTime(value)"));
+                        }
                         else if (propertyType.IsEnum) {
                             var typeName = propertyType.FullName;
-                            var caseStatement = "case \"{propertyName}\":";
-                            caseStatement += "obj.{propertyName} = value == null ? default({type}) : ({type})System.Enum.Parse(typeof({type}), value.ToString()); break;";
-                            caseStatement = caseStatement.Replace("{propertyName}", propertyName).Replace("{type}", typeName);
+                            var caseStatement = $"case \"{propertyName}\": obj.{propertyName} = value == null ? default({type}) : ({type})System.Enum.Parse(typeof({type}), value.ToString()); break;";                            
                             cases.AppendLine(caseStatement);
                         }
                         else if (propertyType.Equals(typeof(byte[]))) {
                             //dont really have an answer for this one yet
-                            //we go through reader and it reads bytes
-                            var typeName = propertyType.FullName;
-                            var caseStatement = "case \"{propertyName}\":";
-                            caseStatement += "obj.{propertyName} = value!=null && value is byte[] ? (byte[])value: null; break;";
-                            caseStatement = caseStatement.Replace("{propertyName}", propertyName);
+                            //we go through reader and it reads bytes                            
+                            var caseStatement = $"case \"{propertyName}\": obj.{propertyName} = value!=null && value is byte[] ? (byte[])value: null; break;";                            
                             cases.AppendLine(caseStatement);
                         }
                         else if (propertyType.Equals(typeof(object))) {
-                            var caseStatement = "case \"{propertyName}\":";
-                            caseStatement += "obj.{propertyName} = value; break;";
-                            caseStatement = caseStatement.Replace("{propertyName}", propertyName);
+                            var caseStatement = $"case \"{propertyName}\": obj.{propertyName} = value; break;";                            
                             cases.AppendLine(caseStatement);
                         }
                     }
@@ -268,6 +297,9 @@ namespace BattleAxe {
                 }
                 return null;
             }
+
+            
+
         }
 
         public static class GetHelper {
@@ -330,10 +362,10 @@ namespace BattleAxe {
                         var propertyName = property.Name;
                         var propertyType = property.PropertyType;
                         if (propertyType.Equals(typeof(DateTime))) {
-                            cases.AppendLine("case \"{propertyName}\": return obj.{propertyName} == System.DateTime.MinValue ? null : (object)obj.{propertyName};".Replace("{propertyName}", propertyName));
+                            cases.AppendLine($"case \"{propertyName}\": return obj.{propertyName} == System.DateTime.MinValue ? null : (object)obj.{propertyName};");
                         }
                         else {
-                            cases.AppendLine("case \"{propertyName}\": return obj.{propertyName};".Replace("{propertyName}", propertyName));
+                            cases.AppendLine($"case \"{propertyName}\": return obj.{propertyName};");
                         }
                     }
                 }
@@ -395,6 +427,77 @@ namespace BattleAxe {
                 Type binaryFunction = results.CompiledAssembly.GetType("BattleAxe.GetMethods");
                 return binaryFunction.GetMethod("GetValue");
             }
+        }
+
+        
+    }
+
+    public static class NullConverter {
+        public static int? ToInt(object value) {
+            if (value != null) {
+                return System.Convert.ToInt32(value);
+            }
+            return null;
+        }
+        public static bool? ToBoolean(object value) {
+            if (value != null) {
+                return System.Convert.ToBoolean(value);
+            }
+            return null;
+        }
+        public static double? ToDouble(object value) {
+            if (value != null) {
+                return System.Convert.ToDouble(value);
+            }
+            return null;
+        }
+        public static byte? ToByte(object value) {
+            if (value != null) {
+                return System.Convert.ToByte(value);
+            }
+            return null;
+        }
+        public static short? ToShort(object value) {
+            if (value != null) {
+                return System.Convert.ToInt16(value);
+            }
+            return null;
+        }
+        public static long? ToLong(object value) {
+            if (value != null) {
+                return System.Convert.ToInt64(value);
+            }
+            return null;
+        }
+        public static Single? ToSingle(object value) {
+            if (value != null) {
+                return System.Convert.ToSingle(value);
+            }
+            return null;
+        }
+        public static decimal? ToDecimal(object value) {
+            if (value != null) {
+                return System.Convert.ToDecimal(value);
+            }
+            return null;
+        }
+        public static char? ToChar(object value) {
+            if (value != null) {
+                return System.Convert.ToChar(value);
+            }
+            return null;
+        }
+        public static Guid? ToGuid(object value) {
+            if (value != null) {
+                return new System.Guid(value.ToString());
+            }
+            return null;
+        }
+        public static DateTime? ToDateTime(object value) {
+            if (value != null) {
+                return System.Convert.ToDateTime(value);
+            }
+            return null;
         }
     }
 }

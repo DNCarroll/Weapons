@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BattleAxe;
 using System.Dynamic;
+using con = System.Console;
 
 namespace BattleAxe.Console
 {
@@ -15,37 +16,44 @@ namespace BattleAxe.Console
     {
         static void Main(string[] args)
         {
-            //Compiler2.SetValue(new Test(), "asdf", "asdf");
-            //var line = "y";
+            testIntToValue();
+            testIntForNull();
             
-            //while(line =="y")
-            //{
-            //    Compiler.TestMethod();
-            //    System.Console.WriteLine("Test again (y/n)?");
-            //    line = System.Console.ReadLine();
-            //}
-            //var getSet = Compiler.Get<Test>();
-            //var test = new Test();
-            var line = "y";
-            //test.Prop2 = 2;
-            //test.Prop3 = 3;
-            //System.Console.WriteLine(test.Prop2);
-            //getSet.SetValue(test, "Prop2", 4);
-            //getSet.SetValue(test, "Prop3", 6);
+        }
 
-            //System.Console.WriteLine(test.Prop2);
-            //System.Console.WriteLine(test.Prop3);
-
-            //its slow,  try dictionary? instead of tuple?
-            while (line == "y")
-            {
-                System.Console.WriteLine("Test again (y/n)?");
-                line = System.Console.ReadLine();
-            }
+        static void testIntToValue() {
+            System.Console.WriteLine($"NullableIntSetToValue? {TestSetOfValue("NullableInt", 4)}");
         }
         
-    }
+        static void testIntForNull() {
+            var obj = new NullableTestClass();
+            obj.NullableInt = 4;
+            System.Console.WriteLine($"NullableIntSetToNull? {TestSetOfValue("NullableInt", null, obj)}");
+        }
 
+        public static bool TestSetOfValue(string property, object value, NullableTestClass obj = null) {
+            obj = obj ?? new NullableTestClass();
+            var setMethod = Compiler.SetMethod(obj);
+            var getMethod = Compiler.GetMethod(obj);
+            setMethod(obj, property, value);
+            var currentValue = getMethod(obj, property);
+            return currentValue == value;
+        }
+
+    }
+    public class NullableTestClass {
+        public int? NullableInt { get; set; }
+        public bool? NullableBoolean { get; set; }
+        public double? NullableDouble { get; set; }
+        public byte? NullableByte { get; set; }
+        public short? NullableShort { get; set; }
+        public long? NullableLong { get; set; }
+        public Single? NullableSingle { get; set; }
+        public decimal? NullableDecimal { get; set; }
+        public char? NullableChar { get; set; }
+        public Guid? NullableGuid { get; set; }
+        public DateTime? NullableDateTime { get; set; }
+    }
     //public class Test2 : DynamicSword
     //{
 

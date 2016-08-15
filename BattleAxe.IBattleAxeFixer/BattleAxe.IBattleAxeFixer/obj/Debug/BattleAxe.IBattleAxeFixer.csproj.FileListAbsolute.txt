@@ -8,3 +8,13 @@ C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattle
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\obj\Debug\BattleAxe.IBattleAxeFixer.csproj.GenerateResource.Cache
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\obj\Debug\BattleAxe.IBattleAxeFixer.dll
 C:\Users\Nathan\Source\Repos\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\obj\Debug\BattleAxe.IBattleAxeFixer.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\bin\Debug\Diagnostic.nuspec
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\bin\Debug\tools\install.ps1
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\bin\Debug\tools\uninstall.ps1
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\bin\Debug\BattleAxe.IBattleAxeFixer.dll
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\bin\Debug\BattleAxe.IBattleAxeFixer.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\obj\Debug\BattleAxe.IBattleAxeFixer.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\obj\Debug\BattleAxe.IBattleAxeFixer.Resources.resources
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\obj\Debug\BattleAxe.IBattleAxeFixer.csproj.GenerateResource.Cache
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\obj\Debug\BattleAxe.IBattleAxeFixer.dll
+C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe.IBattleAxeFixer\BattleAxe.IBattleAxeFixer\obj\Debug\BattleAxe.IBattleAxeFixer.pdb

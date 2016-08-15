@@ -38,3 +38,4 @@ C:\Users\Nathan\Documents\GitHub\Weapons\Differ.Web\bin\System.Web.Http.WebHost.
 C:\Users\Nathan\Documents\GitHub\Weapons\Differ.Web\obj\Debug\Differ.Web.csprojResolveAssemblyReference.cache
 C:\Users\Nathan\Documents\GitHub\Weapons\Differ.Web\obj\Debug\Differ.Web.dll
 C:\Users\Nathan\Documents\GitHub\Weapons\Differ.Web\obj\Debug\Differ.Web.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\Differ.Web\obj\Debug\Differ.Web.csprojResolveAssemblyReference.cache

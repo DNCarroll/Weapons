@@ -12,3 +12,10 @@ C:\Users\Nathan\Documents\GitHub\Weapons\Differ.TSql\bin\Debug\BattleAxe.pdb
 C:\Users\Nathan\Documents\GitHub\Weapons\Differ.TSql\obj\Debug\Differ.TSql.csprojResolveAssemblyReference.cache
 C:\Users\Nathan\Documents\GitHub\Weapons\Differ.TSql\obj\Debug\Differ.TSql.dll
 C:\Users\Nathan\Documents\GitHub\Weapons\Differ.TSql\obj\Debug\Differ.TSql.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\Differ.TSql\bin\Debug\Differ.TSql.dll
+C:\Users\ncarroll\Documents\Github\Weapons\Differ.TSql\bin\Debug\Differ.TSql.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\Differ.TSql\bin\Debug\BattleAxe.dll
+C:\Users\ncarroll\Documents\Github\Weapons\Differ.TSql\bin\Debug\BattleAxe.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\Differ.TSql\obj\Debug\Differ.TSql.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Documents\Github\Weapons\Differ.TSql\obj\Debug\Differ.TSql.dll
+C:\Users\ncarroll\Documents\Github\Weapons\Differ.TSql\obj\Debug\Differ.TSql.pdb
