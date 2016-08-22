@@ -32,5 +32,9 @@ namespace BattleAxe {
             }
             return connectionString;
         }
+
+        public static string WindowsAuthencationConnectionString(this string server, string catalog) {
+            return $"Data Source={server};Initial Catalog={catalog};Integrated Security=SSPI";
+        }
     }
 }

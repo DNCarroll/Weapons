@@ -21,7 +21,8 @@ namespace BattleAxe.Test {
 
         [TestMethod]
         public void TestBoolean() {
-            Assert.IsTrue(TestSetOfValue("NullableBoolean", true));
+            object b = true;            
+            Assert.IsTrue(TestSetOfValue("NullableBoolean", b));
         }
 
         [TestMethod]
