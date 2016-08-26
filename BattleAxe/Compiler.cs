@@ -117,7 +117,7 @@ namespace BattleAxe {
             public static SetValue<T> Value<T>(Type type)
                 where T : class {
                 var classSet = getClass();
-                var method = getSetMethod(type);
+                var method = GetSetMethod(type);
                 // methods.AppendLine(method);
                 if (method != null) {
                     classSet = classSet.Replace("{method}", method);
@@ -193,7 +193,7 @@ namespace BattleAxe {
                 return ret;
             }
 
-            static string getSetMethod(Type type) {
+            public static string GetSetMethod(Type type) {
                 var properties = type.GetProperties();
                 var cases = new StringBuilder();
 
@@ -287,7 +287,7 @@ namespace BattleAxe {
                         }
                         else if (!propertyType.IsClass &&
                                   propertyType.Equals(typeof(object))) {
-                            var caseStatement = $"case \"{propertyName}\": obj.{propertyName} = ({type})value; break;";                            
+                            var caseStatement = $"case \"{propertyName}\": obj.{propertyName} = ({type})value; break;";
                             cases.AppendLine(caseStatement);
                         }
                     }
@@ -310,7 +310,7 @@ namespace BattleAxe {
             }
             public static GetValue Value(Type type) {
                 var classSet = getClass();
-                var method = getGetMethod(type);
+                var method = GetGetMethod(type);
                 // methods.AppendLine(method);
                 if (method != null) {
                     classSet = classSet.Replace("{method}", method);
@@ -324,7 +324,7 @@ namespace BattleAxe {
 
             public static Func<object, string, string> Value2(Type type) {
                 var classSet = getClass();
-                var method = getGetMethod(type);
+                var method = GetGetMethod(type);
                 // methods.AppendLine(method);
                 if (method != null) {
                     classSet = classSet.Replace("{method}", method);
@@ -350,7 +350,7 @@ namespace BattleAxe {
                 return ret;
             }
 
-            static string getGetMethod(Type type) {
+            public static string GetGetMethod(Type type) {
                 var properties = type.GetProperties();
                 var cases = new StringBuilder();
 
@@ -365,7 +365,7 @@ namespace BattleAxe {
                         if (propertyType.Equals(typeof(DateTime))) {
                             cases.AppendLine($"case \"{propertyName}\": return obj.{propertyName} == System.DateTime.MinValue ? null : (object)obj.{propertyName};");
                         }
-                        else if(!propertyType.IsClass) {
+                        else if(!propertyType.IsClass || propertyType.Equals(typeof(string))) {
                             cases.AppendLine($"case \"{propertyName}\": return obj.{propertyName};");
                         }
                     }

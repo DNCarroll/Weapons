@@ -6,9 +6,13 @@ namespace BattleAxe.Test {
     public class ClassObjectWithinObject {
         [TestMethod]
         public void TestMethod1() {
-            var setMethod = Compiler.SetMethod(new SomeObject());
-            var getMethod = Compiler.GetMethod(new SomeObject());
-            Assert.IsTrue(true);
+            var someobject = new SomeObject();
+            someobject.ID = 1;
+            var setMethod = Compiler.SetMethod(someobject);
+            var getMethod = Compiler.GetMethod(someobject);
+            setMethod(someobject, "ID", 3);
+            var id = getMethod(someobject, "ID");
+            Assert.IsTrue(id.ToString() == "3");
         }
     }
     public class SomeObject {
