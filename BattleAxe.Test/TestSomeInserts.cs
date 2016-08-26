@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace BattleAxe.Test
 {
     [TestClass]
-    public class UnitTest1
+    public class TestSomeInserts
     {
 
         [TestMethod]

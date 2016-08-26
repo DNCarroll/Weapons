@@ -285,8 +285,9 @@ namespace BattleAxe {
                             var caseStatement = $"case \"{propertyName}\": obj.{propertyName} = value!=null && value is byte[] ? (byte[])value: null; break;";                            
                             cases.AppendLine(caseStatement);
                         }
-                        else if (propertyType.Equals(typeof(object))) {
-                            var caseStatement = $"case \"{propertyName}\": obj.{propertyName} = value; break;";                            
+                        else if (!propertyType.IsClass &&
+                                  propertyType.Equals(typeof(object))) {
+                            var caseStatement = $"case \"{propertyName}\": obj.{propertyName} = ({type})value; break;";                            
                             cases.AppendLine(caseStatement);
                         }
                     }
@@ -364,7 +365,7 @@ namespace BattleAxe {
                         if (propertyType.Equals(typeof(DateTime))) {
                             cases.AppendLine($"case \"{propertyName}\": return obj.{propertyName} == System.DateTime.MinValue ? null : (object)obj.{propertyName};");
                         }
-                        else {
+                        else if(!propertyType.IsClass) {
                             cases.AppendLine($"case \"{propertyName}\": return obj.{propertyName};");
                         }
                     }

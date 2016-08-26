@@ -59,10 +59,11 @@
   <ItemGroup>
     <Compile Include="TestObjectForDatabase.cs" />
     <Compile Include="TestStaticDynamic.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="TestSomeInserts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTest2.cs" />
-    <Compile Include="UnitTest3.cs" />
+    <Compile Include="TestSelectUpdateDelete.cs" />
+    <Compile Include="NullableTesting.cs" />
+    <Compile Include="ClassObjectWithinObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BattleAxe\BattleAxe.csproj">
