@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Forge {
-    public abstract class Transformer<from, to> : ITransform<from, to> {
+    public abstract class Transformer<from, to> : ITransform<from, to> {        
         public Type FromType {
             get {
                 return typeof(from);

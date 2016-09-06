@@ -9,15 +9,14 @@ namespace Forge {
         Update
     }
     public static class Service {
-        //not sure doing the tranversing of assemblies is a good idea
-        //it may be better to just have them loaded through pointed assembly?
+        static List<IImporter> _importers = new List<IImporter>();
+        static List<ITransform> _transformers = new List<ITransform>();
+        
         static Service() {
             fillList(_importers);
             fillList(_transformers);
         }
-
-        static List<IImporter> _importers = new List<IImporter>();
-        static List<ITransform> _transformers = new List<ITransform>();
+        
         /// <summary>
         /// Transforms object from "FromType" to "ToType" given a transformer has been created somewhere in the 
         /// assemblies and imports the "to" object into the destination via the importer also given it has been
@@ -30,19 +29,18 @@ namespace Forge {
         /// <param name="saveAction"></param>
         /// <param name="connectionString">If the connection string is left as null the processor presumes that the DataProcessor will determine connectionString on its own.</param>
         /// <returns></returns>
-        public static Result<to> Process<from, to>(this from fromObject, Action saveAction, string connectionString = null) {            
-            var dataTransformer = getTransformer<from, to>();
-            var dataProcessor = getDataProcessor<to>();
-            dataProcessor.ConnectionString = connectionString ?? dataProcessor.ConnectionString;
-            Result<to> results = new Result<to> { Success = false, Message = "Data transformer or data processor not found." };
+        public static Result<to> Process<from, to>(this from fromObject, Action saveAction, string connectionString = null) => Process<from, to>(getTransformer<from, to>(), getImporter<to>(), fromObject, saveAction, connectionString);
+        public static Result<to> Update<from, to>(this from fromObject, string connectionString = null) => Process<from, to>(getTransformer<from, to>(), getImporter<to>(), fromObject, Action.Update, connectionString);
+        public static Result<to> Insert<from, to>(this from fromObject, string connectionString = null) => Process<from, to>(getTransformer<from, to>(), getImporter<to>(), fromObject, Action.Insert, connectionString);
+        public static Result<to> Process<from, to>(this ITransform<from, to> transformer, IImporter<to> importer, from fromObject, Action saveAction, string connectionString = null) {
+            Result<to> results = new Result<to> { Success = false, Message = transformer == null ? "Transformer not found." : importer == null ? "Importer not found" : "" };
             to transformed = default(to);
-            if (dataTransformer != null && dataProcessor != null) {
-                transformed = dataTransformer.Transform(fromObject);
+            if (string.IsNullOrEmpty(results.Message)) {
+                importer.ConnectionString = connectionString ?? importer.ConnectionString;
+                results.Message = "Transformer found but transformation failed.";
+                transformed = transformer.Transform(fromObject);
                 if (transformed != null) {
-                    results = saveAction == Action.Insert ? dataProcessor.Insert(transformed) : dataProcessor.Update(transformed);
-                }
-                else {
-                    results.Message = "Data transformer found but transformation failed.";
+                    results = saveAction == Action.Insert ? importer.Insert(transformed) : importer.Update(transformed);
                 }
             }
             return results;
@@ -56,7 +54,7 @@ namespace Forge {
             return null;
         }
 
-        static IImporter<to> getDataProcessor<to>() {
+        static IImporter<to> getImporter<to>() {
             var found = _importers.FirstOrDefault(d => d.Type == typeof(to));
             if (found != null && found is IImporter<to>) {
                 return (IImporter<to>)found;
@@ -73,14 +71,11 @@ namespace Forge {
             }
         }
 
-        public static void Interrogate<T>(T obj) {
-            Interrogate(obj.GetType());
-        }
+        public static void Interrogate<T>(T obj) => Interrogate(obj.GetType());
         public static void Interrogate(Type type) {
             Interrogate(type.Assembly, _transformers);
             Interrogate(type.Assembly, _importers);
         }
-
         public static void Interrogate<T>(Assembly assembly, List<T> listToFill) {
             if (assemblyHasNotBeenInterrogated(assembly, listToFill)) {
                 var items = assembly.GetTypes().Where(x => x.IsClass && !x.IsAbstract && x.GetInterfaces().ToList().FirstOrDefault(i => i == typeof(T)) != null).ToList();

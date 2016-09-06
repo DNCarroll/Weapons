@@ -1,5 +1,5 @@
 C:\Users\ncarroll\Documents\Github\Weapons\Forge\bin\Debug\Forge.dll
 C:\Users\ncarroll\Documents\Github\Weapons\Forge\bin\Debug\Forge.pdb
-C:\Users\ncarroll\Documents\Github\Weapons\Forge\obj\Debug\Forge.csprojResolveAssemblyReference.cache
 C:\Users\ncarroll\Documents\Github\Weapons\Forge\obj\Debug\Forge.dll
 C:\Users\ncarroll\Documents\Github\Weapons\Forge\obj\Debug\Forge.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\Forge\obj\Debug\Forge.csprojResolveAssemblyReference.cache
