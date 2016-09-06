@@ -19,3 +19,9 @@ C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERT.Bundle
 C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERT.Bundler.Properties.Resources.resources
 C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERHT.Bundler.csproj.GenerateResource.Cache
 C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERHT.Bundler.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT.Bundler\bin\Release\ULFBERT.Bundler.exe
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT.Bundler\bin\Release\ULFBERT.Bundler.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERHT.Bundler.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERT.Bundler.Form1.resources
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERT.Bundler.Properties.Resources.resources
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT.Bundler\obj\Release\ULFBERHT.Bundler.csproj.GenerateResource.Cache

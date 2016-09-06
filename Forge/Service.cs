@@ -63,6 +63,7 @@ namespace Forge {
             }
             return null;
         }        
+
         static void fillList<T>(List<T> listToFill) {
             if (listToFill.Count() == 0) {                
                 var assemblies = getAssemblies();
@@ -80,30 +81,19 @@ namespace Forge {
             Interrogate(type.Assembly, _importers);
         }
 
-        public static void Interrogate<T>(Assembly assembly,
-            List<T> listToFill) {
-            var alreadyDone = listToFill.FirstOrDefault(t => t.GetType().Assembly == assembly);
-            if (alreadyDone == null) {
-                var check = assembly.GetTypes().Where(x => x.IsClass && !x.IsAbstract);
-                foreach (var item in check) {
-                    var implementedInterfaces = item.GetInterfaces();
-                    if (implementedInterfaces.Count() > 0) {
-                        var found = implementedInterfaces.FirstOrDefault(t => t == typeof(T));
-                        if (found != null) {
-                            var obj = (T)Activator.CreateInstance(item);
-                            listToFill.Add(obj);
-                        }
-                    }
+        public static void Interrogate<T>(Assembly assembly, List<T> listToFill) {
+            if (assemblyHasNotBeenInterrogated(assembly, listToFill)) {
+                var items = assembly.GetTypes().Where(x => x.IsClass && !x.IsAbstract && x.GetInterfaces().ToList().FirstOrDefault(i => i == typeof(T)) != null).ToList();
+                foreach (var item in items) {
+                    listToFill.Add((T)Activator.CreateInstance(item));
                 }
             }
         }
+        static bool assemblyHasNotBeenInterrogated<T>(Assembly assembly, List<T> listToFill) => listToFill.FirstOrDefault(t => t.GetType().Assembly == assembly) == null;        
 
         static List<Assembly> getAssemblies() {
             List<Assembly> listOfAssemblies = new List<Assembly>();
-            var mainAsm = Assembly.GetExecutingAssembly();
-            if (mainAsm == null) {
-                mainAsm = Assembly.GetCallingAssembly();
-            }
+            var mainAsm = Assembly.GetExecutingAssembly() ?? Assembly.GetCallingAssembly();
             if (mainAsm != null) {
                 listOfAssemblies.Add(mainAsm);
                 foreach (var refAsmName in mainAsm.GetReferencedAssemblies()) {

@@ -38,3 +38,4 @@ C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT.Bundled\bin\Microsoft.CodeDom.Prov
 C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT.Bundled\obj\Release\ULFBERHT.Bundled.csprojResolveAssemblyReference.cache
 C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT.Bundled\obj\Release\ULFBERHT.Bundled.dll
 C:\Users\Nathan\Source\Repos\Weapons\ULFBERHT.Bundled\obj\Release\ULFBERHT.Bundled.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT.Bundled\obj\Release\ULFBERHT.Bundled.csprojResolveAssemblyReference.cache

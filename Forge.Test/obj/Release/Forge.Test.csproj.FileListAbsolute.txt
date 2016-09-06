@@ -1,0 +1,8 @@
+C:\Users\ncarroll\Documents\Github\Weapons\Forge.Test\bin\Release\Forge.Test.dll
+C:\Users\ncarroll\Documents\Github\Weapons\Forge.Test\bin\Release\Forge.Test.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\Forge.Test\bin\Release\Forge.dll
+C:\Users\ncarroll\Documents\Github\Weapons\Forge.Test\bin\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\ncarroll\Documents\Github\Weapons\Forge.Test\bin\Release\Forge.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\Forge.Test\obj\Release\Forge.Test.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Documents\Github\Weapons\Forge.Test\obj\Release\Forge.Test.dll
+C:\Users\ncarroll\Documents\Github\Weapons\Forge.Test\obj\Release\Forge.Test.pdb
