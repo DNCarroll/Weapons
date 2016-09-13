@@ -1,8 +1,7 @@
 ﻿namespace Forge {
-    public class Result<T> {
+    public class Result {
         public bool Success { get; set; }
         public string Message { get; set; }
-        public T DataObject { get; set; }
-        public System.Exception Exception { get; set; }
-    }
+        public virtual object DataObject { get; set; }
+    }    
 }

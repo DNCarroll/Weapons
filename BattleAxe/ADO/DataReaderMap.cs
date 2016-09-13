@@ -105,6 +105,8 @@ namespace BattleAxe {
             var name = reader.GetFieldType(this.Index).Name;
             switch (name) {
                 case "Int32": return System.Data.SqlDbType.Int;
+                case "DateTime2":
+                case "SmallDateTime":
                 case "DateTime": return System.Data.SqlDbType.DateTime;
                 case "String":
                 case "Xml": return System.Data.SqlDbType.VarChar;

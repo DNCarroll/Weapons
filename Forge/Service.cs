@@ -4,66 +4,62 @@ using System.Linq;
 using System.Reflection;
 
 namespace Forge {
-    public enum Action {
-        Insert,
-        Update
-    }
+
     public static class Service {
-        static List<IImporter> _importers = new List<IImporter>();
-        static List<ITransform> _transformers = new List<ITransform>();
-        
+        static List<IShipper> shippers = new List<IShipper>();
+        static List<ITransform> transformers = new List<ITransform>();
+        static List<IValidator> validators = new List<IValidator>();
+        static ILogger logger = null;
+
         static Service() {
-            fillList(_importers);
-            fillList(_transformers);
+            fillList(shippers);
+            fillList(transformers);
+            fillList(validators);
+            logger = getLogger(getAssemblies().ToArray());
         }
+
+        public static Result Process<T>(this string transformerFullClassName, T objectToTransform, string connectionString = null) =>
+            process(objectToTransform, getTransformer<T>(transformerFullClassName), connectionString);
+
+        public static Result Process<T>(this T objectToTransform, string connectionString = null)
+            where T : class => process(objectToTransform, transformers.FirstOrDefault(t => t.FromType == typeof(T)), connectionString);
         
-        /// <summary>
-        /// Transforms object from "FromType" to "ToType" given a transformer has been created somewhere in the 
-        /// assemblies and imports the "to" object into the destination via the importer also given it has been
-        /// created somewhere in the assemblies.  The Process returns a result that tells of success, the created
-        /// "to" object, a string message, and exception.
-        /// </summary>
-        /// <typeparam name="from"></typeparam>
-        /// <typeparam name="to"></typeparam>
-        /// <param name="fromObject"></param>
-        /// <param name="saveAction"></param>
-        /// <param name="connectionString">If the connection string is left as null the processor presumes that the DataProcessor will determine connectionString on its own.</param>
-        /// <returns></returns>
-        public static Result<to> Process<from, to>(this from fromObject, Action saveAction, string connectionString = null) => Process<from, to>(getTransformer<from, to>(), getImporter<to>(), fromObject, saveAction, connectionString);
-        public static Result<to> Update<from, to>(this from fromObject, string connectionString = null) => Process<from, to>(getTransformer<from, to>(), getImporter<to>(), fromObject, Action.Update, connectionString);
-        public static Result<to> Insert<from, to>(this from fromObject, string connectionString = null) => Process<from, to>(getTransformer<from, to>(), getImporter<to>(), fromObject, Action.Insert, connectionString);
-        public static Result<to> Process<from, to>(this ITransform<from, to> transformer, IImporter<to> importer, from fromObject, Action saveAction, string connectionString = null) {
-            Result<to> results = new Result<to> { Success = false, Message = transformer == null ? "Transformer not found." : importer == null ? "Importer not found" : "" };
-            to transformed = default(to);
-            if (string.IsNullOrEmpty(results.Message)) {
-                importer.ConnectionString = connectionString ?? importer.ConnectionString;
-                results.Message = "Transformer found but transformation failed.";
-                transformed = transformer.Transform(fromObject);
-                if (transformed != null) {
-                    results = saveAction == Action.Insert ? importer.Insert(transformed) : importer.Update(transformed);
-                }
+        static Result process<T>(this T objectToTransform, ITransform transformer, string connectionString = null) {
+            var result = new Result { DataObject = null, Success = false, Message = $"Transformer not found for {typeof(T).FullName}." };
+            result = transformer?.Execute(objectToTransform, logger) ?? result;
+            IValidator validator = validators.FirstOrDefault(v => v.Type == transformer?.ToType);
+            IShipper shipper = shippers.FirstOrDefault(v => v.Type == validator?.Type);
+            if (shipper != null) {
+                shipper.ConnectionString = shipper.ConnectionString ?? connectionString;
             }
-            return results;
+            result = executeIfFound(transformer, validator, result, logger, "validator", transformer?.ToType.FullName);
+            result = executeIfFound(validator, shipper, result, logger, "shipper", transformer?.ToType.FullName);
+            return result;
         }
 
-        static ITransform<from, to> getTransformer<from, to>() {
-            var found = _transformers.FirstOrDefault(d => d.FromType == typeof(from) && d.ToType == typeof(to));
-            if (found != null && found is ITransform<from, to>) {
-                return (ITransform<from, to>)found;
+        static Result executeIfFound(IExecutor previousExecutor, IExecutor executor, Result currentResult, ILogger logger, string whatIsBeingLookedFor, string typeName) {
+            return previousExecutor == null ? 
+                        currentResult : 
+                        executor?.Execute(currentResult.DataObject, logger) ?? 
+                        new Result() {
+                            DataObject = currentResult.DataObject,
+                            Success = false,
+                            Message = resultMessage(whatIsBeingLookedFor, typeName)
+                        };
+        }
+
+        static string resultMessage(string whatIsBeingLookedFor, string typeName) => $"Failed to find {whatIsBeingLookedFor} interface for {typeName}.";
+
+        static ITransform getTransformer<from>(string transformerFullClassName) {
+            var found = transformers.FirstOrDefault(d => d.GetType().FullName == transformerFullClassName && d.FromType == typeof(from));
+            if (found != null) {
+                return found;
             }
             return null;
         }
-
-        static IImporter<to> getImporter<to>() {
-            var found = _importers.FirstOrDefault(d => d.Type == typeof(to));
-            if (found != null && found is IImporter<to>) {
-                return (IImporter<to>)found;
-            }
-            return null;
-        }        
 
         static void fillList<T>(List<T> listToFill) {
-            if (listToFill.Count() == 0) {                
+            if (listToFill.Count() == 0) {
                 var assemblies = getAssemblies();
                 foreach (var assembly in assemblies) {
                     Interrogate(assembly, listToFill);
@@ -73,8 +69,10 @@ namespace Forge {
 
         public static void Interrogate<T>(T obj) => Interrogate(obj.GetType());
         public static void Interrogate(Type type) {
-            Interrogate(type.Assembly, _transformers);
-            Interrogate(type.Assembly, _importers);
+            logger = getLogger(new Assembly[] { type.Assembly });
+            Interrogate(type.Assembly, transformers);
+            Interrogate(type.Assembly, shippers);
+            Interrogate(type.Assembly, validators);
         }
         public static void Interrogate<T>(Assembly assembly, List<T> listToFill) {
             if (assemblyHasNotBeenInterrogated(assembly, listToFill)) {
@@ -84,7 +82,7 @@ namespace Forge {
                 }
             }
         }
-        static bool assemblyHasNotBeenInterrogated<T>(Assembly assembly, List<T> listToFill) => listToFill.FirstOrDefault(t => t.GetType().Assembly == assembly) == null;        
+        static bool assemblyHasNotBeenInterrogated<T>(Assembly assembly, List<T> listToFill) => listToFill.FirstOrDefault(t => t.GetType().Assembly == assembly) == null;
 
         static List<Assembly> getAssemblies() {
             List<Assembly> listOfAssemblies = new List<Assembly>();
@@ -96,6 +94,17 @@ namespace Forge {
                 }
             }
             return listOfAssemblies;
+        }
+        static ILogger getLogger(Assembly[] assemblies) {
+            var found = assemblies.SelectMany(a => 
+                                        a.GetTypes()).FirstOrDefault(x => 
+                                                        x.IsClass &&
+                                                        !x.IsAbstract &&
+                                                        x.GetInterfaces().FirstOrDefault(i => i == typeof(ILogger)) != null);
+            if (found != null) {
+                return (ILogger)Activator.CreateInstance(found);
+            }
+            return null;
         }
     }
 }
