@@ -2,7 +2,7 @@
 
 namespace Forge {
     public abstract class Transformer<from, to> : ITransform {        
-        public Type FromType {
+        public Type Type {
             get {
                 return typeof(from);
             }
@@ -14,18 +14,17 @@ namespace Forge {
         }
 
         public abstract Result Execute(from objectoToTransform, ILogger logger = null);
-        public Result Execute(object objectoToTransform, ILogger logger = null) {
-            Result result = new Result { Message = $"Failed to transfrom type of {nameof(from)}" };
-            if (objectoToTransform != null &&
-                objectoToTransform.GetType() == typeof(from)) {
-                var typed = (from)objectoToTransform;
+        public Result Execute(object objectToShip, ILogger logger = null) {
+            Result result = new Result { Message = $"Failed to transfrom type of {objectToShip.GetType().FullName}." };
+            if (objectToShip != null &&
+                objectToShip.GetType() == typeof(from)) {
+                var typed = (from)objectToShip;
                 result = Execute(typed, logger);
             }
             return result;
         }
     }   
-    public interface ITransform : IExecutor {
-        Type FromType { get; }
+    public interface ITransform : IExecutor {        
         Type ToType { get; }
     }
 }

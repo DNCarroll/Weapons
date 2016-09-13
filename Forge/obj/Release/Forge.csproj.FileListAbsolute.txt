@@ -2,3 +2,4 @@ C:\Users\ncarroll\Documents\Github\Weapons\Forge\bin\Release\Forge.dll
 C:\Users\ncarroll\Documents\Github\Weapons\Forge\bin\Release\Forge.pdb
 C:\Users\ncarroll\Documents\Github\Weapons\Forge\obj\Release\Forge.dll
 C:\Users\ncarroll\Documents\Github\Weapons\Forge\obj\Release\Forge.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\Forge\obj\Release\Forge.csprojResolveAssemblyReference.cache

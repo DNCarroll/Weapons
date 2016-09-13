@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Forge {
-    public abstract class Shipper<T> : IShipper {
+    public abstract class Importer<T> : IImporter {
         public virtual string ConnectionString { get; set; }
         public Type Type { get { return typeof(T); } }
         public abstract Result Execute(T objectToShip, ILogger logger = null);
@@ -15,8 +15,7 @@ namespace Forge {
             return result;
         }
     }
-    public interface IShipper : IExecutor {
-        Type Type { get; }
+    public interface IImporter : IExecutor {        
         string ConnectionString { get; set; }
     }
 }

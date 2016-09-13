@@ -10,7 +10,7 @@ namespace Forge.Test {
             var fromObject = new FromObject { ID = 1, Name = "some object" };
             Service.Interrogate(fromObject);            
             string transformerFullName = "Forge.Test.TransformerWithValidatorAndShipper";
-            var result = transformerFullName.Process(fromObject);
+            var result = transformerFullName.Import(fromObject);
             Assert.IsTrue(result.Success);
         }
        
@@ -18,7 +18,7 @@ namespace Forge.Test {
         public void ShouldSucceedViaObjectOnly() {
             var fromObject = new FromObject { ID = 1, Name = "some object" };
             Service.Interrogate(fromObject);
-            var result = fromObject.Process();
+            var result = fromObject.Import();
             Assert.IsTrue(result.Success);
         }
 
@@ -27,15 +27,15 @@ namespace Forge.Test {
             var fromObject = new FromObjectWithoutTransformer { ID = 1, Name = "some object" };
             Service.Interrogate(fromObject);
             string transformerFullName = "Forge.Test.TransformerWithValidatorAndShipper";
-            var result = transformerFullName.Process(fromObject);
-            Assert.IsTrue(!result.Success && result.Message == "Transformer not found for Forge.Test.FromObjectWithoutTransformer.");
+            var result = transformerFullName.Import(fromObject);
+            Assert.IsTrue(!result.Success && result.Message == "Failed to transfrom type of Forge.Test.FromObjectWithoutTransformer.");
         }
 
         [TestMethod]
         public void ShouldNotFindATransformerViaObjectOnly() {
             var fromObject = new FromObjectWithoutTransformer { ID = 1, Name = "some object" };
             Service.Interrogate(fromObject);
-            var result = fromObject.Process();
+            var result = fromObject.Import();
             Assert.IsTrue(!result.Success && result.Message == "Transformer not found for Forge.Test.FromObjectWithoutTransformer.");
         }
 
@@ -44,7 +44,7 @@ namespace Forge.Test {
             var fromObject = new FromObject { ID = 1, Name = "some object" };
             Service.Interrogate(fromObject);
             string transformerFullName = "Forge.Test.TransformerWithoutValidator";
-            var result = transformerFullName.Process(fromObject);
+            var result = transformerFullName.Import(fromObject);
             Assert.IsTrue(!result.Success && result.Message == "Failed to find validator interface for Forge.Test.ToObjectDoesntHaveValidator.");
         }
 
@@ -52,7 +52,7 @@ namespace Forge.Test {
         public void ShouldNotFindAValidatorViaObject() {
             var fromObject = new FromObject { ID = 1, Name = "some object" };
             Service.Interrogate(fromObject);
-            var result = fromObject.Process();
+            var result = fromObject.Import();
             Assert.IsTrue(!result.Success && result.Message == "Failed to find validator interface for Forge.Test.ToObjectDoesntHaveValidator.");
         }
 
@@ -61,14 +61,14 @@ namespace Forge.Test {
             var fromObject = new FromObject { ID = 1, Name = "some object" };
             Service.Interrogate(fromObject);
             string transformerFullName = "Forge.Test.TransformerWithValidatorButWithoutShipper";
-            var result = transformerFullName.Process(fromObject);
+            var result = transformerFullName.Import(fromObject);
             Assert.IsTrue(!result.Success && result.Message == "Failed to find shipper interface for Forge.Test.ToObjectDoesntHaveShipper.");
         }
 
         public void ShouldNotFindAShipperViaObject() {
             var fromObject = new FromObject { ID = 1, Name = "some object" };
             Service.Interrogate(fromObject);
-            var result = fromObject.Process();
+            var result = fromObject.Import();
             Assert.IsTrue(!result.Success && result.Message == "Failed to find shipper interface for Forge.Test.ToObjectDoesntHaveShipper.");
         }
     }
@@ -118,7 +118,7 @@ namespace Forge.Test {
         }
     }
 
-    public class TestShipper : Shipper<ToObject> {
+    public class TestShipper : Importer<ToObject> {
         public override Result Execute(ToObject objectToShip, ILogger logger = null) {
             return new Result { DataObject = objectToShip, Success = true };
         }

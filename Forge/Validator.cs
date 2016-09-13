@@ -14,8 +14,6 @@ namespace Forge {
             return result;
         }
     }
-    public interface IValidator : IExecutor {
-        Type Type { get; }
-        
+    public interface IValidator : IExecutor {        
     }
 }
