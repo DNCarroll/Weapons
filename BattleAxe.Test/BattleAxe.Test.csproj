@@ -57,6 +57,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ClassWithEnum.cs" />
     <Compile Include="TestObjectForDatabase.cs" />
     <Compile Include="TestStaticDynamic.cs" />
     <Compile Include="TestSomeInserts.cs" />

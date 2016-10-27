@@ -19,4 +19,3 @@ C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe\bin\Debug\BattleAxe.dll
 C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe\bin\Debug\BattleAxe.pdb
 C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe\obj\Debug\BattleAxe.dll
 C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe\obj\Debug\BattleAxe.pdb
-C:\Users\ncarroll\Documents\Github\Weapons\BattleAxe\obj\Debug\BattleAxe.csprojResolveAssemblyReference.cache
