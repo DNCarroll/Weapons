@@ -128,10 +128,13 @@ where
             var regex = new System.Text.RegularExpressions.Regex("@\\w+");
             var matches = regex.Matches(sqlCommand.CommandText);
             foreach (System.Text.RegularExpressions.Match match in matches) {
-                sqlCommand.Parameters.Add(new SqlParameter {
-                    ParameterName = match.Value,
-                    SourceColumn = match.Value.Replace("@", "")
-                });
+                var parameterName = match.Value;
+                if (!sqlCommand.Parameters.Contains(parameterName)) {
+                    sqlCommand.Parameters.Add(new SqlParameter {
+                        ParameterName = parameterName,
+                        SourceColumn = parameterName.Replace("@", "")
+                    });
+                }
             }
         }
 
