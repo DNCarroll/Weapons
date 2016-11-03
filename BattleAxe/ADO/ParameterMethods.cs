@@ -12,9 +12,9 @@ namespace BattleAxe
         internal static void SetInputs<T>(T sourceForInputParameters, SqlCommand command, bool shipStructured = false)
             where T : class
         {
-            if (sourceForInputParameters != null  && command?.Parameters.Count > 0)
-                //if (sourceForInputParameters != null && command.Parameters != null && command.Parameters.Count > 0)
+            if (sourceForInputParameters != null  && command?.Parameters.Count > 0)                
             {
+                insureSourceColumnExists(command.Parameters);
                 Func<T, string, object> getMethod = Compiler.GetMethod(sourceForInputParameters);
                 try
                 {
@@ -39,6 +39,14 @@ namespace BattleAxe
                 catch (Exception)
                 {
                     throw;
+                }
+            }
+        }
+
+        static void insureSourceColumnExists(SqlParameterCollection parameters) {
+            if (parameters?.Count > 0 && string.IsNullOrEmpty(parameters[1].SourceColumn)) {
+                foreach (SqlParameter item in parameters) {
+                    item.SourceColumn = item.ParameterName.Replace("@", "");
                 }
             }
         }
