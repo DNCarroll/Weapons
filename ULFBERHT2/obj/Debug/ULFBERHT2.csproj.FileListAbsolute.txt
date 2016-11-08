@@ -1,0 +1,6 @@
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\ULFBERHT2.dll.config
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\ULFBERHT2.dll
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\ULFBERHT2.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\obj\Debug\ULFBERHT2.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\obj\Debug\ULFBERHT2.dll
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\obj\Debug\ULFBERHT2.pdb

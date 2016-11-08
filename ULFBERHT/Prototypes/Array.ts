@@ -20,7 +20,6 @@ interface Array<T> {
     Ascend(keySelector: (element: T) => any): T[];
     Descend(keySelector: (element: T) => any): T[];   
     Return(func: (...objs: any[]) => any): any;
-
 }
 Array.prototype.Return = function (func: (...objs: any[]) => any): any {
     switch (this.length) {
