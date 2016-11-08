@@ -6,11 +6,15 @@ var __extends = (this && this.__extends) || function (d, b) {
 var DefaultContentManager = (function (_super) {
     __extends(DefaultContentManager, _super);
     function DefaultContentManager() {
+        if (DefaultContentManager.instance) {
+            return DefaultContentManager.instance;
+        }
         _super.call(this);
-        this.ViewSegments.push(new ViewContent());
-        this.ViewSegments.push(new ViewHeader());
-        this.ViewSegments.push(new ViewFooter());
+        this.Views.push(new ViewContent());
+        this.Views.push(new ViewHeader());
+        this.Views.push(new ViewFooter());
         this.IsDefault = true;
+        DefaultContentManager.instance = this;
     }
     DefaultContentManager.prototype.DocumentTitle = function (route) { return "Default content"; };
     DefaultContentManager.prototype.Url = function (route) { return "Default"; };
@@ -18,5 +22,4 @@ var DefaultContentManager = (function (_super) {
     DefaultContentManager.prototype.UrlTitle = function (route) { return "Default Page"; };
     return DefaultContentManager;
 }(ViewContainer));
-ViewContainers.push(new DefaultContentManager());
 //# sourceMappingURL=ViewModelTest.js.map

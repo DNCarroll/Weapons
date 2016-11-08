@@ -1,4 +1,8 @@
-//not yet done need to account for autobinding
+//jobs of this code  
+//1. get the view.html for this view via the ViewUrl
+//2. bind the view once it has returned
+//      the incoming view may have either auto binding
+//      or the view itself will have insight into binding
 var View = (function () {
     function View() {
     }

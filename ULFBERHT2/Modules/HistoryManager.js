@@ -39,13 +39,17 @@ var HistoryContainer;
             var url = viewInstance.ViewContainer.Url(viewInstance);
             if (url && !Is.NullOrEmpty(title)) {
                 if (history && history.pushState) {
-                    url = !Is.NullOrEmpty(url) ? url.indexOf("/") != 0 ? "/" + url : url : "/";
+                    url = this.FormatUrl(!Is.NullOrEmpty(url) ? url.indexOf("/") != 0 ? "/" + url : url : "/");
                     history.pushState(null, title, url);
                 }
             }
             if (documentTitle) {
                 document.title = documentTitle;
             }
+        };
+        History.prototype.FormatUrl = function (url) {
+            url = url.replace(/[^A-z0-9/]/g, "");
+            return url;
         };
         return History;
     }());

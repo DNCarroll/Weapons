@@ -62,36 +62,4 @@ Window.prototype.SplitPathName = function () {
     var split = pathName.split("/");
     return split;
 };
-function WindowLoad(e) {
-    if (document.readyState === "complete") {
-        windowLoaded();
-    }
-    else {
-        if (window.onload) {
-            var curronload = window.onload;
-            var newonload = function () {
-                curronload(e);
-                windowLoaded();
-            };
-            window.onload = newonload;
-        }
-        else {
-            window.onload = function () {
-                windowLoaded();
-            };
-        }
-    }
-}
-function windowLoaded() {
-    setProgressElement();
-    window.ShowByUrl(window.location.href);
-    window.addEventListener("popstate", HistoryManager.BackEvent);
-}
-function setProgressElement() {
-    var pg = document.getElementById("progress");
-    if (pg != null && Ajax) {
-        Ajax.ProgressElement = pg;
-    }
-}
-WindowLoad();
 //# sourceMappingURL=Window.js.map

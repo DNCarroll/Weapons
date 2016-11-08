@@ -1,14 +1,18 @@
 ﻿class DummyViewManager extends ViewContainer {
+    private static instance: DummyViewManager;
     constructor() {
+        if (DummyViewManager.instance) {
+            return DummyViewManager.instance;
+        }
         super();
-        this.ViewSegments.push(new DummyContent());
-        this.ViewSegments.push(new ViewHeader());
-        this.ViewSegments.push(new ViewFooter());
+        this.Views.push(new DummyContent());
+        this.Views.push(new ViewHeader());
+        this.Views.push(new ViewFooter());
         this.IsDefault = true;
+        DummyViewManager.instance = this;
     }
     DocumentTitle(route: ViewInstance) { return "Dummy Content"; }
-    Url(route: ViewInstance) { return "DummyView"; }
+    Url(route: ViewInstance) { return "DummyView/DummyParameter"; }
     UrlPattern() { return "dummypattern|dummy"; }
     UrlTitle(route: ViewInstance) { return "Dummy Page"; }
 }
-ViewContainers.push(new DummyViewManager());

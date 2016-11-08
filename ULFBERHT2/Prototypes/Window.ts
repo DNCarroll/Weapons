@@ -24,8 +24,8 @@ Window.prototype.Exception = function (...parameters: any[]) {
 };
 Window.prototype.Show = function <T extends IViewContainer>(type: {
     new (): T;
-    }, parameters?: Array<any>) {
-    var viewContainer = new type();
+}, parameters?: Array<any>) {    
+    var viewContainer = new type();    
     var viewInstance = new ViewInstance(parameters, viewContainer);    
     viewContainer.Show(viewInstance);
     HistoryManager.Add(viewInstance);
@@ -69,34 +69,3 @@ Window.prototype.SplitPathName = function (): Array<string> {
     var split = pathName.split("/");
     return split;
 }
-function WindowLoad(e?) {
-    if (document.readyState === "complete") {
-        windowLoaded();
-    }
-    else {
-        if (window.onload) {
-            var curronload = window.onload;
-            var newonload = function () {                
-                curronload(<Event>e);
-                windowLoaded();
-            };
-            window.onload = newonload;
-        } else {
-            window.onload = function () {
-                windowLoaded();
-            }
-        }
-    }    
-}
-function windowLoaded() {
-    setProgressElement();
-    window.ShowByUrl(window.location.href);
-    window.addEventListener("popstate", HistoryManager.BackEvent);
-}
-function setProgressElement() {
-    var pg = document.getElementById("progress");
-    if (pg != null && Ajax) {
-        Ajax.ProgressElement = pg;
-    }
-}
-WindowLoad();

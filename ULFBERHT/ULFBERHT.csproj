@@ -134,6 +134,7 @@
     <TypeScriptCompile Include="Modules\Calendar.ts" />
     <TypeScriptCompile Include="Modules\Convert.ts" />
     <TypeScriptCompile Include="Modules\Formatters.ts" />
+    <TypeScriptCompile Include="Modules\Initializer.ts" />
     <TypeScriptCompile Include="Modules\Is.ts" />
     <TypeScriptCompile Include="Modules\KeyPress.ts" />
     <TypeScriptCompile Include="Modules\RegularExpression.ts" />

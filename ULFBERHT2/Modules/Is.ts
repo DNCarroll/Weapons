@@ -31,15 +31,11 @@
     }
 
     export function InternetExplorer(): boolean {
-        //MSIE may be spoofed?
-        //        var ua = window.navigator.userAgent;
-        //        var msie = ua.indexOf("MSIE ");
-        //        return msie > 0;
-        return '\v' == 'v';
+        return '\v' === 'v';
     }
     export function OldishInternetExplorer(): boolean {
         var rv = 11;
-        if (navigator.appName == 'Microsoft Internet Explorer') {
+        if (navigator.appName === 'Microsoft Internet Explorer') {
             var ua = navigator.userAgent;
             var re = new RegExp("MSIE ([0-9])");
             if (re.exec(ua) != null)

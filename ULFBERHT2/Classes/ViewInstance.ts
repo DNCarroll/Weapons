@@ -1,13 +1,11 @@
-﻿//nothing to add as of 2016-11-08
+﻿//jobs
+//1. supply parameters to viewContainers,  the nature of viewcontainers is mostly singleton so this object 
+//      provides for variables via the parameters
 class ViewInstance {    
     Parameters: Array<any>;
     ViewContainer: IViewContainer;    
     constructor(parameters: Array<any>, viewContainer: IViewContainer) {
         this.Parameters = parameters;        
         this.ViewContainer = viewContainer;
-    }
-    static FormatUrl(url: string) {
-        url = url.replace(/[^A-z0-9/]/g, "");
-        return url;
     }
 }

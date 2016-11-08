@@ -6,17 +6,20 @@ var __extends = (this && this.__extends) || function (d, b) {
 var DummyViewManager = (function (_super) {
     __extends(DummyViewManager, _super);
     function DummyViewManager() {
+        if (DummyViewManager.instance) {
+            return DummyViewManager.instance;
+        }
         _super.call(this);
-        this.ViewSegments.push(new DummyContent());
-        this.ViewSegments.push(new ViewHeader());
-        this.ViewSegments.push(new ViewFooter());
+        this.Views.push(new DummyContent());
+        this.Views.push(new ViewHeader());
+        this.Views.push(new ViewFooter());
         this.IsDefault = true;
+        DummyViewManager.instance = this;
     }
     DummyViewManager.prototype.DocumentTitle = function (route) { return "Dummy Content"; };
-    DummyViewManager.prototype.Url = function (route) { return "DummyView"; };
+    DummyViewManager.prototype.Url = function (route) { return "DummyView/DummyParameter"; };
     DummyViewManager.prototype.UrlPattern = function () { return "dummypattern|dummy"; };
     DummyViewManager.prototype.UrlTitle = function (route) { return "Dummy Page"; };
     return DummyViewManager;
 }(ViewContainer));
-ViewContainers.push(new DummyViewManager());
 //# sourceMappingURL=DummyViewManager.js.map
