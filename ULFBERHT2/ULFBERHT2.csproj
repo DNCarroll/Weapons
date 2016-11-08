@@ -22,9 +22,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app.css" />
     <Content Include="default.html" />
-    <Content Include="index.html" />
+    <Content Include="Views\ContentWithShowByUrl.html" />
     <Content Include="Views\DummyContent.html" />
     <Content Include="Views\footer.html" />
     <Content Include="Views\header.html" />
@@ -32,7 +31,6 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="Classes\ViewInstance.ts" />
     <TypeScriptCompile Include="Classes\View.ts" />
     <TypeScriptCompile Include="Classes\ViewContainer.ts" />
@@ -46,6 +44,8 @@
     <TypeScriptCompile Include="Modules\HistoryManager.ts" />
     <TypeScriptCompile Include="Prototypes\Date.ts" />
     <TypeScriptCompile Include="Prototypes\Window.ts" />
+    <TypeScriptCompile Include="TestScripts\ContentWithShowByUrlContainer.ts" />
+    <TypeScriptCompile Include="TestScripts\ContentWithShowByUrlContent.ts" />
     <TypeScriptCompile Include="TestScripts\DummyContent.ts" />
     <TypeScriptCompile Include="TestScripts\DummyViewManager.ts" />
     <TypeScriptCompile Include="TestScripts\ViewFooter.ts" />

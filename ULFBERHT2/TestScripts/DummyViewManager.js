@@ -14,7 +14,7 @@ var DummyViewManager = (function (_super) {
     }
     DummyViewManager.prototype.DocumentTitle = function (route) { return "Dummy Content"; };
     DummyViewManager.prototype.Url = function (route) { return "DummyView"; };
-    DummyViewManager.prototype.UrlPattern = function () { return "dummypattern"; };
+    DummyViewManager.prototype.UrlPattern = function () { return "dummypattern|dummy"; };
     DummyViewManager.prototype.UrlTitle = function (route) { return "Dummy Page"; };
     return DummyViewManager;
 }(ViewContainer));

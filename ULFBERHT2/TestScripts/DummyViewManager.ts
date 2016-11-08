@@ -8,7 +8,7 @@
     }
     DocumentTitle(route: ViewInstance) { return "Dummy Content"; }
     Url(route: ViewInstance) { return "DummyView"; }
-    UrlPattern() { return "dummypattern"; }
+    UrlPattern() { return "dummypattern|dummy"; }
     UrlTitle(route: ViewInstance) { return "Dummy Page"; }
 }
 ViewContainers.push(new DummyViewManager());

@@ -6,6 +6,6 @@
     Url: (route: ViewInstance) => string;
     UrlPattern: () => string;
     UrlTitle: (route: ViewInstance) => string;
-    
+    IsUrlPatternMatch: (url: string) => boolean;
     ViewSegments: Array<IView>;
 }

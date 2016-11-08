@@ -30,8 +30,8 @@ Window.prototype.Show = function <T extends IViewContainer>(type: {
     viewContainer.Show(viewInstance);
     HistoryManager.Add(viewInstance);
 };
-Window.prototype.ShowByUrl = function (url: string) {       
-    var viewContainer: IViewContainer = ViewContainers.First(d => url.match(d.UrlPattern()) != null);
+Window.prototype.ShowByUrl = function (url: string) {           
+    var viewContainer: IViewContainer = ViewContainers.First(d => d.IsUrlPatternMatch(url));
     viewContainer = viewContainer == null ? ViewContainers.First(d => d.IsDefault) : viewContainer;
     if (viewContainer) {
         var viewInstance = new ViewInstance([url], viewContainer);

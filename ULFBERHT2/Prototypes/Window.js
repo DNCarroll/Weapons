@@ -24,7 +24,7 @@ Window.prototype.Show = function (type, parameters) {
     HistoryManager.Add(viewInstance);
 };
 Window.prototype.ShowByUrl = function (url) {
-    var viewContainer = ViewContainers.First(function (d) { return url.match(d.UrlPattern()) != null; });
+    var viewContainer = ViewContainers.First(function (d) { return d.IsUrlPatternMatch(url); });
     viewContainer = viewContainer == null ? ViewContainers.First(function (d) { return d.IsDefault; }) : viewContainer;
     if (viewContainer) {
         var viewInstance = new ViewInstance([url], viewContainer);
