@@ -8,28 +8,28 @@ var View = (function () {
     }
     View.prototype.Preload = function (view, viewInstance) { };
     View.prototype.Show = function (viewInstance) {
-        var url = this.ViewUrl();
-        var found = sessionStorage.getItem(url);
-        var callback = this.SetHTML;
-        var view = this;
+        var found = sessionStorage.getItem(this.ViewUrl());
         if (!found || window["IsDebug"]) {
-            var containter = this.ContainerID();
-            if (!Is.NullOrEmpty(containter)) {
-                Ajax.Html(this.ViewUrl(), function (result) {
-                    if (result) {
-                        sessionStorage.setItem(url, result);
-                        callback(view, result, viewInstance);
-                    }
-                });
-            }
+            var ajax = new Ajax();
+            ajax.AddListener(EventType.Completed, this.RequestCompleted.bind(this));
+            ajax.Get(this.ViewUrl());
         }
         else {
-            this.SetHTML(this, found, viewInstance);
+            this.SetHTML(found);
         }
     };
-    View.prototype.SetHTML = function (view, html, viewIntance) {
-        view.Preload(view, viewIntance);
-        document.getElementById(view.ContainerID()).innerHTML = html;
+    View.prototype.RequestCompleted = function (arg) {
+        if (arg.Sender.ResponseText) {
+            sessionStorage.setItem(this.ViewUrl(), arg.Sender.ResponseText);
+            this.SetHTML(arg.Sender.ResponseText);
+        }
+        arg.Sender = null;
+    };
+    View.prototype.SetHTML = function (html) {
+        var containter = this.ContainerID();
+        if (!Is.NullOrEmpty(containter)) {
+            document.getElementById(this.ContainerID()).innerHTML = html;
+        }
         //here is your autobinding  
         //var elements = view.Container.Get(ele => {
         //    return !Is.NullOrEmpty(ele.getAttribute(Binding.Attributes.Auto));

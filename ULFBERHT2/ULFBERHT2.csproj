@@ -31,19 +31,27 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Classes\Ajax.ts" />
+    <TypeScriptCompile Include="Classes\Binder.ts" />
+    <TypeScriptCompile Include="Classes\DataObject.ts" />
+    <TypeScriptCompile Include="Classes\ElementBinder.ts" />
     <TypeScriptCompile Include="Classes\ViewInstance.ts" />
     <TypeScriptCompile Include="Classes\View.ts" />
     <TypeScriptCompile Include="Classes\ViewContainer.ts" />
+    <TypeScriptCompile Include="Interfaces\CustomEvent.ts" />
+    <TypeScriptCompile Include="Interfaces\IDataObject.ts" />
     <TypeScriptCompile Include="Interfaces\IView.ts" />
     <TypeScriptCompile Include="Interfaces\IViewContainer.ts" />
-    <TypeScriptCompile Include="Modules\Ajax.ts" />
+    <TypeScriptCompile Include="Modules\BindingManager.ts" />
     <TypeScriptCompile Include="Modules\Formatters.ts" />
     <TypeScriptCompile Include="Modules\Initializer.ts" />
+    <TypeScriptCompile Include="Modules\String.ts" />
     <TypeScriptCompile Include="Prototypes\Array.ts" />
     <TypeScriptCompile Include="Modules\Is.ts" />
     <TypeScriptCompile Include="Modules\RegularExpression.ts" />
     <TypeScriptCompile Include="Modules\HistoryManager.ts" />
     <TypeScriptCompile Include="Prototypes\Date.ts" />
+    <TypeScriptCompile Include="Prototypes\HTMLElement.ts" />
     <TypeScriptCompile Include="Prototypes\Window.ts" />
     <TypeScriptCompile Include="TestScripts\ContentWithShowByUrlContainer.ts" />
     <TypeScriptCompile Include="TestScripts\ContentWithShowByUrlContent.ts" />
@@ -62,7 +70,6 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

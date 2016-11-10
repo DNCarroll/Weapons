@@ -67,7 +67,9 @@
     }
     function ignoreTheseNames(): Array<string> {
         return ["Ajax", "ViewContainer", "View", "ViewInstance", "Formatters",
-                "HistoryManager", "Is", "RegularExpression", "Initializer"];
+            "HistoryManager", "Is", "RegularExpression", "Initializer", "ViewContainers",
+            "ActionEvent", "DataBinding", "ActionType", "AutoSuggest", "Binding",
+            "KeyPress", "Thing", "What"];
     }
 }
 Initializer.WindowLoad();
