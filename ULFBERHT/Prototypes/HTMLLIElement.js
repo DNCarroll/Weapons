@@ -3,4 +3,3 @@ HTMLLIElement.prototype.Rebind = function () {
     Binding.DataContainer.DataBind(row.DataContainer, row, row.DataObject);
     return row;
 };
-//# sourceMappingURL=HTMLLIElement.js.map

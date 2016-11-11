@@ -45,7 +45,8 @@
     <TypeScriptCompile Include="Modules\BindingManager.ts" />
     <TypeScriptCompile Include="Modules\Formatters.ts" />
     <TypeScriptCompile Include="Modules\Initializer.ts" />
-    <TypeScriptCompile Include="Modules\String.ts" />
+    <TypeScriptCompile Include="Modules\ProgressManager.ts" />
+    <TypeScriptCompile Include="Prototypes\String.ts" />
     <TypeScriptCompile Include="Prototypes\Array.ts" />
     <TypeScriptCompile Include="Modules\Is.ts" />
     <TypeScriptCompile Include="Modules\RegularExpression.ts" />

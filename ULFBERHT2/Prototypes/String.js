@@ -18,7 +18,7 @@ String.prototype.TrimCharacters = function (characterAtZero, characterAtEnd) {
     return ret;
 };
 String.prototype.Element = function () {
-    var obj = document.createElement(this.toString());
+    var obj = document.getElementById(this.toString());
     if (obj) {
         return obj;
     }
@@ -67,37 +67,38 @@ String.prototype.CreateElementFromHtml = function () {
         return child;
     }
 };
-String.prototype.Put = function (parameters, success) {
-    Ajax.HttpAction("PUT", this, parameters, success);
-};
-String.prototype.Delete = function (parameters, success) {
-    Ajax.HttpAction("DELETE", this, parameters, success);
-};
-String.prototype.Post = function (parameters, success) {
-    Ajax.HttpAction("POST", this, parameters, success);
-};
-String.prototype.Get = function (parameters, success, isRaw) {
-    var url = this;
-    if (parameters) {
-        if (Is.Array(parameters)) {
-            for (var i = 0; i < parameters.length; i++) {
-                url += "/" + parameters[i].toString();
-            }
-            Ajax.HttpAction("GET", url, null, success, isRaw);
-        }
-        else {
-            url += "/";
-            var queryIndicator = "?";
-            for (var prop in parameters) {
-                if (parameters[prop]) {
-                    url += queryIndicator + prop + "=" + parameters[prop].toString();
-                    queryIndicator = "&";
-                }
-            }
-            Ajax.HttpAction("GET", url, null, success, isRaw);
-        }
-    }
-    else {
-        Ajax.HttpAction("GET", url, null, success, isRaw);
-    }
-};
+//String.prototype.Put = function (parameters?, success?) {
+//    Ajax.HttpAction("PUT", this, parameters, success);
+//};
+//String.prototype.Delete = function (parameters?, success?) {
+//    Ajax.HttpAction("DELETE", this, parameters, success);
+//};
+//String.prototype.Post = function (parameters?, success?) {
+//    Ajax.HttpAction("POST", this, parameters, success);
+//};
+//String.prototype.Get = function (parameters?, success?, isRaw?: boolean) {
+//    var url = this;
+//    if (parameters) {
+//        if (Is.Array(parameters)) {
+//            for (var i = 0; i < parameters.length; i++) {
+//                url += "/" + parameters[i].toString();
+//            }
+//            Ajax.HttpAction("GET", url, null, success, isRaw);
+//        }
+//        else {
+//            url += "/";
+//            var queryIndicator = "?";
+//            for (var prop in parameters) {
+//                if (parameters[prop]) {
+//                    url += queryIndicator + prop + "=" + parameters[prop].toString();
+//                    queryIndicator = "&";
+//                }
+//            }
+//            Ajax.HttpAction("GET", url, null, success, isRaw);
+//        }
+//    }
+//    else {
+//        Ajax.HttpAction("GET", url, null, success, isRaw);
+//    }
+//}; 
+//# sourceMappingURL=String.js.map

@@ -62,7 +62,7 @@
     function setProgressElement() {
         var pg = document.getElementById("progress");
         if (pg != null && Ajax) {
-            Ajax.ProgressElement = pg;
+            ProgressManager.ProgressElement = pg;
         }
     }
     function ignoreTheseNames(): Array<string> {

@@ -18,11 +18,6 @@ var Binder = (function () {
         this.ElementBinders = new Array();
         this.AutomaticallyPostUpdatesToWebApi = true;
     }
-    //can be virtual
-    Binder.prototype.WebApiGetParameters = function () {
-        //should the user need to hijack this
-        //return BindingManager.CurrentParameters();
-    };
     Binder.prototype.Dispose = function () {
         this.ElementBinders.forEach(function (e) { return e.Dispose(); });
         this.PrimaryKeys = null;

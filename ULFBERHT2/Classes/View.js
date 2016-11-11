@@ -5,6 +5,7 @@
 //      or the view itself will have insight into binding
 var View = (function () {
     function View() {
+        this.eventHandlers = new Array();
     }
     View.prototype.Preload = function (view, viewInstance) { };
     View.prototype.Show = function (viewInstance) {
@@ -26,20 +27,51 @@ var View = (function () {
         arg.Sender = null;
     };
     View.prototype.SetHTML = function (html) {
-        var containter = this.ContainerID();
+        var containter = this.ContainerID().Element();
         if (!Is.NullOrEmpty(containter)) {
-            document.getElementById(this.ContainerID()).innerHTML = html;
+            this.CachedElement = "div".CreateElement({ "innerHTML": html });
+            //look for bindings
+            //are there any?
+            //here is your autobinding  
+            //var elements = view.Container.Get(ele => {
+            //    return !Is.NullOrEmpty(ele.getAttribute(Binding.Attributes.Auto));
+            //});
+            //for (var i = 0; i < elements.length; i++) {
+            //    Binding.DataContainer.Auto(elements[i]);
+            //}
+            //if (view.Loaded) {
+            //    view.Loaded(route);
+            //}
+            //this will be in an event eventually when the binding comes into play
+            this.MoveStuffFromCacheToReal();
         }
-        //here is your autobinding  
-        //var elements = view.Container.Get(ele => {
-        //    return !Is.NullOrEmpty(ele.getAttribute(Binding.Attributes.Auto));
-        //});
-        //for (var i = 0; i < elements.length; i++) {
-        //    Binding.DataContainer.Auto(elements[i]);
-        //}
-        //if (view.Loaded) {
-        //    view.Loaded(route);
-        //}
+        else {
+            this.Dispatch(EventType.Completed);
+        }
+    };
+    View.prototype.MoveStuffFromCacheToReal = function () {
+        var containter = this.ContainerID().Element();
+        containter.Clear();
+        while (this.CachedElement.childNodes.length > 0) {
+            var node = this.CachedElement.childNodes[0];
+            this.CachedElement.removeChild(node);
+            containter.appendChild(node);
+        }
+        this.Dispatch(EventType.Completed);
+    };
+    View.prototype.AddListener = function (eventType, eventHandler) {
+        this.eventHandlers.Add(new Listener(eventType, eventHandler));
+    };
+    View.prototype.RemoveListener = function (eventType, eventHandler) {
+        this.eventHandlers.Remove(function (l) { return l.EventType === eventType && eventHandler === eventHandler; });
+    };
+    View.prototype.RemoveListeners = function (eventType) {
+        this.eventHandlers.Remove(function (l) { return l.EventType === eventType; });
+    };
+    View.prototype.Dispatch = function (eventType) {
+        var _this = this;
+        var listeners = this.eventHandlers.Where(function (e) { return e.EventType === eventType; });
+        listeners.forEach(function (l) { return l.EventHandler(new CustomEventArg(_this, eventType)); });
     };
     return View;
 }());

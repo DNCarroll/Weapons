@@ -35,4 +35,3 @@ var RegularExpression;
     }
     RegularExpression.Replace = Replace;
 })(RegularExpression || (RegularExpression = {}));
-//# sourceMappingURL=RegularExpression.js.map

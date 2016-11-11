@@ -4,7 +4,6 @@
 class Ajax implements IEventDispatcher<Ajax>{
     constructor() { }
     DisableElement: any = null;
-    static ProgressElement: HTMLElement = null;
     static Host: string;
     ManipulateProgressElement = false;
     UseAsDateUTC = true;
@@ -44,9 +43,7 @@ class Ajax implements IEventDispatcher<Ajax>{
     }
     private showProgress() {
         if (this.ManipulateProgressElement) {
-            if (Ajax.ProgressElement) {
-                Ajax.ProgressElement.style.display = "inline";
-            }
+            ProgressManager.Show();
             if (this.DisableElement) {
                 if (Is.Array(this.DisableElement)) {
                     for (var i = 0; i < this.DisableElement.length; i++) {
@@ -70,9 +67,7 @@ class Ajax implements IEventDispatcher<Ajax>{
     }
     HideProgress() {
         if (this.ManipulateProgressElement) {
-            if (Ajax.ProgressElement != null) {
-                Ajax.ProgressElement.style.display = "none";
-            }
+            ProgressManager.Hide();
             if (this.DisableElement) {
                 if (Is.Array(this.DisableElement)) {
                     for (var i = 0; i < this.DisableElement.length; i++) {

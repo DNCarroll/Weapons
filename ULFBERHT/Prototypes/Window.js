@@ -122,4 +122,3 @@ function setProgressElement() {
     }
 }
 WindowLoad();
-//# sourceMappingURL=Window.js.map

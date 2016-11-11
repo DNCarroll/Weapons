@@ -45,9 +45,7 @@ var Ajax = (function () {
     };
     Ajax.prototype.showProgress = function () {
         if (this.ManipulateProgressElement) {
-            if (Ajax.ProgressElement) {
-                Ajax.ProgressElement.style.display = "inline";
-            }
+            ProgressManager.Show();
             if (this.DisableElement) {
                 if (Is.Array(this.DisableElement)) {
                     for (var i = 0; i < this.DisableElement.length; i++) {
@@ -71,9 +69,7 @@ var Ajax = (function () {
     };
     Ajax.prototype.HideProgress = function () {
         if (this.ManipulateProgressElement) {
-            if (Ajax.ProgressElement != null) {
-                Ajax.ProgressElement.style.display = "none";
-            }
+            ProgressManager.Hide();
             if (this.DisableElement) {
                 if (Is.Array(this.DisableElement)) {
                     for (var i = 0; i < this.DisableElement.length; i++) {
@@ -234,7 +230,6 @@ var Ajax = (function () {
         var listeners = this.eventHandlers.Where(function (e) { return e.EventType === eventType; });
         listeners.forEach(function (l) { return l.EventHandler(new CustomEventArg(_this, eventType)); });
     };
-    Ajax.ProgressElement = null;
     return Ajax;
 }());
 //# sourceMappingURL=Ajax.js.map

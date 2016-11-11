@@ -13,10 +13,7 @@ abstract class Binder {
     PrimaryKeys: Array<string> = new Array<string>();
     WebApi: string;
     //can be virtual
-    WebApiGetParameters(): any {
-        //should the user need to hijack this
-        //return BindingManager.CurrentParameters();
-    }
+    abstract WebApiGetParameters(): any;
     //just Array<IDataObject>? where dataobejct has change event that can be gotten?
     //is the DataObject a generic?
     //with conditions?

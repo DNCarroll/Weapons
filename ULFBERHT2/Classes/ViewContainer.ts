@@ -8,8 +8,12 @@ abstract class ViewContainer implements IViewContainer {
     constructor() { }        
     Views: Array<IView> = new Array<IView>();    
     IsDefault: boolean = false;
-    Show(route: ViewInstance) {
+    NumberViewsShown: number;
+    Show(route: ViewInstance) {        
+        this.NumberViewsShown = 0;
+        ProgressManager.Show();
         this.Views.forEach(s => {
+            s.AddListener(EventType.Completed, this.ViewLoadCompleted.bind(this));
             s.Show(route)
         });
     }
@@ -20,6 +24,15 @@ abstract class ViewContainer implements IViewContainer {
             return url.match(regex) ? true : false;
         }
         return false;
+    }
+    ViewLoadCompleted(arg: ICustomEventArg<IView>) {
+        if (arg.EventType == EventType.Completed) {
+            this.NumberViewsShown = this.NumberViewsShown + 1;
+        }
+        if (this.NumberViewsShown === this.Views.length) {
+            //turn off progress
+            ProgressManager.Hide();
+        }
     }
     abstract DocumentTitle(route: ViewInstance): string;
     abstract Url(route: ViewInstance): string;

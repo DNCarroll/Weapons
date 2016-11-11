@@ -10,7 +10,11 @@ var ViewContainer = (function () {
         this.IsDefault = false;
     }
     ViewContainer.prototype.Show = function (route) {
+        var _this = this;
+        this.NumberViewsShown = 0;
+        ProgressManager.Show();
         this.Views.forEach(function (s) {
+            s.AddListener(EventType.Completed, _this.ViewLoadCompleted.bind(_this));
             s.Show(route);
         });
     };
@@ -21,6 +25,15 @@ var ViewContainer = (function () {
             return url.match(regex) ? true : false;
         }
         return false;
+    };
+    ViewContainer.prototype.ViewLoadCompleted = function (arg) {
+        if (arg.EventType == EventType.Completed) {
+            this.NumberViewsShown = this.NumberViewsShown + 1;
+        }
+        if (this.NumberViewsShown === this.Views.length) {
+            //turn off progress
+            ProgressManager.Hide();
+        }
     };
     return ViewContainer;
 }());
