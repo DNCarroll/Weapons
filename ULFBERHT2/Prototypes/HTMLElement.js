@@ -1,3 +1,15 @@
+var _this = this;
+//binding occures at element or style normally
+//would have to detect either
+HTMLElement.prototype.OnDataPropertyChanged = function (attribute, value) {
+    var that = _this;
+    if (Is.Style(attribute)) {
+        that.style[attribute] = value;
+    }
+    else {
+        that[attribute] = value;
+    }
+};
 HTMLElement.prototype.Get = function (predicate, notRecursive, nodes) {
     if (nodes == null) {
         nodes = new Array();

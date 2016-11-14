@@ -9,11 +9,11 @@
 class ElementBinder {
     //should this be something that inherits from an interface?
 
-    private dataObject: IDataObject;
+    private dataObject: IObjectState;
     get DataObject() {
         return this.dataObject;
     }
-    set DataObject(value: IDataObject) {
+    set DataObject(value: IObjectState) {
         this.dataObject = value;
         //do binding
         //everything else should be set up already

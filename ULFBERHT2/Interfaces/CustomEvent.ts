@@ -1,4 +1,5 @@
 ﻿enum EventType {
+    Any,
     Completed,
     Error,
     Aborted,
@@ -33,4 +34,32 @@ class Listener<T> {
         this.EventType = eventType;
         this.EventHandler = eventHandler;
     }
+}
+class PropertyListener {
+    PropertyName: string;
+    Attribute: string;
+    Handler: (attribute: string, value: any) => void;
+    constructor(propertyName: string, attribute: string, handler: (attribute: string, value: any) => void) {
+        this.PropertyName = propertyName;
+        this.Attribute = attribute;
+        this.Handler = handler;
+    }
+}
+interface IPropertyChangedDispatcher {
+    AddPropertyListener(propertyName: string, attribute: string, handler: (attribute: string, value: any) => void);    
+    RemovePropertyListeners();
+    OnPropertyChanged(propertyName: string);
+    
+}
+interface IObjectState extends IPropertyChangedDispatcher {
+    ObjectState: ObjectState;
+    AddObjectStateListener(handler: (obj: IObjectState) => void);
+    RemoveObjectStateListener();
+    OnObjectStateChanged();
+    OnElementChanged(value: any, propertyName: string);
+}
+enum ObjectState {
+    Dirty,
+    Cleaning,
+    Clean
 }

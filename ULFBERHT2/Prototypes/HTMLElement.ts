@@ -20,8 +20,19 @@ interface HTMLElement extends Element {
     DataObject: any;
     //DataContainer: IDataContainer;
     ElementBindingIndex: number;
+    OnDataPropertyChanged(attribute: string, value: any);
+    Binder: IBinder;
 }
-
+//binding occures at element or style normally
+//would have to detect either
+HTMLElement.prototype.OnDataPropertyChanged = (attribute: string, value: any) => {
+    var that = <HTMLElement>this;   
+    if (Is.Style(attribute)) {
+        that.style[attribute] = value;
+    } else {
+        that[attribute] = value;
+    }
+};
 HTMLElement.prototype.Get = function (predicate: (element: HTMLElement) => boolean, notRecursive?: boolean, nodes?: Array<HTMLElement>): HTMLElement[] {
     if (nodes == null) {
         nodes = new Array<HTMLElement>();

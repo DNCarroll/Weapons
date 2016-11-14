@@ -1,15 +1,12 @@
-﻿//jobs of this code  
-//1. get the view.html for this view via the ViewUrl
-//2. bind the view once it has returned
-//      the incoming view may have either auto binding
-//      or the view itself will have insight into binding
-abstract class View implements IView {
+﻿abstract class View implements IView {
     abstract ViewUrl(): string;
     abstract ContainerID(): string;
-    CachedElement:HTMLElement
-    eventHandlers = new Array<Listener<IView>>();
+    private countBinders: number;
+    private countBindersReported: number;
+    private cachedElement: HTMLElement    
+    private eventHandlers = new Array<Listener<IView>>();
     Preload(view: IView, viewInstance: ViewInstance) { }
-    Show(viewInstance: ViewInstance) {                
+    Show(viewInstance: ViewInstance) { 
         var found = sessionStorage.getItem(this.ViewUrl());        
         if (!found || window["IsDebug"]) {
             var ajax = new Ajax();
@@ -28,43 +25,64 @@ abstract class View implements IView {
         arg.Sender = null;
     }    
     SetHTML(html: string) {
-        var containter = this.ContainerID().Element();
+        var containter = this.ContainerID().Element();        
         if (!Is.NullOrEmpty(containter)) {
-            this.CachedElement = "div".CreateElement({ "innerHTML": html });
-            //look for bindings
-            //are there any?
-
-
-            //here is your autobinding  
-            //var elements = view.Container.Get(ele => {
-            //    return !Is.NullOrEmpty(ele.getAttribute(Binding.Attributes.Auto));
-            //});
-            //for (var i = 0; i < elements.length; i++) {
-            //    Binding.DataContainer.Auto(elements[i]);
-            //}
-            //if (view.Loaded) {
-            //    view.Loaded(route);
-            //}
-
-            //this will be in an event eventually when the binding comes into play
-            this.MoveStuffFromCacheToReal();
+            this.cachedElement = "div".CreateElement({ "innerHTML": html });
+            var elements = this.cachedElement.Get(ele => !Is.NullOrEmpty(ele.getAttribute("data-binder")));
+            if (elements.length > 0) {
+                elements.forEach(e => {
+                    try {
+                        var attribute = e.getAttribute("data-binder");
+                        if (attribute) {
+                            var fun = new Function("return new " + attribute + "()");
+                            e.Binder = <IBinder>fun();  
+                            e.Binder.AddListener(EventType.Completed, this.OnBinderComplete.bind(this));                             
+                            this.countBinders = this.countBinders + 1;                            
+                        }
+                    }
+                    catch (e) {
+                    }
+                });
+                elements.forEach(e => {
+                    if (e.Binder) {
+                        try {
+                            e.Binder.Execute(e);
+                        }
+                        catch (e) {
+                        }
+                    }
+                });
+            }
         }
         else {
             this.Dispatch(EventType.Completed);
         }
     }    
+    OnBinderComplete(arg: ICustomEventArg<IBinder>) {
+        if (arg.EventType === EventType.Completed) {
+            this.countBindersReported = this.countBindersReported++;
+            if (this.countBinders === this.countBindersReported) {
+                this.MoveStuffFromCacheToReal();
+            }
+        }
+    }
     MoveStuffFromCacheToReal() {
         var containter = this.ContainerID().Element();
+        var boundElements = containter.Get(e => e.Binder != null);
+        boundElements.forEach(e => e.Binder.Dispose());
         containter.Clear();
-        while (this.CachedElement.childNodes.length > 0) {
-            var node = this.CachedElement.childNodes[0];
-            this.CachedElement.removeChild(node);
+        while (this.cachedElement.childNodes.length > 0) {
+            var node = this.cachedElement.childNodes[0];
+            this.cachedElement.removeChild(node);
             containter.appendChild(node);
         }
         this.Dispatch(EventType.Completed);
     }
     AddListener(eventType: EventType, eventHandler: (eventArg: ICustomEventArg<IView>) => void) {
-        this.eventHandlers.Add(new Listener(eventType, eventHandler));
+        var found = this.eventHandlers.First(h => h.EventType === eventType && h.EventHandler === eventHandler);
+        if (!found) {
+            this.eventHandlers.Add(new Listener(eventType, eventHandler));
+        }
     }
     RemoveListener(eventType: EventType, eventHandler: (eventArg: ICustomEventArg<IView>) => void) {
         this.eventHandlers.Remove(l => l.EventType === eventType && eventHandler === eventHandler);

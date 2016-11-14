@@ -35,11 +35,11 @@
     <TypeScriptCompile Include="Classes\Binder.ts" />
     <TypeScriptCompile Include="Classes\DataObject.ts" />
     <TypeScriptCompile Include="Classes\ElementBinder.ts" />
+    <TypeScriptCompile Include="Classes\ListBinder.ts" />
     <TypeScriptCompile Include="Classes\ViewInstance.ts" />
     <TypeScriptCompile Include="Classes\View.ts" />
     <TypeScriptCompile Include="Classes\ViewContainer.ts" />
     <TypeScriptCompile Include="Interfaces\CustomEvent.ts" />
-    <TypeScriptCompile Include="Interfaces\IDataObject.ts" />
     <TypeScriptCompile Include="Interfaces\IView.ts" />
     <TypeScriptCompile Include="Interfaces\IViewContainer.ts" />
     <TypeScriptCompile Include="Modules\BindingManager.ts" />

@@ -5,59 +5,94 @@
 //if its not an array then it should cause change event
 
 
-//Ajax should be objectified
-//so can customize the header
-//for instance
-
-abstract class Binder {
+abstract class Binder implements IBinder {
     PrimaryKeys: Array<string> = new Array<string>();
     WebApi: string;
     //can be virtual
-    abstract WebApiGetParameters(): any;
-    //just Array<IDataObject>? where dataobejct has change event that can be gotten?
-    //is the DataObject a generic?
-    //with conditions?
-
-    //Generic here?
-    DataObjects: Array<IDataObject> = new Array<IDataObject>();
-    AssociatedElementIDs: Array<string> = new Array<string>();
-    ElementBinders: Array<ElementBinder> = new Array<ElementBinder>();
-    AutomaticallyPostUpdatesToWebApi: boolean = true;
-    abstract NewObject(rawObj: any): IDataObject;
-    Dispose() {
-        this.ElementBinders.forEach(e => e.Dispose());
-        this.PrimaryKeys = null;
-        this.WebApi = null;        
-        this.AssociatedElementIDs = null;
-        this.ElementBinders = null;
+    //should we return the url by default?
+    //it would be one less thing we would normally have to supply
+    WebApiGetParameters(): any {
+        var ret = HistoryManager.CurrentRoute().Parameters;
+        //just the url
+        //but it may need a cleanse here
+        return ret.length == 1 ? ret[0] : ret;
     }
-
-    //need to have callback or promise on the WebApi Get
-
+    Element: HTMLElement;
+    private eventHandlers = new Array<Listener<IBinder>>();
+    DataObject: IObjectState;
+    AssociatedElementIDs: Array<string> = new Array<string>();    
+    AutomaticallyUpdatesToWebApi: boolean = false;
+    abstract NewObject(rawObj: any): IObjectState;
+    constructor(element: HTMLElement) {
+        this.Element = element;
+    }
+    Dispose() {        
+        this.PrimaryKeys = null;
+        this.WebApi = null;
+        this.AssociatedElementIDs = null;
+        
+        this.DataObject.RemoveObjectStateListener();
+        this.DataObject.RemovePropertyListeners();
+        
+        this.RemoveListeners();        
+    }
     //this wont work because we are cant call it
     //have a function that is abstract?
     Execute(element: HTMLElement) {
+        this.Element = element;        
         if (!Is.NullOrEmpty(this.WebApi)) {
-            //hook up the element to bindings
-            //use DataObject
-            //this has the WebApi
-            //It should go off and get whatever parameters it needs
-            //then do WebApi call
-            //the WebApiCall might simply be passing the part of the url to the Get webapi action   
-            //var parameters = this.WebApiGetParameters();
-            //this.WebApi.Get(parameters, r => {
-            //    if (r) {
-            //        if (Is.Array(r)) {
-
-            //        }
-            //    }
-            //});
-            //now do web api
-
+            var parameters = this.WebApiGetParameters();
+            var ajax = new Ajax();
+            ajax.AddListener(EventType.Completed, this.OnAjaxComplete.bind(this));
+            ajax.Submit(this.WebApi, parameters);
         }
     }
+    OnAjaxComplete(arg: CustomEventArg<Ajax>) {  
+        if (arg.EventType === EventType.Completed) {
+            var data = arg.Sender.GetRequestData();
+            if (data) {
+                this.DataObject = this.NewObject(data);
+                this.DataObject.AddObjectStateListener(this.onObjectStateChanged.bind(this));
+                this.bindElementAndDataObject(this.Element, this.DataObject);
+            }
+        }
+    }
+    private onObjectStateChanged(obj: IObjectState) {
+        if (this.AutomaticallyUpdatesToWebApi) {
+            //do the auto post
+        }
+    }
+    private bindElementAndDataObject(elementWithBindings:HTMLElement, dataObject:IObjectState) {
+        var boundElements = elementWithBindings.Get(e => e.HasDataSet());
+        boundElements.forEach(e => {
+
+            //select and radio buttons will be a bit different
+
+            var boundAttributes = e.GetDataSetAttributes();
+            boundAttributes.forEach(b => {                
+                dataObject.AddPropertyListener(b.value, b.name, e.OnDataPropertyChanged.bind(e));
+                //other way around
+                //select, 
+                //radio,
+                //check,
+                //input
+
+                //do we need to detect the HTMLElement type?
+
+                //does this one work for select element?
+
+                if (b.name === "value") {
+                    var inputHTML = <HTMLInputElement>e;                    
+                    inputHTML.addEventListener("change", (e) => {
+                        dataObject.OnElementChanged(inputHTML.value, b.value);
+                    });
+                }
+                //checked?
+            });
+        });
+    }
     //virtual method?
-    private selectedObject: IDataObject;
+    private selectedObject: IObjectState;
     get SelectedObject() {
         return this.selectedObject;
     }
@@ -70,4 +105,22 @@ abstract class Binder {
         //look for any elementbindings associated with selected item changes and rebind them 'cause' row color change
         //if a list changes length need to cause ^ too
     }    
+
+    AddListener(eventType: EventType, eventHandler: (eventArg: ICustomEventArg<IBinder>) => void) {
+        var found = this.eventHandlers.First(h => h.EventType === eventType && h.EventHandler === eventHandler);
+        if (!found) {
+            this.eventHandlers.Add(new Listener(eventType, eventHandler));
+        }
+    }
+    RemoveListener(eventType: EventType, eventHandler: (eventArg: ICustomEventArg<IBinder>) => void) {
+        this.eventHandlers.Remove(l => l.EventType === eventType && eventHandler === eventHandler);
+    }
+    RemoveListeners(eventType: EventType = EventType.Any) {        
+        this.eventHandlers.Remove(l => eventType === EventType.Any || l.EventType === eventType);
+    }
+    Dispatch(eventType: EventType) {
+        var listeners = this.eventHandlers.Where(e => e.EventType === eventType);
+        listeners.forEach(l => l.EventHandler(new CustomEventArg<IBinder>(this, eventType)));
+    }
+
 }
