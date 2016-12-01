@@ -21,7 +21,7 @@
     function windowLoaded() {
         addViewContainers();
         setProgressElement();
-        window.ShowByUrl(window.location.href);
+        window.ShowByUrl(window.location.pathname.substring(1));
         window.addEventListener("popstate", HistoryManager.BackEvent);        
     }
     function addViewContainers() {

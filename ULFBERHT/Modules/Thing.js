@@ -84,3 +84,4 @@ var What;
         Is.EnumValue = EnumValue;
     })(Is = What.Is || (What.Is = {}));
 })(What || (What = {}));
+//# sourceMappingURL=Thing.js.map

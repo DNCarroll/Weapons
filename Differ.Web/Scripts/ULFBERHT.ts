@@ -1211,19 +1211,19 @@ module AutoSuggest {
                     //up arrow
                     else if (key == 38) {
                         if (list.selectedIndex > 0) {
-                            list.options[list.selectedIndex - 1].selected = "selected";
+                            list.options[list.selectedIndex - 1]["selected"] = "selected";
                         }
                         else {
-                            list.options[0].selected = "selected";
+                            list.options[0]["selected"] = "selected";
                         }
                     }
                     //down arrow
                     else if (key == 40) {
                         if (list.selectedIndex < list.options.length - 1) {
-                            list.options[list.selectedIndex + 1].selected = "selected";
+                            list.options[list.selectedIndex + 1]["selected"] = "selected";
                         }
                         else {
-                            list.options[0].selected = "selected";
+                            list.options[0]["selected"] = "selected";
                         }
                     }
                     //backspace?
@@ -1258,8 +1258,8 @@ module AutoSuggest {
     }
     function setValue(input: HTMLInputElement, list: HTMLSelectElement, selectedIndex?: number) {
         selectedIndex = selectedIndex ? selectedIndex : list.selectedIndex;
-        input.value = list.options[selectedIndex].text;
-        input["SelectedValue"] = list.options[selectedIndex].value;       
+        input.value = list.options[selectedIndex]["text"];
+        input["SelectedValue"] = list.options[selectedIndex]["value"];       
     }
 }
 module Binding {   
@@ -2609,8 +2609,7 @@ module Local {
             return temp;
         } catch (e) {
             throw e;
-        }
-        return null;
+        }        
     }
 } 
 module RegularExpression {
@@ -2825,7 +2824,6 @@ Array.prototype.Return = function (func: (...objs: any[]) => any): any {
         default:
             return null;
     }
-    return null;
 };
 Array.prototype.Select = function (keySelector: (element: any) => any): Array<any> {
     var ret = new Array<any>();    
@@ -3446,7 +3444,7 @@ HTMLSelectElement.prototype.AddOptions= function(arrayOrObject, valueProperty ? 
                 select["options"][select.options.length] = new Option(t[displayProperty], t[valueProperty]);
                 if (selectedValue &&
                     t[valueProperty] == selectedValue) {
-                    select["options"][select.options.length - 1].selected = "true";
+                    select["options"][select.options.length - 1]["selected"] = "true";
                 }
             });                        
         }
@@ -3455,7 +3453,7 @@ HTMLSelectElement.prototype.AddOptions= function(arrayOrObject, valueProperty ? 
                 select["options"][select.options.length] = new Option(t, t);
                 if (selectedValue &&
                     t == selectedValue) {
-                    select["options"][select.options.length - 1].selected = "true";
+                    select["options"][select.options.length - 1]["selected"] = "true";
                 }
             });
         }
@@ -3466,7 +3464,7 @@ HTMLSelectElement.prototype.AddOptions= function(arrayOrObject, valueProperty ? 
             if (Is.Function(prop)) {
                 select["options"][select.options.length] = new Option(prop, prop);
                 if (selectedValue && selectedValue == prop) {
-                    select["options"][select.options.length - 1].selected = "selected";
+                    select["options"][select.options.length - 1]["selected"] = "selected";
                 }
             }
         }
@@ -3479,7 +3477,7 @@ HTMLSelectElement.prototype.AddOptionsViaObject = function (obj, selectedValue?,
         for (var prop in obj) {
             select["options"][select.options.length] = new Option(prop, obj[prop]);
             if (selectedValue && selectedValue == obj[prop]) {
-                select["options"][select.options.length - 1].selected = "selected";
+                select["options"][select.options.length - 1]["selected"] = "selected";
             }
         }
     }
@@ -3495,7 +3493,7 @@ HTMLSelectElement.prototype.AddOptionsViaObject = function (obj, selectedValue?,
         tempArray.forEach(t=> {            
             select["options"][select.options.length] = new Option(t, obj[t]);
             if (selectedValue != undefined && selectedValue == obj[t]) {
-                select["options"][select.options.length - 1].selected = "selected";
+                select["options"][select.options.length - 1]["selected"] = "selected";
             }
         });
     }

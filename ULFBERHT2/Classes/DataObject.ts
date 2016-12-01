@@ -1,15 +1,13 @@
 ﻿//object state can be used to indicated changes are needing update
 //for binding
-class DataObject implements IObjectState {
-    constructor(raw: any) {        
-        for (var prop in raw) {
-            this[prop] = raw[prop];            
-        }        
+abstract class DataObject implements IObjectState {
+    constructor(serverObject: any = null) {
+        this.serverObject = serverObject;
         this.objectState = ObjectState.Clean;
     }
     private changeCount: number = 0;
     private changeQueued: boolean = false;
-    private eventListeners = new Array<PropertyListener>();   
+    private eventListeners = new Array<PropertyListener>();
     private objectListener = new Array<(obj: IObjectState) => void>();
     private objectState: ObjectState = ObjectState.Clean;
     get ObjectState(): ObjectState {
@@ -18,7 +16,7 @@ class DataObject implements IObjectState {
     set ObjectState(value: ObjectState) {
         var causeChangedEvent = value != this.objectState;
         this.objectState = value;
-        if (causeChangedEvent) {
+        if (value === ObjectState.Dirty) {
             this.OnObjectStateChanged();
         }
     }
@@ -30,10 +28,13 @@ class DataObject implements IObjectState {
     }
     OnPropertyChanged(propertyName: string) {
         var listeners = this.eventListeners.Where(l => l.PropertyName === propertyName);
-        listeners.forEach(l => l.Handler(l.Attribute, this[propertyName]));        
+        listeners.forEach(l => l.Handler(l.Attribute, this[propertyName]));
     }
-    private onPropertyChanged(propertyName: string, canCauseDirty: boolean = true) {
-        this.OnPropertyChanged(propertyName);        
+    AllPropertiesChanged() {
+        this.eventListeners.forEach(l => l.Handler(l.Attribute, this[l.PropertyName]));
+    }
+    InstigatePropertyChangedListeners(propertyName: string, canCauseDirty: boolean = true) {
+        this.OnPropertyChanged(propertyName);
         if (canCauseDirty && this.ObjectState != ObjectState.Cleaning) {
             this.ObjectState = ObjectState.Dirty;
         }
@@ -52,5 +53,19 @@ class DataObject implements IObjectState {
         //can we know what the target is here?
         //just by the event?
         //what field are they wanting to update?
+    }
+    private serverObject: any;
+    get ServerObject() {
+        return this.serverObject;
+    }
+    set ServerObject(value: any) {
+        this.serverObject = value;
+    }
+    SetServerProperty(propertyName: string, value: any) {
+        var change = value != this.ServerObject[propertyName];
+        this.ServerObject[propertyName] = value;
+        if (change) {
+            this.InstigatePropertyChangedListeners(propertyName, true);
+        }
     }
 }

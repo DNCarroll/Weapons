@@ -18,7 +18,7 @@ String.prototype.TrimCharacters = function (characterAtZero, characterAtEnd) {
     return ret;
 };
 String.prototype.Element = function () {
-    var obj = document.createElement(this.toString());
+    var obj = document.getElementById(this.toString());
     if (obj) {
         return obj;
     }
@@ -101,3 +101,4 @@ String.prototype.Get = function (parameters, success, isRaw) {
         Ajax.HttpAction("GET", url, null, success, isRaw);
     }
 };
+//# sourceMappingURL=String.js.map

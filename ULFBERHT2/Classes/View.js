@@ -27,6 +27,8 @@ var View = (function () {
         if (!Is.NullOrEmpty(containter)) {
             this.cachedElement = "div".CreateElement({ "innerHTML": html });
             var elements = this.cachedElement.Get(function (ele) { return !Is.NullOrEmpty(ele.getAttribute("data-binder")); });
+            this.countBindersReported = 0;
+            this.countBinders = 0;
             if (elements.length > 0) {
                 elements.forEach(function (e) {
                     try {
@@ -35,6 +37,7 @@ var View = (function () {
                             var fun = new Function("return new " + attribute + "()");
                             e.Binder = fun();
                             e.Binder.AddListener(EventType.Completed, _this.OnBinderComplete.bind(_this));
+                            e.Binder.Element = e;
                             _this.countBinders = _this.countBinders + 1;
                         }
                     }
@@ -44,12 +47,16 @@ var View = (function () {
                 elements.forEach(function (e) {
                     if (e.Binder) {
                         try {
-                            e.Binder.Execute(e);
+                            e.Binder.Execute();
                         }
-                        catch (e) {
+                        catch (ex) {
+                            var exmessage = ex;
                         }
                     }
                 });
+            }
+            else {
+                this.MoveStuffFromCacheToReal();
             }
         }
         else {
@@ -58,7 +65,7 @@ var View = (function () {
     };
     View.prototype.OnBinderComplete = function (arg) {
         if (arg.EventType === EventType.Completed) {
-            this.countBindersReported = this.countBindersReported++;
+            this.countBindersReported = this.countBindersReported + 1;
             if (this.countBinders === this.countBindersReported) {
                 this.MoveStuffFromCacheToReal();
             }

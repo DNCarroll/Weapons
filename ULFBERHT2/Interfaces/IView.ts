@@ -5,6 +5,7 @@
     Preload: (view: IView, viewInstance: ViewInstance) => void;
 }
 interface IBinder extends IEventDispatcher<IBinder> {
-    Execute: (element: HTMLElement) => void;
+    Execute: () => void;
     Dispose: () => void;
+    Element: HTMLElement;
 }

@@ -28,7 +28,7 @@ var Ajax = (function () {
         this.setCustomHeader();
         try {
             var newParameters = this.getParameters(parameters);
-            this.XMLHttpRequest.send(parameters);
+            this.XMLHttpRequest.send(newParameters);
         }
         catch (e) {
             this.HideProgress();
@@ -215,6 +215,10 @@ var Ajax = (function () {
     Ajax.prototype.Get = function (url, parameters) {
         if (parameters === void 0) { parameters = null; }
         this.Submit("GET", url, parameters);
+    };
+    Ajax.prototype.Put = function (url, parameters) {
+        if (parameters === void 0) { parameters = null; }
+        this.Submit("PUT", url, parameters);
     };
     Ajax.prototype.AddListener = function (eventType, eventHandler) {
         this.eventHandlers.Add(new Listener(eventType, eventHandler));

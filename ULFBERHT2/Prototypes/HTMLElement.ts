@@ -15,24 +15,11 @@ interface HTMLElement extends Element {
     AddListener(eventName, method);
     Set(objectProperties): HTMLElement;
     HasDataSet: () => boolean;
-    GetDataSetAttributes: () => { name: string; value: any; }[];
+    GetDataSetAttributes: () => { Attribute: string; Property: any; }[];
 
     DataObject: any;
-    //DataContainer: IDataContainer;
-    ElementBindingIndex: number;
-    OnDataPropertyChanged(attribute: string, value: any);
     Binder: IBinder;
 }
-//binding occures at element or style normally
-//would have to detect either
-HTMLElement.prototype.OnDataPropertyChanged = (attribute: string, value: any) => {
-    var that = <HTMLElement>this;   
-    if (Is.Style(attribute)) {
-        that.style[attribute] = value;
-    } else {
-        that[attribute] = value;
-    }
-};
 HTMLElement.prototype.Get = function (predicate: (element: HTMLElement) => boolean, notRecursive?: boolean, nodes?: Array<HTMLElement>): HTMLElement[] {
     if (nodes == null) {
         nodes = new Array<HTMLElement>();
@@ -233,12 +220,12 @@ HTMLElement.prototype.HasDataSet = function () {
     return false;
 };
 HTMLElement.prototype.GetDataSetAttributes = function () {
-    var ret = new Array<{ name: string; value: any; }>();
+    var ret = new Array<{ Attribute: string; Property: any; }>();
     if (!Is.OldishInternetExplorer()) {
         if (this["dataset"]) {
             var dataset = this["dataset"];
             for (var prop in dataset) {
-                ret.Add({ name: prop, value: dataset[prop] });
+                ret.Add({ Attribute: prop, Property: dataset[prop] });
             }
         }
     }
@@ -250,7 +237,7 @@ HTMLElement.prototype.GetDataSetAttributes = function () {
             if (attribute && attribute.name && attribute.name.indexOf("data-") > -1) {
                 var name = attribute.name.replace("data-", "");
                 var value = this.getAttribute(attribute.name);
-                ret.Add({ name: name.toLowerCase(), value: value });
+                ret.Add({ Attribute: name.toLowerCase(), Property: value });
             }
             position++;
         }

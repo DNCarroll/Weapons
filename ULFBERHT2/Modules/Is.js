@@ -84,7 +84,12 @@ var Is;
     }
     Is.String = String;
     function Style(value) {
-        return value in document.body.style;
+        for (var prop in document.body.style) {
+            if (prop.toLowerCase() === value.toLowerCase()) {
+                return true;
+            }
+        }
+        return false;
     }
     Is.Style = Style;
     function ValidDate(value) {

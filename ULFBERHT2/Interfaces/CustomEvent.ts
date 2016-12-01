@@ -57,6 +57,8 @@ interface IObjectState extends IPropertyChangedDispatcher {
     RemoveObjectStateListener();
     OnObjectStateChanged();
     OnElementChanged(value: any, propertyName: string);
+    AllPropertiesChanged();
+    ServerObject: any;
 }
 enum ObjectState {
     Dirty,

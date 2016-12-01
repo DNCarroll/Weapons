@@ -1,15 +1,14 @@
 //object state can be used to indicated changes are needing update
 //for binding
 var DataObject = (function () {
-    function DataObject(raw) {
+    function DataObject(serverObject) {
+        if (serverObject === void 0) { serverObject = null; }
         this.changeCount = 0;
         this.changeQueued = false;
         this.eventListeners = new Array();
         this.objectListener = new Array();
         this.objectState = ObjectState.Clean;
-        for (var prop in raw) {
-            this[prop] = raw[prop];
-        }
+        this.serverObject = serverObject;
         this.objectState = ObjectState.Clean;
     }
     Object.defineProperty(DataObject.prototype, "ObjectState", {
@@ -19,7 +18,7 @@ var DataObject = (function () {
         set: function (value) {
             var causeChangedEvent = value != this.objectState;
             this.objectState = value;
-            if (causeChangedEvent) {
+            if (value === ObjectState.Dirty) {
                 this.OnObjectStateChanged();
             }
         },
@@ -37,7 +36,11 @@ var DataObject = (function () {
         var listeners = this.eventListeners.Where(function (l) { return l.PropertyName === propertyName; });
         listeners.forEach(function (l) { return l.Handler(l.Attribute, _this[propertyName]); });
     };
-    DataObject.prototype.onPropertyChanged = function (propertyName, canCauseDirty) {
+    DataObject.prototype.AllPropertiesChanged = function () {
+        var _this = this;
+        this.eventListeners.forEach(function (l) { return l.Handler(l.Attribute, _this[l.PropertyName]); });
+    };
+    DataObject.prototype.InstigatePropertyChangedListeners = function (propertyName, canCauseDirty) {
         if (canCauseDirty === void 0) { canCauseDirty = true; }
         this.OnPropertyChanged(propertyName);
         if (canCauseDirty && this.ObjectState != ObjectState.Cleaning) {
@@ -59,6 +62,23 @@ var DataObject = (function () {
         //can we know what the target is here?
         //just by the event?
         //what field are they wanting to update?
+    };
+    Object.defineProperty(DataObject.prototype, "ServerObject", {
+        get: function () {
+            return this.serverObject;
+        },
+        set: function (value) {
+            this.serverObject = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    DataObject.prototype.SetServerProperty = function (propertyName, value) {
+        var change = value != this.ServerObject[propertyName];
+        this.ServerObject[propertyName] = value;
+        if (change) {
+            this.InstigatePropertyChangedListeners(propertyName, true);
+        }
     };
     return DataObject;
 }());

@@ -75,9 +75,14 @@
     export function String(value) {
         return typeof value === 'string';
     }
-
+    
     export function Style(value: string) {
-        return value in document.body.style;
+        for (var prop in document.body.style) {
+            if (prop.toLowerCase() === value.toLowerCase()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     export function ValidDate(value) {

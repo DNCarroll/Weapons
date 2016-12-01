@@ -66,3 +66,4 @@ HTMLSelectElement.prototype.AddOptionsViaObject = function (obj, selectedValue, 
         });
     }
 };
+//# sourceMappingURL=HTMLSelectElement.js.map

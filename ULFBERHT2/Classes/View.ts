@@ -29,15 +29,18 @@
         if (!Is.NullOrEmpty(containter)) {
             this.cachedElement = "div".CreateElement({ "innerHTML": html });
             var elements = this.cachedElement.Get(ele => !Is.NullOrEmpty(ele.getAttribute("data-binder")));
+            this.countBindersReported = 0;
+            this.countBinders = 0;
             if (elements.length > 0) {
                 elements.forEach(e => {
                     try {
                         var attribute = e.getAttribute("data-binder");
                         if (attribute) {
                             var fun = new Function("return new " + attribute + "()");
-                            e.Binder = <IBinder>fun();  
-                            e.Binder.AddListener(EventType.Completed, this.OnBinderComplete.bind(this));                             
-                            this.countBinders = this.countBinders + 1;                            
+                            e.Binder = <IBinder>fun();
+                            e.Binder.AddListener(EventType.Completed, this.OnBinderComplete.bind(this));
+                            e.Binder.Element = e;
+                            this.countBinders = this.countBinders + 1;
                         }
                     }
                     catch (e) {
@@ -46,12 +49,15 @@
                 elements.forEach(e => {
                     if (e.Binder) {
                         try {
-                            e.Binder.Execute(e);
+                            e.Binder.Execute();
                         }
-                        catch (e) {
+                        catch (ex) {
+                            var exmessage = ex;
                         }
                     }
                 });
+            } else {
+                this.MoveStuffFromCacheToReal();
             }
         }
         else {
@@ -60,7 +66,7 @@
     }    
     OnBinderComplete(arg: ICustomEventArg<IBinder>) {
         if (arg.EventType === EventType.Completed) {
-            this.countBindersReported = this.countBindersReported++;
+            this.countBindersReported = this.countBindersReported + 1;
             if (this.countBinders === this.countBindersReported) {
                 this.MoveStuffFromCacheToReal();
             }

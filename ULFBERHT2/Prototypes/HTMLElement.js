@@ -1,15 +1,3 @@
-var _this = this;
-//binding occures at element or style normally
-//would have to detect either
-HTMLElement.prototype.OnDataPropertyChanged = function (attribute, value) {
-    var that = _this;
-    if (Is.Style(attribute)) {
-        that.style[attribute] = value;
-    }
-    else {
-        that[attribute] = value;
-    }
-};
 HTMLElement.prototype.Get = function (predicate, notRecursive, nodes) {
     if (nodes == null) {
         nodes = new Array();
@@ -217,7 +205,7 @@ HTMLElement.prototype.GetDataSetAttributes = function () {
         if (this["dataset"]) {
             var dataset = this["dataset"];
             for (var prop in dataset) {
-                ret.Add({ name: prop, value: dataset[prop] });
+                ret.Add({ Attribute: prop, Property: dataset[prop] });
             }
         }
     }
@@ -229,7 +217,7 @@ HTMLElement.prototype.GetDataSetAttributes = function () {
             if (attribute && attribute.name && attribute.name.indexOf("data-") > -1) {
                 var name = attribute.name.replace("data-", "");
                 var value = this.getAttribute(attribute.name);
-                ret.Add({ name: name.toLowerCase(), value: value });
+                ret.Add({ Attribute: name.toLowerCase(), Property: value });
             }
             position++;
         }

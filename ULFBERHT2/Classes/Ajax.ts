@@ -27,7 +27,7 @@ class Ajax implements IEventDispatcher<Ajax>{
         this.setCustomHeader();
         try {
             var newParameters = this.getParameters(parameters);
-            this.XMLHttpRequest.send(parameters);
+            this.XMLHttpRequest.send(newParameters);
         } catch (e) {
             this.HideProgress();
             if (window.Exception) {
@@ -212,6 +212,7 @@ class Ajax implements IEventDispatcher<Ajax>{
     }
 
     Get(url: string, parameters: any = null) { this.Submit("GET", url, parameters); }
+    Put(url: string, parameters: any = null) { this.Submit("PUT", url, parameters); }
         
     AddListener(eventType: EventType, eventHandler: (eventArg: ICustomEventArg<Ajax>) => void) {
         this.eventHandlers.Add(new Listener(eventType, eventHandler));

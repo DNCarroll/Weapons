@@ -2,7 +2,7 @@
     constructor() {
         super();
     }
-    ViewUrl() { return "Views/header.html" };    
+    ViewUrl() { return "/Views/header.html" };    
     ContainerID() {
         return "header";
     }
