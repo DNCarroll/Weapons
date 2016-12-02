@@ -1,9 +1,54 @@
+//preload with complete event?
+//figure out how to chain the data loads?
+//otherwise going to have them happening at odds
+var ViewPreload = (function () {
+    function ViewPreload(executor, executeMethod, oncomplete) {
+        this._executor = executor;
+        this._executeMethod = executeMethod;
+        this._oncomplete = oncomplete;
+        executor.AddListener(EventType.Completed, this.OnComplete.bind(this));
+    }
+    ViewPreload.prototype.Dispose = function () {
+        this._executeMethod = null;
+        this._oncomplete = null;
+        this._callback = null;
+        this._executor.RemoveListeners(EventType.Completed);
+        this._executor = null;
+    };
+    ViewPreload.prototype.OnComplete = function (arg) {
+        this._callback();
+        this._oncomplete(arg);
+    };
+    ViewPreload.prototype.Then = function (callback) {
+        this._callback = callback;
+        this._executeMethod();
+    };
+    return ViewPreload;
+}());
 var View = (function () {
     function View() {
         this.eventHandlers = new Array();
+        this.preload = null;
     }
-    View.prototype.Preload = function (view, viewInstance) { };
+    Object.defineProperty(View.prototype, "Preload", {
+        get: function () {
+            return this.preload;
+        },
+        set: function (value) {
+            this.preload = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     View.prototype.Show = function (viewInstance) {
+        if (this.Preload) {
+            this.Preload.Then(this.postPreloaded.bind(this));
+        }
+        else {
+            this.postPreloaded();
+        }
+    };
+    View.prototype.postPreloaded = function () {
         var found = sessionStorage.getItem(this.ViewUrl());
         if (!found || window["IsDebug"]) {
             var ajax = new Ajax();

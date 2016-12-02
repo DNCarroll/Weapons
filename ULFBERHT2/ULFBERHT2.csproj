@@ -48,6 +48,7 @@
     <TypeScriptCompile Include="Modules\Formatters.ts" />
     <TypeScriptCompile Include="Modules\Initializer.ts" />
     <TypeScriptCompile Include="Modules\ProgressManager.ts" />
+    <TypeScriptCompile Include="Prototypes\HTMLSelectElement.ts" />
     <TypeScriptCompile Include="Prototypes\String.ts" />
     <TypeScriptCompile Include="Prototypes\Array.ts" />
     <TypeScriptCompile Include="Modules\Is.ts" />
@@ -76,6 +77,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\GenericSelectDataController.cs" />
     <Compile Include="Api\WebApiBinder.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

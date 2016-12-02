@@ -38,6 +38,12 @@
     get RadioChecked() {
         return this.ServerObject["RadioChecked"];
     }
+    get SelectValue() {
+        return this.ServerObject["SelectValue"];
+    }
+    set SelectValue(value: string) {
+        this.SetServerProperty("SelectValue", value);
+    }
     set RadioChecked(value) {
         this.SetServerProperty("RadioChecked", value);
     }
@@ -111,13 +117,14 @@ class BinderTest2 extends Binder {
         this.Dispatch(EventType.Completed);
     }
 }
-class BinderView extends View {
+
+class BinderView extends View {    
     constructor() {
-        super();
+        super();                
     }
     ViewUrl() { return "/Views/BinderView.html" };
     ContainerID() {
-        return "content";
+        return "content";        
     }
 }
 class BinderViewContainer extends ViewContainer {
@@ -166,12 +173,22 @@ class MultipleBindingsContainer extends ViewContainer {
     UrlTitle(route: ViewInstance) { return "multiplebindings view"; }
 }
 class WebApiFormView extends View {
+    static GenericSelectData: any;
     constructor() {
         super();
+        var ajax = new Ajax();        
+        //you/ve already loaded the data from the server do you want to reload it again?
+        //because each time this view is loaded it will 
+        this.Preload = new ViewPreload(ajax, () => ajax.Get("/Api/GenericSelectData"), this.OnAjaxLoadComplete.bind(this));
     }
     ViewUrl() { return "/Views/WebApiFormView.html" };
     ContainerID() {
         return "content";
+    }
+    OnAjaxLoadComplete(arg: CustomEventArg<Ajax>) {
+        WebApiFormView.GenericSelectData = arg.Sender.GetRequestData();        
+        this.Preload.Dispose();
+        this.Preload = null;
     }
 }
 class WebApiBindingContainer extends ViewContainer {

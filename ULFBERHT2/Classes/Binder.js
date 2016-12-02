@@ -86,9 +86,27 @@ var Binder = (function () {
         //a javascript method, an array
         //detect if its a method?
         //then call the method, the method should not return (if server call until the call is complete is this possible?)
-        //previously we used the PreLoad method to set stuff up
+        //previously we used the PreLoad method to set stuff up and had array set up,  we didnt try to handle anything we just put that off
+        //on the user also consider that "selects" might come from a list so each one of them will be pointed at same datasource
+        //which means anything in a preload should be totally done before calling the load
+        //each element has binding attached to it?
+        //HTMLElement prototype has it as base 
+        //then each element can figure its own?
+        //does that even need to happen?
+        if (element.tagName === "SELECT") {
+            //displaymember valuemember datasource
+            var datasource = boundAttributes.First(function (f) { return f.Attribute == "datasource"; });
+            var displayMember = boundAttributes.First(function (f) { return f.Attribute == "displaymember"; });
+            var valueMember = boundAttributes.First(function (f) { return f.Attribute == "valuemember"; });
+            if (datasource) {
+                var fun = new Function("return " + datasource.Property);
+                var data = fun();
+                element.AddOptions(data, valueMember ? valueMember.Property : null, displayMember ? displayMember.Property : null);
+            }
+        }
+        var nonbindingAttributes = ["binder", "datasource", "displaymember", "valuemember"];
         boundAttributes.forEach(function (b) {
-            if (b.Attribute != "binder") {
+            if (nonbindingAttributes.First(function (v) { return v === b.Attribute; }) == null) {
                 var attribute = _this.getAttribute(b.Attribute);
                 _this.setObjectPropertyListener(b.Property, attribute, element, dataObject);
                 var elementAttribute = b.Attribute === "checked" && element["type"] === "checkbox" ? "checked" : b.Attribute === "value" ? "value" : null;

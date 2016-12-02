@@ -1,5 +1,4 @@
-﻿//object state can be used to indicated changes are needing update
-//for binding
+﻿//state management isnt working right yet with regards to the put and the complete of the ajax call
 abstract class DataObject implements IObjectState {
     constructor(serverObject: any = null) {
         this.serverObject = serverObject;

@@ -1,13 +1,63 @@
-﻿abstract class View implements IView {
+﻿//preload with complete event?
+
+
+//figure out how to chain the data loads?
+//otherwise going to have them happening at odds
+class ViewPreload {
+    _executeMethod: () => void;
+    _oncomplete: (arg: CustomEventArg<any>) => void;
+    _callback: () => any;
+    _executor: IEventDispatcher<any>;
+    constructor(executor: IEventDispatcher<any>,         
+        executeMethod: () => void, oncomplete: (arg: CustomEventArg<any>) => void) {
+        this._executor = executor;
+        this._executeMethod = executeMethod;
+        this._oncomplete = oncomplete;
+        executor.AddListener(EventType.Completed, this.OnComplete.bind(this)); 
+    }
+    Dispose() {
+        this._executeMethod = null;
+        this._oncomplete = null;
+        this._callback = null;
+        this._executor.RemoveListeners(EventType.Completed);
+        this._executor = null;
+    }
+    OnComplete(arg: CustomEventArg<any>) {             
+        this._callback();
+        this._oncomplete(arg);   
+    }
+    Then(callback: () => void) {
+        this._callback = callback;
+        this._executeMethod();
+    }
+}
+
+abstract class View implements IView {
     abstract ViewUrl(): string;
     abstract ContainerID(): string;
     private countBinders: number;
     private countBindersReported: number;
     private cachedElement: HTMLElement    
     private eventHandlers = new Array<Listener<IView>>();
-    Preload(view: IView, viewInstance: ViewInstance) { }
-    Show(viewInstance: ViewInstance) { 
-        var found = sessionStorage.getItem(this.ViewUrl());        
+    ViewInstance: ViewInstance;   
+    private preload: ViewPreload = null;
+    get Preload() {
+        return this.preload;
+    }
+    set Preload(value: ViewPreload) {
+        this.preload = value;
+    }
+
+    Show(viewInstance: ViewInstance) {                        
+        if (this.Preload) {
+            this.Preload.Then(this.postPreloaded.bind(this));
+        }
+        else {
+            this.postPreloaded();
+        }
+    }
+    private postPreloaded() {
+        var found = sessionStorage.getItem(this.ViewUrl());
         if (!found || window["IsDebug"]) {
             var ajax = new Ajax();
             ajax.AddListener(EventType.Completed, this.RequestCompleted.bind(this));

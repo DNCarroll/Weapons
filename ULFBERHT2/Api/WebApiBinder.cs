@@ -42,5 +42,6 @@ public class BindingTestObject {
     public string Value { get; set; }
     public bool Checked { get; set; }
     public int RadioChecked { get; set; } = 1;
+    public string SelectValue { get; set; }
 
 }

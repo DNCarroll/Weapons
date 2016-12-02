@@ -68,6 +68,16 @@ var BinderTestObject = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(BinderTestObject.prototype, "SelectValue", {
+        get: function () {
+            return this.ServerObject["SelectValue"];
+        },
+        set: function (value) {
+            this.SetServerProperty("SelectValue", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(BinderTestObject.prototype, "MakeCheckedChange", {
         get: function () {
             return this._makeCheckedChange;
@@ -214,11 +224,20 @@ var WebApiFormView = (function (_super) {
     __extends(WebApiFormView, _super);
     function WebApiFormView() {
         _super.call(this);
+        var ajax = new Ajax();
+        //you/ve already loaded the data from the server do you want to reload it again?
+        //because each time this view is loaded it will 
+        this.Preload = new ViewPreload(ajax, function () { return ajax.Get("/Api/GenericSelectData"); }, this.OnAjaxLoadComplete.bind(this));
     }
     WebApiFormView.prototype.ViewUrl = function () { return "/Views/WebApiFormView.html"; };
     ;
     WebApiFormView.prototype.ContainerID = function () {
         return "content";
+    };
+    WebApiFormView.prototype.OnAjaxLoadComplete = function (arg) {
+        WebApiFormView.GenericSelectData = arg.Sender.GetRequestData();
+        this.Preload.Dispose();
+        this.Preload = null;
     };
     return WebApiFormView;
 }(View));

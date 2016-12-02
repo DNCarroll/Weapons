@@ -131,7 +131,7 @@ var Ajax = (function () {
                 var obj = object[i];
                 if (obj) {
                     try {
-                        keyMap == null ? this.getKeyMap(obj) : keyMap;
+                        keyMap = keyMap ? keyMap : this.getKeyMap(obj);
                     }
                     catch (e) {
                         if (window.Exception) {

@@ -2,6 +2,7 @@
 //promise based so when done it calls whatever?
 //how is this different than call back
 class Ajax implements IEventDispatcher<Ajax>{
+
     constructor() { }
     DisableElement: any = null;
     static Host: string;
@@ -130,7 +131,7 @@ class Ajax implements IEventDispatcher<Ajax>{
                 var obj = object[i];
                 if (obj) {
                     try {
-                        keyMap == null ? this.getKeyMap(obj) : keyMap;
+                        keyMap = keyMap ? keyMap : this.getKeyMap(obj);
                     } catch (e) {
                         if (window.Exception) {
                             window.Exception(e);
