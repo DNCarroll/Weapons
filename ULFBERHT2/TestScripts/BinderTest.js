@@ -225,19 +225,16 @@ var WebApiFormView = (function (_super) {
     function WebApiFormView() {
         _super.call(this);
         var ajax = new Ajax();
-        //you/ve already loaded the data from the server do you want to reload it again?
-        //because each time this view is loaded it will 
-        this.Preload = new ViewPreload(ajax, function () { return ajax.Get("/Api/GenericSelectData"); }, this.OnAjaxLoadComplete.bind(this));
+        this.DataLoaders =
+            new DataLoaders(new DataLoader("/Api/GenericSelectData", this.AjaxLoadCompleted, function () { return !WebApiFormView.GenericSelectData; }));
     }
     WebApiFormView.prototype.ViewUrl = function () { return "/Views/WebApiFormView.html"; };
     ;
     WebApiFormView.prototype.ContainerID = function () {
         return "content";
     };
-    WebApiFormView.prototype.OnAjaxLoadComplete = function (arg) {
+    WebApiFormView.prototype.AjaxLoadCompleted = function (arg) {
         WebApiFormView.GenericSelectData = arg.Sender.GetRequestData();
-        this.Preload.Dispose();
-        this.Preload = null;
     };
     return WebApiFormView;
 }(View));

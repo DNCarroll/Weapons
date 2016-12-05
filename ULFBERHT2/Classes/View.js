@@ -1,36 +1,58 @@
-//preload with complete event?
-//figure out how to chain the data loads?
-//otherwise going to have them happening at odds
-var ViewPreload = (function () {
-    function ViewPreload(executor, executeMethod, oncomplete) {
-        this._executor = executor;
-        this._executeMethod = executeMethod;
-        this._oncomplete = oncomplete;
-        executor.AddListener(EventType.Completed, this.OnComplete.bind(this));
+var DataLoaders = (function () {
+    function DataLoaders() {
+        var dataLoaders = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            dataLoaders[_i - 0] = arguments[_i];
+        }
+        this.completedCount = 0;
+        this._dataLoaders = dataLoaders;
     }
-    ViewPreload.prototype.Dispose = function () {
-        this._executeMethod = null;
-        this._oncomplete = null;
-        this._callback = null;
-        this._executor.RemoveListeners(EventType.Completed);
-        this._executor = null;
-    };
-    ViewPreload.prototype.OnComplete = function (arg) {
-        this._callback();
-        this._oncomplete(arg);
-    };
-    ViewPreload.prototype.Then = function (callback) {
+    DataLoaders.prototype.Execute = function (callback) {
+        var _this = this;
         this._callback = callback;
-        this._executeMethod();
+        this.completedCount = 0;
+        this._dataLoaders.forEach(function (d) { return d.Execute(_this.Completed.bind(_this)); });
     };
-    return ViewPreload;
+    DataLoaders.prototype.Completed = function () {
+        this.completedCount++;
+        if (this.completedCount == this._dataLoaders.length) {
+            this._callback();
+        }
+    };
+    return DataLoaders;
+}());
+var DataLoader = (function () {
+    function DataLoader(dataUrl, dataCallBack, shouldTryLoad, parameters) {
+        if (shouldTryLoad === void 0) { shouldTryLoad = null; }
+        if (parameters === void 0) { parameters = null; }
+        this._parameters = null;
+        this._dataCallBack = dataCallBack;
+        this._dataUrl = dataUrl;
+        this._shouldTryLoad = shouldTryLoad;
+    }
+    DataLoader.prototype.Execute = function (completed) {
+        this._completed = completed;
+        if (!this._shouldTryLoad || this._shouldTryLoad()) {
+            var ajax = new Ajax();
+            ajax.AddListener(EventType.Completed, this._ajaxCompleted.bind(this));
+            ajax.Get(this._dataUrl, this._parameters);
+        }
+        else {
+            this._completed();
+        }
+    };
+    DataLoader.prototype._ajaxCompleted = function (arg) {
+        this._dataCallBack(arg);
+        this._completed();
+    };
+    return DataLoader;
 }());
 var View = (function () {
     function View() {
         this.eventHandlers = new Array();
         this.preload = null;
     }
-    Object.defineProperty(View.prototype, "Preload", {
+    Object.defineProperty(View.prototype, "DataLoaders", {
         get: function () {
             return this.preload;
         },
@@ -41,8 +63,8 @@ var View = (function () {
         configurable: true
     });
     View.prototype.Show = function (viewInstance) {
-        if (this.Preload) {
-            this.Preload.Then(this.postPreloaded.bind(this));
+        if (this.DataLoaders) {
+            this.DataLoaders.Execute(this.postPreloaded.bind(this));
         }
         else {
             this.postPreloaded();

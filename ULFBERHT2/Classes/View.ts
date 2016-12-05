@@ -1,34 +1,47 @@
-﻿//preload with complete event?
-
-
-//figure out how to chain the data loads?
-//otherwise going to have them happening at odds
-class ViewPreload {
-    _executeMethod: () => void;
-    _oncomplete: (arg: CustomEventArg<any>) => void;
+﻿class DataLoaders {
     _callback: () => any;
-    _executor: IEventDispatcher<any>;
-    constructor(executor: IEventDispatcher<any>,         
-        executeMethod: () => void, oncomplete: (arg: CustomEventArg<any>) => void) {
-        this._executor = executor;
-        this._executeMethod = executeMethod;
-        this._oncomplete = oncomplete;
-        executor.AddListener(EventType.Completed, this.OnComplete.bind(this)); 
+    completedCount: number = 0;
+    private _dataLoaders: Array<DataLoader>;
+    constructor(...dataLoaders: Array<DataLoader>) {
+        this._dataLoaders = dataLoaders;
     }
-    Dispose() {
-        this._executeMethod = null;
-        this._oncomplete = null;
-        this._callback = null;
-        this._executor.RemoveListeners(EventType.Completed);
-        this._executor = null;
-    }
-    OnComplete(arg: CustomEventArg<any>) {             
-        this._callback();
-        this._oncomplete(arg);   
-    }
-    Then(callback: () => void) {
+    Execute(callback: () => void) {
         this._callback = callback;
-        this._executeMethod();
+        this.completedCount = 0;
+        this._dataLoaders.forEach(d => d.Execute(this.Completed.bind(this)));
+    }
+    Completed() {
+        this.completedCount++;
+        if (this.completedCount == this._dataLoaders.length) {
+            this._callback();
+        }
+    }
+}
+class DataLoader {
+    private _dataUrl: string;
+    private _shouldTryLoad: () => boolean;
+    private _dataCallBack: (arg: ICustomEventArg<Ajax>) => void;
+    private _completed: () => void;
+    private _parameters: any = null;
+    constructor(dataUrl: string, dataCallBack: (arg: ICustomEventArg<Ajax>) => void, shouldTryLoad: () => boolean = null, parameters: any = null) {
+        this._dataCallBack = dataCallBack;
+        this._dataUrl = dataUrl;
+        this._shouldTryLoad = shouldTryLoad;
+    }
+    Execute(completed: () => void) {
+        this._completed = completed;
+        if (!this._shouldTryLoad || this._shouldTryLoad()) {            
+            var ajax = new Ajax();
+            ajax.AddListener(EventType.Completed, this._ajaxCompleted.bind(this));
+            ajax.Get(this._dataUrl, this._parameters);            
+        }
+        else {
+            this._completed();
+        }
+    }
+    private _ajaxCompleted(arg: ICustomEventArg<Ajax>) {
+        this._dataCallBack(arg);
+        this._completed();
     }
 }
 
@@ -40,17 +53,17 @@ abstract class View implements IView {
     private cachedElement: HTMLElement    
     private eventHandlers = new Array<Listener<IView>>();
     ViewInstance: ViewInstance;   
-    private preload: ViewPreload = null;
-    get Preload() {
+    private preload: DataLoaders = null;
+    get DataLoaders() {
         return this.preload;
     }
-    set Preload(value: ViewPreload) {
+    set DataLoaders(value: DataLoaders) {
         this.preload = value;
     }
 
     Show(viewInstance: ViewInstance) {                        
-        if (this.Preload) {
-            this.Preload.Then(this.postPreloaded.bind(this));
+        if (this.DataLoaders) {
+            this.DataLoaders.Execute(this.postPreloaded.bind(this));
         }
         else {
             this.postPreloaded();

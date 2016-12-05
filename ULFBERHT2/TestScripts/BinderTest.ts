@@ -177,19 +177,17 @@ class WebApiFormView extends View {
     constructor() {
         super();
         var ajax = new Ajax();        
-        //you/ve already loaded the data from the server do you want to reload it again?
-        //because each time this view is loaded it will 
-        this.Preload = new ViewPreload(ajax, () => ajax.Get("/Api/GenericSelectData"), this.OnAjaxLoadComplete.bind(this));
+        this.DataLoaders =
+            new DataLoaders(new DataLoader("/Api/GenericSelectData", this.AjaxLoadCompleted, () => !WebApiFormView.GenericSelectData));
+            
     }
     ViewUrl() { return "/Views/WebApiFormView.html" };
     ContainerID() {
         return "content";
-    }
-    OnAjaxLoadComplete(arg: CustomEventArg<Ajax>) {
-        WebApiFormView.GenericSelectData = arg.Sender.GetRequestData();        
-        this.Preload.Dispose();
-        this.Preload = null;
-    }
+    }  
+    AjaxLoadCompleted(arg: ICustomEventArg<Ajax>) {
+        WebApiFormView.GenericSelectData = arg.Sender.GetRequestData();
+    }  
 }
 class WebApiBindingContainer extends ViewContainer {
     private static instance: WebApiBindingContainer;
