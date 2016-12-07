@@ -1,0 +1,14 @@
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\Mace.dll.config
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\Mace.dll
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\Mace.pdb
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\Newtonsoft.Json.dll
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\System.Net.Http.Formatting.dll
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\System.Web.Http.dll
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\System.Web.Http.WebHost.dll
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\Newtonsoft.Json.xml
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\System.Net.Http.Formatting.xml
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\System.Web.Http.xml
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\bin\System.Web.Http.WebHost.xml
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\obj\Debug\Mace.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\obj\Debug\Mace.dll
+C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT2\obj\Debug\Mace.pdb

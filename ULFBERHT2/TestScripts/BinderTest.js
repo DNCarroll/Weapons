@@ -225,8 +225,8 @@ var WebApiFormView = (function (_super) {
     function WebApiFormView() {
         _super.call(this);
         var ajax = new Ajax();
-        this.DataLoaders =
-            new DataLoaders(new DataLoader("/Api/GenericSelectData", this.AjaxLoadCompleted, function () { return !WebApiFormView.GenericSelectData; }));
+        this.Preload = new DataLoaders(new DataLoader("/Api/GenericSelectData", this.AjaxLoadCompleted, function () { return !WebApiFormView.GenericSelectData; }));
+        this.Cache();
     }
     WebApiFormView.prototype.ViewUrl = function () { return "/Views/WebApiFormView.html"; };
     ;

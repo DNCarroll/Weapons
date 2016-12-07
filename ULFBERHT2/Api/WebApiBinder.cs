@@ -11,8 +11,8 @@ namespace ULFBERHT2.Api {
         
         [Route("{id:int}")]        
         public BindingTestObject Get(int id) {
-            return new BindingTestObject { ID = id, Name = "bound object", Value = "bound value", Checked = true };
-        }
+            return new BindingTestObject { ID = id, Name = "bound object", Value = "bound value", Checked = true, SelectValue = "value2" };
+            }
 
         [Route]
         public BindingTestObject Post([FromBody]BindingTestObject value) {

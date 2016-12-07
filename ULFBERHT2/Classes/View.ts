@@ -1,69 +1,42 @@
-﻿class DataLoaders {
-    _callback: () => any;
-    completedCount: number = 0;
-    private _dataLoaders: Array<DataLoader>;
-    constructor(...dataLoaders: Array<DataLoader>) {
-        this._dataLoaders = dataLoaders;
-    }
-    Execute(callback: () => void) {
-        this._callback = callback;
-        this.completedCount = 0;
-        this._dataLoaders.forEach(d => d.Execute(this.Completed.bind(this)));
-    }
-    Completed() {
-        this.completedCount++;
-        if (this.completedCount == this._dataLoaders.length) {
-            this._callback();
-        }
-    }
+﻿enum CacheStrategy {
+    ViewAndData,
+    View,
+    Data
 }
-class DataLoader {
-    private _dataUrl: string;
-    private _shouldTryLoad: () => boolean;
-    private _dataCallBack: (arg: ICustomEventArg<Ajax>) => void;
-    private _completed: () => void;
-    private _parameters: any = null;
-    constructor(dataUrl: string, dataCallBack: (arg: ICustomEventArg<Ajax>) => void, shouldTryLoad: () => boolean = null, parameters: any = null) {
-        this._dataCallBack = dataCallBack;
-        this._dataUrl = dataUrl;
-        this._shouldTryLoad = shouldTryLoad;
-    }
-    Execute(completed: () => void) {
-        this._completed = completed;
-        if (!this._shouldTryLoad || this._shouldTryLoad()) {            
-            var ajax = new Ajax();
-            ajax.AddListener(EventType.Completed, this._ajaxCompleted.bind(this));
-            ajax.Get(this._dataUrl, this._parameters);            
-        }
-        else {
-            this._completed();
-        }
-    }
-    private _ajaxCompleted(arg: ICustomEventArg<Ajax>) {
-        this._dataCallBack(arg);
-        this._completed();
-    }
-}
-
 abstract class View implements IView {
     abstract ViewUrl(): string;
     abstract ContainerID(): string;
+    
     private countBinders: number;
     private countBindersReported: number;
     private cachedElement: HTMLElement    
     private eventHandlers = new Array<Listener<IView>>();
     ViewInstance: ViewInstance;   
-    private preload: DataLoaders = null;
-    get DataLoaders() {
+    private preload: IPreViewLoad = null;
+    get Preload() {
         return this.preload;
     }
-    set DataLoaders(value: DataLoaders) {
+    set Preload(value: IPreViewLoad) {
         this.preload = value;
+    }    
+    Cache(strategy: CacheStrategy = CacheStrategy.ViewAndData) {
+        if (this.Preload &&
+            (strategy === CacheStrategy.ViewAndData || strategy === CacheStrategy.Data)) {
+            this.Preload.Execute(() => { });
+        }        
+        var found = sessionStorage.getItem(this.ViewUrl());
+        if (!found && (strategy === CacheStrategy.View || strategy === CacheStrategy.ViewAndData)) {
+            var that = this;
+            var ajax = new Ajax();
+            ajax.AddListener(EventType.Completed, (arg: ICustomEventArg<Ajax>) => {
+                that.RequestCompleted(arg, true);
+            });
+            ajax.Get(this.ViewUrl());
+        }
     }
-
     Show(viewInstance: ViewInstance) {                        
-        if (this.DataLoaders) {
-            this.DataLoaders.Execute(this.postPreloaded.bind(this));
+        if (this.Preload) {
+            this.Preload.Execute(this.postPreloaded.bind(this));
         }
         else {
             this.postPreloaded();
@@ -80,13 +53,16 @@ abstract class View implements IView {
             this.SetHTML(found);
         }
     }
-    RequestCompleted(arg: CustomEventArg<Ajax>) {        
+    RequestCompleted(arg: CustomEventArg<Ajax>, dontSetHTML = false) {        
         if (arg.Sender.ResponseText) {
             sessionStorage.setItem(this.ViewUrl(), arg.Sender.ResponseText);
-            this.SetHTML(arg.Sender.ResponseText);
+            if (!dontSetHTML) {
+                this.SetHTML(arg.Sender.ResponseText);
+            }
         }        
         arg.Sender = null;
     }    
+    
     SetHTML(html: string) {
         var containter = this.ContainerID().Element();        
         if (!Is.NullOrEmpty(containter)) {
@@ -164,3 +140,59 @@ abstract class View implements IView {
         listeners.forEach(l => l.EventHandler(new CustomEventArg<IView>(this, eventType)));
     }
 }
+//thinking is could have a generic type that could 
+//be set for the preload
+interface IPreViewLoad {
+    Execute(callback: () => void): void;
+}
+class DataLoaders implements IPreViewLoad{
+    _callback: () => any;
+    completedCount: number = 0;
+    private _dataLoaders: Array<DataLoader>;
+    constructor(...dataLoaders: Array<DataLoader>) {
+        this._dataLoaders = dataLoaders;
+    }
+    Execute(callback: () => void) {
+        this._callback = callback;
+        this.completedCount = 0;
+        this._dataLoaders.forEach(d => d.Execute(this.Completed.bind(this)));
+    }
+    Completed() {
+        this.completedCount++;
+        if (this.completedCount == this._dataLoaders.length) {
+            this._callback();
+        }
+    }
+}
+class DataLoader {
+    private _dataUrl: string;
+    private _shouldTryLoad: () => boolean;
+    private _dataCallBack: (arg: ICustomEventArg<Ajax>) => void;
+    private _completed: () => void;
+    private _parameters: any = null;
+    constructor(dataUrl: string, dataCallBack: (arg: ICustomEventArg<Ajax>) => void, shouldTryLoad: () => boolean = null, parameters: any = null) {
+        this._dataCallBack = dataCallBack;
+        this._dataUrl = dataUrl;
+        this._shouldTryLoad = shouldTryLoad;
+    }
+    Execute(completed: () => void) {
+        this._completed = completed;
+        if (!this._shouldTryLoad || this._shouldTryLoad()) {
+            var ajax = new Ajax();
+            ajax.AddListener(EventType.Completed, this._ajaxCompleted.bind(this));
+            ajax.Get(this._dataUrl, this._parameters);
+        }
+        else {
+            this._completed();
+        }
+    }
+    private _ajaxCompleted(arg: ICustomEventArg<Ajax>) {
+        this._dataCallBack(arg);
+        this._completed();
+    }
+}
+//would like to have this be a Promise structure
+//class GenericPreloader {
+//    //this isnt async
+//    constructor(executor:(...parameters:any)=>any, callback:
+//}

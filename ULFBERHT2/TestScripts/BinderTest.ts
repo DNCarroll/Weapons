@@ -177,9 +177,8 @@ class WebApiFormView extends View {
     constructor() {
         super();
         var ajax = new Ajax();        
-        this.DataLoaders =
-            new DataLoaders(new DataLoader("/Api/GenericSelectData", this.AjaxLoadCompleted, () => !WebApiFormView.GenericSelectData));
-            
+        this.Preload = new DataLoaders(new DataLoader("/Api/GenericSelectData", this.AjaxLoadCompleted, () => !WebApiFormView.GenericSelectData));
+        this.Cache();
     }
     ViewUrl() { return "/Views/WebApiFormView.html" };
     ContainerID() {

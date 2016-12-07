@@ -1,58 +1,15 @@
-var DataLoaders = (function () {
-    function DataLoaders() {
-        var dataLoaders = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            dataLoaders[_i - 0] = arguments[_i];
-        }
-        this.completedCount = 0;
-        this._dataLoaders = dataLoaders;
-    }
-    DataLoaders.prototype.Execute = function (callback) {
-        var _this = this;
-        this._callback = callback;
-        this.completedCount = 0;
-        this._dataLoaders.forEach(function (d) { return d.Execute(_this.Completed.bind(_this)); });
-    };
-    DataLoaders.prototype.Completed = function () {
-        this.completedCount++;
-        if (this.completedCount == this._dataLoaders.length) {
-            this._callback();
-        }
-    };
-    return DataLoaders;
-}());
-var DataLoader = (function () {
-    function DataLoader(dataUrl, dataCallBack, shouldTryLoad, parameters) {
-        if (shouldTryLoad === void 0) { shouldTryLoad = null; }
-        if (parameters === void 0) { parameters = null; }
-        this._parameters = null;
-        this._dataCallBack = dataCallBack;
-        this._dataUrl = dataUrl;
-        this._shouldTryLoad = shouldTryLoad;
-    }
-    DataLoader.prototype.Execute = function (completed) {
-        this._completed = completed;
-        if (!this._shouldTryLoad || this._shouldTryLoad()) {
-            var ajax = new Ajax();
-            ajax.AddListener(EventType.Completed, this._ajaxCompleted.bind(this));
-            ajax.Get(this._dataUrl, this._parameters);
-        }
-        else {
-            this._completed();
-        }
-    };
-    DataLoader.prototype._ajaxCompleted = function (arg) {
-        this._dataCallBack(arg);
-        this._completed();
-    };
-    return DataLoader;
-}());
+var CacheStrategy;
+(function (CacheStrategy) {
+    CacheStrategy[CacheStrategy["ViewAndData"] = 0] = "ViewAndData";
+    CacheStrategy[CacheStrategy["View"] = 1] = "View";
+    CacheStrategy[CacheStrategy["Data"] = 2] = "Data";
+})(CacheStrategy || (CacheStrategy = {}));
 var View = (function () {
     function View() {
         this.eventHandlers = new Array();
         this.preload = null;
     }
-    Object.defineProperty(View.prototype, "DataLoaders", {
+    Object.defineProperty(View.prototype, "Preload", {
         get: function () {
             return this.preload;
         },
@@ -62,9 +19,25 @@ var View = (function () {
         enumerable: true,
         configurable: true
     });
+    View.prototype.Cache = function (strategy) {
+        if (strategy === void 0) { strategy = CacheStrategy.ViewAndData; }
+        if (this.Preload &&
+            (strategy === CacheStrategy.ViewAndData || strategy === CacheStrategy.Data)) {
+            this.Preload.Execute(function () { });
+        }
+        var found = sessionStorage.getItem(this.ViewUrl());
+        if (!found && (strategy === CacheStrategy.View || strategy === CacheStrategy.ViewAndData)) {
+            var that = this;
+            var ajax = new Ajax();
+            ajax.AddListener(EventType.Completed, function (arg) {
+                that.RequestCompleted(arg, true);
+            });
+            ajax.Get(this.ViewUrl());
+        }
+    };
     View.prototype.Show = function (viewInstance) {
-        if (this.DataLoaders) {
-            this.DataLoaders.Execute(this.postPreloaded.bind(this));
+        if (this.Preload) {
+            this.Preload.Execute(this.postPreloaded.bind(this));
         }
         else {
             this.postPreloaded();
@@ -81,10 +54,13 @@ var View = (function () {
             this.SetHTML(found);
         }
     };
-    View.prototype.RequestCompleted = function (arg) {
+    View.prototype.RequestCompleted = function (arg, dontSetHTML) {
+        if (dontSetHTML === void 0) { dontSetHTML = false; }
         if (arg.Sender.ResponseText) {
             sessionStorage.setItem(this.ViewUrl(), arg.Sender.ResponseText);
-            this.SetHTML(arg.Sender.ResponseText);
+            if (!dontSetHTML) {
+                this.SetHTML(arg.Sender.ResponseText);
+            }
         }
         arg.Sender = null;
     };
@@ -169,4 +145,58 @@ var View = (function () {
     };
     return View;
 }());
+var DataLoaders = (function () {
+    function DataLoaders() {
+        var dataLoaders = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            dataLoaders[_i - 0] = arguments[_i];
+        }
+        this.completedCount = 0;
+        this._dataLoaders = dataLoaders;
+    }
+    DataLoaders.prototype.Execute = function (callback) {
+        var _this = this;
+        this._callback = callback;
+        this.completedCount = 0;
+        this._dataLoaders.forEach(function (d) { return d.Execute(_this.Completed.bind(_this)); });
+    };
+    DataLoaders.prototype.Completed = function () {
+        this.completedCount++;
+        if (this.completedCount == this._dataLoaders.length) {
+            this._callback();
+        }
+    };
+    return DataLoaders;
+}());
+var DataLoader = (function () {
+    function DataLoader(dataUrl, dataCallBack, shouldTryLoad, parameters) {
+        if (shouldTryLoad === void 0) { shouldTryLoad = null; }
+        if (parameters === void 0) { parameters = null; }
+        this._parameters = null;
+        this._dataCallBack = dataCallBack;
+        this._dataUrl = dataUrl;
+        this._shouldTryLoad = shouldTryLoad;
+    }
+    DataLoader.prototype.Execute = function (completed) {
+        this._completed = completed;
+        if (!this._shouldTryLoad || this._shouldTryLoad()) {
+            var ajax = new Ajax();
+            ajax.AddListener(EventType.Completed, this._ajaxCompleted.bind(this));
+            ajax.Get(this._dataUrl, this._parameters);
+        }
+        else {
+            this._completed();
+        }
+    };
+    DataLoader.prototype._ajaxCompleted = function (arg) {
+        this._dataCallBack(arg);
+        this._completed();
+    };
+    return DataLoader;
+}());
+//would like to have this be a Promise structure
+//class GenericPreloader {
+//    //this isnt async
+//    constructor(executor:(...parameters:any)=>any, callback:
+//} 
 //# sourceMappingURL=View.js.map
