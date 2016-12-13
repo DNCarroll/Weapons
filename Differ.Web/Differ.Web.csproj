@@ -111,10 +111,6 @@
     <Folder Include="App_Start\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BattleAxe\BattleAxe.csproj">
-      <Project>{4e224103-83cf-46d0-a785-0b9d38f90b2f}</Project>
-      <Name>BattleAxe</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Differ.TSql\Differ.TSql.csproj">
       <Project>{14d5e0ce-6a48-47df-b38f-8dfd447dde47}</Project>
       <Name>Differ.TSql</Name>

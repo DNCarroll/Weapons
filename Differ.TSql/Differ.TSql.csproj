@@ -46,12 +46,6 @@
     <Compile Include="Procedures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BattleAxe\BattleAxe.csproj">
-      <Project>{4e224103-83cf-46d0-a785-0b9d38f90b2f}</Project>
-      <Name>BattleAxe</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

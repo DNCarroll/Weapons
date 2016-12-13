@@ -58,3 +58,6 @@ C:\Users\ncarroll\Documents\Github\Weapons\Differ.Web\bin\System.Web.Http.xml
 C:\Users\ncarroll\Documents\Github\Weapons\Differ.Web\bin\System.Web.Http.WebHost.xml
 C:\Users\ncarroll\Documents\Github\Weapons\Differ.Web\obj\Debug\Differ.Web.dll
 C:\Users\ncarroll\Documents\Github\Weapons\Differ.Web\obj\Debug\Differ.Web.pdb
+C:\Users\ncarroll\Source\Repos\Weapons\Differ.Web\obj\Debug\Differ.Web.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Source\Repos\Weapons\Differ.Web\obj\Debug\Differ.Web.dll
+C:\Users\ncarroll\Source\Repos\Weapons\Differ.Web\obj\Debug\Differ.Web.pdb

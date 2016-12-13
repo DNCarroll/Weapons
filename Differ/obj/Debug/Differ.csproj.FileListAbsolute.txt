@@ -25,3 +25,6 @@ C:\Users\ncarroll\Documents\Github\Weapons\Differ\bin\Debug\Newtonsoft.Json.xml
 C:\Users\ncarroll\Documents\Github\Weapons\Differ\obj\Debug\Differ.csprojResolveAssemblyReference.cache
 C:\Users\ncarroll\Documents\Github\Weapons\Differ\obj\Debug\Differ.dll
 C:\Users\ncarroll\Documents\Github\Weapons\Differ\obj\Debug\Differ.pdb
+C:\Users\ncarroll\Source\Repos\Weapons\Differ\obj\Debug\Differ.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Source\Repos\Weapons\Differ\obj\Debug\Differ.dll
+C:\Users\ncarroll\Source\Repos\Weapons\Differ\obj\Debug\Differ.pdb

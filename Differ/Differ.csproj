@@ -65,12 +65,6 @@
     <Compile Include="SqlObject.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BattleAxe\BattleAxe.csproj">
-      <Project>{4e224103-83cf-46d0-a785-0b9d38f90b2f}</Project>
-      <Name>BattleAxe</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
