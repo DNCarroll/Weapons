@@ -26,7 +26,6 @@ var ViewContainer = (function () {
             this.NumberViewsShown = this.NumberViewsShown + 1;
         }
         if (this.NumberViewsShown === this.Views.length) {
-            //turn off progress
             ProgressManager.Hide();
         }
     };

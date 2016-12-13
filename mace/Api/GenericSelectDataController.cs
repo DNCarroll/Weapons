@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace ULFBERHT2.Api {
+namespace mace.Api {
 
     [RoutePrefix("Api/GenericSelectData")]
     public class GenericSelectDataController : ApiController {

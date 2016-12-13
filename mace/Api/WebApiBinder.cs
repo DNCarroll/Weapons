@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace ULFBERHT2.Api {
+namespace mace.Api {
     [RoutePrefix("Api/WebApiBinder")]
     public class WebApiBinderController : ApiController {
         // GET api/<controller>
