@@ -6,7 +6,6 @@ interface HTMLElement extends Element {
     Clear(predicate?: (element: HTMLElement) => boolean, notRecursive?: boolean);
     AddRange(...elements: HTMLElement[]): HTMLElement;
     Remove();
-    AddHtml: (html: string) => HTMLElement;
 
     SetClass(className: string);    
     OffSet(): { top: number; left: number; };
@@ -16,8 +15,7 @@ interface HTMLElement extends Element {
     Set(objectProperties): HTMLElement;
     HasDataSet: () => boolean;
     GetDataSetAttributes: () => { Attribute: string; Property: any; }[];
-
-    DataObject: any;
+        
     Binder: IBinder;
 }
 HTMLElement.prototype.Get = function (predicate: (element: HTMLElement) => boolean, notRecursive?: boolean, nodes?: Array<HTMLElement>): HTMLElement[] {
@@ -120,12 +118,6 @@ HTMLElement.prototype.AddRange = function (...elements: HTMLElement[]): HTMLElem
 HTMLElement.prototype.Remove = function () {
     this.parentNode.removeChild(this);
 };
-HTMLElement.prototype.AddHtml = function (value: string): HTMLElement{
-    var ret = value.CreateElementFromHtml();
-    this.appendChild(ret);
-    return ret;
-};
-
 HTMLElement.prototype.SetClass = function (className: string) {
     this.className = null;
     this.className = className;
@@ -199,47 +191,20 @@ HTMLElement.prototype.Set = function (objectProperties) {
     return that;
 };
 HTMLElement.prototype.HasDataSet = function () {
-    if (!Is.OldishInternetExplorer()) {
-        if (this["dataset"]) {
-            var dataset = this["dataset"];
-            for (var prop in dataset) {
-                return true;
-            }
-        }
-    } else {
-        var length = this.attributes.length;
-        var position = 0;
-        while (position < length) {
-            var attribute = this.attributes[position];
-            if (attribute && attribute.name && attribute.name.indexOf("data-") > -1) {
-                return true;
-            }
-            position++;
+    if (this["dataset"]) {
+        var dataset = this["dataset"];
+        for (var prop in dataset) {
+            return true;
         }
     }
     return false;
 };
 HTMLElement.prototype.GetDataSetAttributes = function () {
     var ret = new Array<{ Attribute: string; Property: any; }>();
-    if (!Is.OldishInternetExplorer()) {
-        if (this["dataset"]) {
-            var dataset = this["dataset"];
-            for (var prop in dataset) {
-                ret.Add({ Attribute: prop, Property: dataset[prop] });
-            }
-        }
-    }
-    else {
-        var length = this.attributes.length;
-        var position = 0;
-        while (position < length) {
-            var attribute = this.attributes[position];
-            if (attribute && attribute.name && attribute.name.indexOf("data-") > -1) {
-                var name = attribute.name.replace("data-", "");
-                var value = this.getAttribute(attribute.name);
-                ret.Add({ Attribute: name.toLowerCase(), Property: value });
-            }
-            position++;
+    if (this["dataset"]) {
+        var dataset = this["dataset"];
+        for (var prop in dataset) {
+            ret.Add({ Attribute: prop, Property: dataset[prop] });
         }
     }
     return ret;

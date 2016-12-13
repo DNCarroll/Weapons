@@ -1,4 +1,3 @@
-/// <reference path="../Modules/Is.ts"/>
 interface HTMLSelectElement {
     AddOptions(arrayOrObject, valueProperty?: string, displayProperty?: string, selectedValue?): HTMLSelectElement;    
 }
@@ -27,8 +26,7 @@ HTMLSelectElement.prototype.AddOptions= function(arrayOrObject, valueProperty ? 
             });
         }
     }
-    else if (arrayOrObject) {
-        //if its a object prop
+    else if (arrayOrObject) {        
         for (var prop in arrayOrObject) {
             if (Is.Function(prop)) {
                 var option = new Option(prop, prop);

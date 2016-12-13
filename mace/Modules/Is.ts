@@ -7,10 +7,6 @@
         var w = <any>window;
         return w.chrome;
     }
-
-    export function Element(value: any) {
-        return value && value.tagName;
-    }
     export function EmptyObject(obj): boolean {
         for (var prop in obj) {
             if (Object.prototype.hasOwnProperty.call(obj, prop)) {
@@ -29,20 +25,6 @@
         var getType = {};
         return obj && getType.toString.call(obj) === '[object Function]';
     }
-
-    export function InternetExplorer(): boolean {
-        return '\v' === 'v';
-    }
-    export function OldishInternetExplorer(): boolean {
-        var rv = 11;
-        if (navigator.appName === 'Microsoft Internet Explorer') {
-            var ua = navigator.userAgent;
-            var re = new RegExp("MSIE ([0-9])");
-            if (re.exec(ua) != null)
-                rv = parseFloat(RegExp.$1);
-        }
-        return rv < 11;
-    }
     export function NullOrEmpty(value): boolean {
         if (value == null) {
             return true;
@@ -51,7 +33,6 @@
             return true;
         }
     }
-
     export function Numeric(input: string): boolean {
         var RE = /^-{0,1}\d*\.{0,1}\d+$/;
         return (RE.test(input));
@@ -60,7 +41,6 @@
     export function Object(value) {
         return value && typeof value === 'object';
     }
-
     export function Property(property, inObject): boolean {
         try {
             return typeof (inObject[property]) !== 'undefined';
@@ -71,11 +51,9 @@
         }
         return false;
     }
-
     export function String(value) {
         return typeof value === 'string';
-    }
-    
+    }    
     export function Style(value: string) {
         for (var prop in document.body.style) {
             if (prop.toLowerCase() === value.toLowerCase()) {
@@ -84,7 +62,6 @@
         }
         return false;
     }
-
     export function ValidDate(value) {
         try {
             if (Object.prototype.toString.call(value) === "[object Date]") {

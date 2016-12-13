@@ -93,9 +93,6 @@ var Binder = (function () {
             }
         });
     };
-    //this isnt good, but for now it demonstrates that it works
-    //the problem is html will automatically lower case those data-... attributes
-    //other attributes will be an issue
     Binder.prototype.getAttribute = function (attribute) {
         attribute = attribute.toLowerCase();
         switch (attribute) {

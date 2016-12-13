@@ -9,10 +9,6 @@ var Is;
         return w.chrome;
     }
     Is.Chrome = Chrome;
-    function Element(value) {
-        return value && value.tagName;
-    }
-    Is.Element = Element;
     function EmptyObject(obj) {
         for (var prop in obj) {
             if (Object.prototype.hasOwnProperty.call(obj, prop)) {
@@ -34,21 +30,6 @@ var Is;
         return obj && getType.toString.call(obj) === '[object Function]';
     }
     Is.Function = Function;
-    function InternetExplorer() {
-        return '\v' === 'v';
-    }
-    Is.InternetExplorer = InternetExplorer;
-    function OldishInternetExplorer() {
-        var rv = 11;
-        if (navigator.appName === 'Microsoft Internet Explorer') {
-            var ua = navigator.userAgent;
-            var re = new RegExp("MSIE ([0-9])");
-            if (re.exec(ua) != null)
-                rv = parseFloat(RegExp.$1);
-        }
-        return rv < 11;
-    }
-    Is.OldishInternetExplorer = OldishInternetExplorer;
     function NullOrEmpty(value) {
         if (value == null) {
             return true;

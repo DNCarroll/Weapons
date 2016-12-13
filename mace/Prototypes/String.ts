@@ -8,10 +8,6 @@ interface String {
     DropDown(): HTMLSelectElement;
     CreateElement(objectProperties?): HTMLElement;    
     CreateElementFromHtml(): HTMLElement;
-    //Post(parameters, success?);
-    //Put(parameters, success?);
-    //Get(parameters, success?, isRaw?: boolean);
-    //Delete(parameters, success?);
 }
 String.prototype.Trim = function () {
     return this.replace(/^\s+|\s+$/g, "");
@@ -25,8 +21,7 @@ String.prototype.TrimCharacters = function (characterAtZero, characterAtEnd) {
     }
     if (characterAtEnd) {
         var lastCharacter = ret.substring(ret.length - 1);
-        if (lastCharacter == characterAtEnd) {
-            //not sure about that
+        if (lastCharacter == characterAtEnd) {            
             ret = ret.substring(0, ret.length - 1);
         }
     }
@@ -76,45 +71,3 @@ String.prototype.CreateElement = function (objectProperties?): HTMLElement {
     }
     return obj;
 };
-String.prototype.CreateElementFromHtml = function (): HTMLElement {
-    var ret = new Array<HTMLElement>();
-    var div = "div".CreateElement({ innerHTML: this });
-    while (div.children.length > 0) {
-        var child = div.children[div.children.length - 1];
-        return <HTMLElement>child;
-    }    
-};
-//String.prototype.Put = function (parameters?, success?) {
-//    Ajax.HttpAction("PUT", this, parameters, success);
-//};
-//String.prototype.Delete = function (parameters?, success?) {
-//    Ajax.HttpAction("DELETE", this, parameters, success);
-//};
-//String.prototype.Post = function (parameters?, success?) {
-//    Ajax.HttpAction("POST", this, parameters, success);
-//};
-//String.prototype.Get = function (parameters?, success?, isRaw?: boolean) {
-//    var url = this;
-//    if (parameters) {
-//        if (Is.Array(parameters)) {
-//            for (var i = 0; i < parameters.length; i++) {
-//                url += "/" + parameters[i].toString();
-//            }
-//            Ajax.HttpAction("GET", url, null, success, isRaw);
-//        }
-//        else {
-//            url += "/";
-//            var queryIndicator = "?";
-//            for (var prop in parameters) {
-//                if (parameters[prop]) {
-//                    url += queryIndicator + prop + "=" + parameters[prop].toString();
-//                    queryIndicator = "&";
-//                }
-//            }
-//            Ajax.HttpAction("GET", url, null, success, isRaw);
-//        }
-//    }
-//    else {
-//        Ajax.HttpAction("GET", url, null, success, isRaw);
-//    }
-//};

@@ -101,11 +101,6 @@ HTMLElement.prototype.AddRange = function () {
 HTMLElement.prototype.Remove = function () {
     this.parentNode.removeChild(this);
 };
-HTMLElement.prototype.AddHtml = function (value) {
-    var ret = value.CreateElementFromHtml();
-    this.appendChild(ret);
-    return ret;
-};
 HTMLElement.prototype.SetClass = function (className) {
     this.className = null;
     this.className = className;
@@ -178,48 +173,20 @@ HTMLElement.prototype.Set = function (objectProperties) {
     return that;
 };
 HTMLElement.prototype.HasDataSet = function () {
-    if (!Is.OldishInternetExplorer()) {
-        if (this["dataset"]) {
-            var dataset = this["dataset"];
-            for (var prop in dataset) {
-                return true;
-            }
-        }
-    }
-    else {
-        var length = this.attributes.length;
-        var position = 0;
-        while (position < length) {
-            var attribute = this.attributes[position];
-            if (attribute && attribute.name && attribute.name.indexOf("data-") > -1) {
-                return true;
-            }
-            position++;
+    if (this["dataset"]) {
+        var dataset = this["dataset"];
+        for (var prop in dataset) {
+            return true;
         }
     }
     return false;
 };
 HTMLElement.prototype.GetDataSetAttributes = function () {
     var ret = new Array();
-    if (!Is.OldishInternetExplorer()) {
-        if (this["dataset"]) {
-            var dataset = this["dataset"];
-            for (var prop in dataset) {
-                ret.Add({ Attribute: prop, Property: dataset[prop] });
-            }
-        }
-    }
-    else {
-        var length = this.attributes.length;
-        var position = 0;
-        while (position < length) {
-            var attribute = this.attributes[position];
-            if (attribute && attribute.name && attribute.name.indexOf("data-") > -1) {
-                var name = attribute.name.replace("data-", "");
-                var value = this.getAttribute(attribute.name);
-                ret.Add({ Attribute: name.toLowerCase(), Property: value });
-            }
-            position++;
+    if (this["dataset"]) {
+        var dataset = this["dataset"];
+        for (var prop in dataset) {
+            ret.Add({ Attribute: prop, Property: dataset[prop] });
         }
     }
     return ret;
