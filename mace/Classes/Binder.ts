@@ -1,19 +1,10 @@
-﻿//TODO
-//Selected item changed - this can just be handled by binding and some property
-//binder is meant to be for form only
-
-//disable the active context or readonly it while the new stuff is coming in?
+﻿//disable the active context or readonly it while the new stuff is coming in?
 
 abstract class Binder implements IBinder {
     PrimaryKeys: Array<string> = new Array<string>();
     WebApi: string;
-    //can be virtual
-    //should we return the url by default?
-    //it would be one less thing we would normally have to supply
     WebApiGetParameters(): any {
-        var ret = HistoryManager.CurrentRoute().Parameters;
-        //just the url
-        //but it may need a cleanse here
+        var ret = HistoryManager.CurrentRoute().Parameters;        
         return ret && ret.length == 1 ? ret[0] : ret;
     }
     Element: HTMLElement;
@@ -82,26 +73,7 @@ abstract class Binder implements IBinder {
     }
     private setListeners(element: HTMLElement, dataObject: IObjectState) {
         var boundAttributes = element.GetDataSetAttributes();
-        //the select element operates on it own?
-        //it has to get its innards set up first?
-        //what did we do before on binding with select?
-        //do we make the page have select data already set up?
-        //or do we have this point figure it out?
-        //be better if we had this point figure it out
-        //how might we get the data
-        //a javascript method, an array
-        //detect if its a method?
-        //then call the method, the method should not return (if server call until the call is complete is this possible?)
-        //previously we used the PreLoad method to set stuff up and had array set up,  we didnt try to handle anything we just put that off
-        //on the user also consider that "selects" might come from a list so each one of them will be pointed at same datasource
-        //which means anything in a preload should be totally done before calling the load
-
-        //each element has binding attached to it?
-        //HTMLElement prototype has it as base 
-        //then each element can figure its own?
-        //does that even need to happen?
-        if (element.tagName === "SELECT") {
-            //displaymember valuemember datasource
+        if (element.tagName === "SELECT") {            
             var datasource = boundAttributes.First(f => f.Attribute == "datasource");
             var displayMember = boundAttributes.First(f => f.Attribute == "displaymember");
             var valueMember = boundAttributes.First(f => f.Attribute == "valuemember");
@@ -181,20 +153,13 @@ abstract class Binder implements IBinder {
         }
         return null;
     }
-
-    //virtual method?
+    
     private selectedObject: IObjectState;
     get SelectedObject() {
         return this.selectedObject;
     }
-    set SelectedObject(value) {
-        //remove any Binders that were associated with previous element from the bindingManager and associated elements
+    set SelectedObject(value) {        
         this.selectedObject = value;
-        //AssociatedElements should be bound to this object
-        //add the binders to the bindingmanager
-
-        //look for any elementbindings associated with selected item changes and rebind them 'cause' row color change
-        //if a list changes length need to cause ^ too
     }    
 
     AddListener(eventType: EventType, eventHandler: (eventArg: ICustomEventArg<IBinder>) => void) {

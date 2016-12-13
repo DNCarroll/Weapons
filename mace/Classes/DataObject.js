@@ -58,9 +58,6 @@ var DataObject = (function () {
     };
     DataObject.prototype.OnElementChanged = function (value, propertyName) {
         this[propertyName] = value;
-        //can we know what the target is here?
-        //just by the event?
-        //what field are they wanting to update?
     };
     Object.defineProperty(DataObject.prototype, "ServerObject", {
         get: function () {

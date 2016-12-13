@@ -8,11 +8,11 @@ namespace ULFBERHT2.Api {
         public BindingTestObject Get() {
             return new BindingTestObject { ID = 100, Name = "bound object", Value = "bound value", Checked = true };
         }
-        
-        [Route("{id:int}")]        
+
+        [Route("{id:int}")]
         public BindingTestObject Get(int id) {
             return new BindingTestObject { ID = id, Name = "bound object", Value = "bound value", Checked = true, SelectValue = "value2" };
-            }
+        }
 
         [Route]
         public BindingTestObject Post([FromBody]BindingTestObject value) {

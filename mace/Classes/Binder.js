@@ -1,6 +1,3 @@
-//TODO
-//Selected item changed - this can just be handled by binding and some property
-//binder is meant to be for form only
 //disable the active context or readonly it while the new stuff is coming in?
 var Binder = (function () {
     function Binder() {
@@ -10,13 +7,8 @@ var Binder = (function () {
         this.AutomaticallyUpdatesToWebApi = false;
         this.AutomaticallySelectsFromWebApi = false;
     }
-    //can be virtual
-    //should we return the url by default?
-    //it would be one less thing we would normally have to supply
     Binder.prototype.WebApiGetParameters = function () {
         var ret = HistoryManager.CurrentRoute().Parameters;
-        //just the url
-        //but it may need a cleanse here
         return ret && ret.length == 1 ? ret[0] : ret;
     };
     Binder.prototype.Dispose = function () {
@@ -76,25 +68,7 @@ var Binder = (function () {
     Binder.prototype.setListeners = function (element, dataObject) {
         var _this = this;
         var boundAttributes = element.GetDataSetAttributes();
-        //the select element operates on it own?
-        //it has to get its innards set up first?
-        //what did we do before on binding with select?
-        //do we make the page have select data already set up?
-        //or do we have this point figure it out?
-        //be better if we had this point figure it out
-        //how might we get the data
-        //a javascript method, an array
-        //detect if its a method?
-        //then call the method, the method should not return (if server call until the call is complete is this possible?)
-        //previously we used the PreLoad method to set stuff up and had array set up,  we didnt try to handle anything we just put that off
-        //on the user also consider that "selects" might come from a list so each one of them will be pointed at same datasource
-        //which means anything in a preload should be totally done before calling the load
-        //each element has binding attached to it?
-        //HTMLElement prototype has it as base 
-        //then each element can figure its own?
-        //does that even need to happen?
         if (element.tagName === "SELECT") {
-            //displaymember valuemember datasource
             var datasource = boundAttributes.First(function (f) { return f.Attribute == "datasource"; });
             var displayMember = boundAttributes.First(function (f) { return f.Attribute == "displaymember"; });
             var valueMember = boundAttributes.First(function (f) { return f.Attribute == "valuemember"; });
@@ -179,12 +153,7 @@ var Binder = (function () {
             return this.selectedObject;
         },
         set: function (value) {
-            //remove any Binders that were associated with previous element from the bindingManager and associated elements
             this.selectedObject = value;
-            //AssociatedElements should be bound to this object
-            //add the binders to the bindingmanager
-            //look for any elementbindings associated with selected item changes and rebind them 'cause' row color change
-            //if a list changes length need to cause ^ too
         },
         enumerable: true,
         configurable: true

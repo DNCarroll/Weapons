@@ -1,9 +1,4 @@
-﻿//Jobs for this code
-//1. supply information for history and spa like functionality for history
-//2. call all of its views to be shown
-//3. when initial page has loaded determine if this is the container to be used
-//4. if coming in from ShowByUrl subsequent window load use IsUrlPatternMatch to determin if it is correct view
-var ViewContainers: Array<IViewContainer> = new Array<IViewContainer>();
+﻿var ViewContainers: Array<IViewContainer> = new Array<IViewContainer>();
 abstract class ViewContainer implements IViewContainer {    
     constructor() { }        
     Views: Array<IView> = new Array<IView>();    
@@ -29,15 +24,12 @@ abstract class ViewContainer implements IViewContainer {
         if (arg.EventType == EventType.Completed) {
             this.NumberViewsShown = this.NumberViewsShown + 1;
         }
-        if (this.NumberViewsShown === this.Views.length) {
-            //turn off progress
+        if (this.NumberViewsShown === this.Views.length) {            
             ProgressManager.Hide();
         }
     }
     abstract DocumentTitle(route: ViewInstance): string;
     abstract Url(route: ViewInstance): string;
     abstract UrlPattern(): string;  
-    abstract UrlTitle(route: ViewInstance): string;  
-    //use the toString to identify it?
-    //would indicated that we can instantiate it
+    abstract UrlTitle(route: ViewInstance): string;      
 }

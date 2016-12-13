@@ -1,8 +1,3 @@
-//Jobs for this code
-//1. supply information for history and spa like functionality for history
-//2. call all of its views to be shown
-//3. when initial page has loaded determine if this is the container to be used
-//4. if coming in from ShowByUrl subsequent window load use IsUrlPatternMatch to determin if it is correct view
 var ViewContainers = new Array();
 var ViewContainer = (function () {
     function ViewContainer() {

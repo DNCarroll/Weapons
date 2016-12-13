@@ -49,9 +49,6 @@ abstract class DataObject implements IObjectState {
     }
     OnElementChanged(value: any, propertyName: string) {
         this[propertyName] = value;
-        //can we know what the target is here?
-        //just by the event?
-        //what field are they wanting to update?
     }
     private serverObject: any;
     get ServerObject() {

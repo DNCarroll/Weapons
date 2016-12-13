@@ -1,48 +1,47 @@
-﻿//two object Ajax plain, Ajax Data
-//promise based so when done it calls whatever?
-//how is this different than call back
-class Ajax implements IEventDispatcher<Ajax>{
-
-    constructor() { }
-    DisableElement: any = null;
-    static Host: string;
-    ManipulateProgressElement = false;
-    UseAsDateUTC = true;
-    ContentType = "application/json; charset=utf-8";
-    Header: () => any;
-    eventHandlers = new Array<Listener<Ajax>>();
-    get ResponseText(): string {
-        return this.XMLHttpRequest.responseText;
+//a promise type too?
+var Ajax = (function () {
+    function Ajax() {
+        this.DisableElement = null;
+        this.ManipulateProgressElement = false;
+        this.UseAsDateUTC = true;
+        this.ContentType = "application/json; charset=utf-8";
+        this.eventHandlers = new Array();
     }
-    XMLHttpRequest: XMLHttpRequest;
-    Submit(method: string,
-        url: string,        
-        parameters: any = null) {
+    Object.defineProperty(Ajax.prototype, "ResponseText", {
+        get: function () {
+            return this.XMLHttpRequest.responseText;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Ajax.prototype.Submit = function (method, url, parameters) {
+        if (parameters === void 0) { parameters = null; }
         this.showProgress();
         url = this.getUrl(url);
         this.XMLHttpRequest = new XMLHttpRequest();
         var ajax = this;
-        this.XMLHttpRequest.addEventListener("readystatechange", ajax.onReaderStateChange.bind(ajax), false);        
+        this.XMLHttpRequest.addEventListener("readystatechange", ajax.onReaderStateChange.bind(ajax), false);
         this.XMLHttpRequest.open(method, url, true);
         this.XMLHttpRequest.setRequestHeader("content-type", !Is.FireFox() ? this.ContentType : "application/json;q=0.9");
         this.setCustomHeader();
         try {
             var newParameters = this.getParameters(parameters);
             this.XMLHttpRequest.send(newParameters);
-        } catch (e) {
+        }
+        catch (e) {
             this.HideProgress();
             if (window.Exception) {
                 window.Exception(e);
             }
         }
-    }
-    private onReaderStateChange(e) {
+    };
+    Ajax.prototype.onReaderStateChange = function (e) {
         if (this.isRequestReady()) {
             this.HideProgress();
-            this.Dispatch(EventType.Completed);            
+            this.Dispatch(EventType.Completed);
         }
-    }
-    private showProgress() {
+    };
+    Ajax.prototype.showProgress = function () {
         if (this.ManipulateProgressElement) {
             ProgressManager.Show();
             if (this.DisableElement) {
@@ -56,17 +55,17 @@ class Ajax implements IEventDispatcher<Ajax>{
                 }
             }
         }
-    }
-    private getUrl(url: string): string {
+    };
+    Ajax.prototype.getUrl = function (url) {
         if (url.indexOf("http") == -1 && !Is.NullOrEmpty(Ajax.Host)) {
             url = Ajax.Host + (url.indexOf("/") == 0 ? url : "/" + url);
         }
         return url;
-    }
-    private isRequestReady(): boolean {
+    };
+    Ajax.prototype.isRequestReady = function () {
         return this.XMLHttpRequest && this.XMLHttpRequest.readyState == 4;
-    }
-    HideProgress() {
+    };
+    Ajax.prototype.HideProgress = function () {
         if (this.ManipulateProgressElement) {
             ProgressManager.Hide();
             if (this.DisableElement) {
@@ -80,8 +79,8 @@ class Ajax implements IEventDispatcher<Ajax>{
                 }
             }
         }
-    }
-    private setCustomHeader() {
+    };
+    Ajax.prototype.setCustomHeader = function () {
         if (this.Header) {
             var header = this.Header();
             if (header) {
@@ -90,8 +89,8 @@ class Ajax implements IEventDispatcher<Ajax>{
                 }
             }
         }
-    }
-    private getParameters(parameters: any): string {
+    };
+    Ajax.prototype.getParameters = function (parameters) {
         var ret = "";
         if (parameters && this.ContentType == "application/json; charset=utf-8") {
             ret = JSON.stringify(parameters);
@@ -101,9 +100,8 @@ class Ajax implements IEventDispatcher<Ajax>{
             ret = ret.replace(/script>/ig, "");
         }
         return ret;
-    }
-
-    GetRequestData(): any {
+    };
+    Ajax.prototype.GetRequestData = function () {
         var ret = null;
         if (this.isRequestReady() && (this.XMLHttpRequest.status == 200 || this.XMLHttpRequest.status == 204) &&
             !Is.NullOrEmpty(this.XMLHttpRequest.responseText)) {
@@ -123,16 +121,17 @@ class Ajax implements IEventDispatcher<Ajax>{
             }
         }
         return ret;
-    }
-    private convertProperties(object) {
-        var keyMap: Array<any>;
+    };
+    Ajax.prototype.convertProperties = function (object) {
+        var keyMap;
         if (Is.Array(object)) {
             for (var i = 0; i < object.length; i++) {
                 var obj = object[i];
                 if (obj) {
                     try {
                         keyMap = keyMap ? keyMap : this.getKeyMap(obj);
-                    } catch (e) {
+                    }
+                    catch (e) {
                         if (window.Exception) {
                             window.Exception(e);
                         }
@@ -151,8 +150,8 @@ class Ajax implements IEventDispatcher<Ajax>{
                 this.convertProperties(object[prop]);
             }
         }
-    }
-    private getKeyMap(obj): Array<any> {
+    };
+    Ajax.prototype.getKeyMap = function (obj) {
         var keyMap = new Array();
         for (var prop in obj) {
             var val = obj[prop];
@@ -170,8 +169,8 @@ class Ajax implements IEventDispatcher<Ajax>{
             }
         }
         return keyMap;
-    }
-    private setValues(obj, keyMap: Array<any>) {
+    };
+    Ajax.prototype.setValues = function (obj, keyMap) {
         for (var j = 0; j < keyMap.length; j++) {
             var key = keyMap[j].Key;
             var type = keyMap[j].Type;
@@ -210,23 +209,29 @@ class Ajax implements IEventDispatcher<Ajax>{
                     break;
             }
         }
-    }
-
-    Get(url: string, parameters: any = null) { this.Submit("GET", url, parameters); }
-    Put(url: string, parameters: any = null) { this.Submit("PUT", url, parameters); }
-        
-    AddListener(eventType: EventType, eventHandler: (eventArg: ICustomEventArg<Ajax>) => void) {
+    };
+    Ajax.prototype.Get = function (url, parameters) {
+        if (parameters === void 0) { parameters = null; }
+        this.Submit("GET", url, parameters);
+    };
+    Ajax.prototype.Put = function (url, parameters) {
+        if (parameters === void 0) { parameters = null; }
+        this.Submit("PUT", url, parameters);
+    };
+    Ajax.prototype.AddListener = function (eventType, eventHandler) {
         this.eventHandlers.Add(new Listener(eventType, eventHandler));
-    }
-    RemoveListener(eventType: EventType, eventHandler: (eventArg: ICustomEventArg<Ajax>) => void) {
-        this.eventHandlers.Remove(l => l.EventType === eventType && eventHandler === eventHandler);
-    }
-    RemoveListeners(eventType: EventType) {
-        this.eventHandlers.Remove(l => l.EventType === eventType);
-    }
-    Dispatch(eventType: EventType) {
-        var listeners = this.eventHandlers.Where(e => e.EventType === eventType);
-        listeners.forEach(l => l.EventHandler(new CustomEventArg<Ajax>(this, eventType)));        
-    }
-}
-
+    };
+    Ajax.prototype.RemoveListener = function (eventType, eventHandler) {
+        this.eventHandlers.Remove(function (l) { return l.EventType === eventType && eventHandler === eventHandler; });
+    };
+    Ajax.prototype.RemoveListeners = function (eventType) {
+        this.eventHandlers.Remove(function (l) { return l.EventType === eventType; });
+    };
+    Ajax.prototype.Dispatch = function (eventType) {
+        var _this = this;
+        var listeners = this.eventHandlers.Where(function (e) { return e.EventType === eventType; });
+        listeners.forEach(function (l) { return l.EventHandler(new CustomEventArg(_this, eventType)); });
+    };
+    return Ajax;
+}());
+//# sourceMappingURL=Ajax.js.map

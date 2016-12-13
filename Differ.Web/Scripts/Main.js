@@ -86,3 +86,4 @@ var ViewType;
 (function (ViewType) {
     ViewType[ViewType["Compare"] = 0] = "Compare";
 })(ViewType || (ViewType = {}));
+//# sourceMappingURL=Main.js.map

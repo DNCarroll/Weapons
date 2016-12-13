@@ -43,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forge", "Forge\Forge.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forge.Test", "Forge.Test\Forge.Test.csproj", "{05D7365C-8DFA-4025-A869-EA01D9CA01BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mace", "ULFBERHT2\mace.csproj", "{94B0887B-F517-4833-9E22-B635F9D7C894}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mace", "mace\mace.csproj", "{94B0887B-F517-4833-9E22-B635F9D7C894}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

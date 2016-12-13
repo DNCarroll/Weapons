@@ -1,49 +1,46 @@
-//two object Ajax plain, Ajax Data
-//promise based so when done it calls whatever?
-//how is this different than call back
-var Ajax = (function () {
-    function Ajax() {
-        this.DisableElement = null;
-        this.ManipulateProgressElement = false;
-        this.UseAsDateUTC = true;
-        this.ContentType = "application/json; charset=utf-8";
-        this.eventHandlers = new Array();
+﻿//a promise type too?
+class Ajax implements IEventDispatcher<Ajax>{
+
+    constructor() { }
+    DisableElement: any = null;
+    static Host: string;
+    ManipulateProgressElement = false;
+    UseAsDateUTC = true;
+    ContentType = "application/json; charset=utf-8";
+    Header: () => any;
+    eventHandlers = new Array<Listener<Ajax>>();
+    get ResponseText(): string {
+        return this.XMLHttpRequest.responseText;
     }
-    Object.defineProperty(Ajax.prototype, "ResponseText", {
-        get: function () {
-            return this.XMLHttpRequest.responseText;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Ajax.prototype.Submit = function (method, url, parameters) {
-        if (parameters === void 0) { parameters = null; }
+    XMLHttpRequest: XMLHttpRequest;
+    Submit(method: string,
+        url: string,        
+        parameters: any = null) {
         this.showProgress();
         url = this.getUrl(url);
         this.XMLHttpRequest = new XMLHttpRequest();
         var ajax = this;
-        this.XMLHttpRequest.addEventListener("readystatechange", ajax.onReaderStateChange.bind(ajax), false);
+        this.XMLHttpRequest.addEventListener("readystatechange", ajax.onReaderStateChange.bind(ajax), false);        
         this.XMLHttpRequest.open(method, url, true);
         this.XMLHttpRequest.setRequestHeader("content-type", !Is.FireFox() ? this.ContentType : "application/json;q=0.9");
         this.setCustomHeader();
         try {
             var newParameters = this.getParameters(parameters);
             this.XMLHttpRequest.send(newParameters);
-        }
-        catch (e) {
+        } catch (e) {
             this.HideProgress();
             if (window.Exception) {
                 window.Exception(e);
             }
         }
-    };
-    Ajax.prototype.onReaderStateChange = function (e) {
+    }
+    private onReaderStateChange(e) {
         if (this.isRequestReady()) {
             this.HideProgress();
-            this.Dispatch(EventType.Completed);
+            this.Dispatch(EventType.Completed);            
         }
-    };
-    Ajax.prototype.showProgress = function () {
+    }
+    private showProgress() {
         if (this.ManipulateProgressElement) {
             ProgressManager.Show();
             if (this.DisableElement) {
@@ -57,17 +54,17 @@ var Ajax = (function () {
                 }
             }
         }
-    };
-    Ajax.prototype.getUrl = function (url) {
+    }
+    private getUrl(url: string): string {
         if (url.indexOf("http") == -1 && !Is.NullOrEmpty(Ajax.Host)) {
             url = Ajax.Host + (url.indexOf("/") == 0 ? url : "/" + url);
         }
         return url;
-    };
-    Ajax.prototype.isRequestReady = function () {
+    }
+    private isRequestReady(): boolean {
         return this.XMLHttpRequest && this.XMLHttpRequest.readyState == 4;
-    };
-    Ajax.prototype.HideProgress = function () {
+    }
+    HideProgress() {
         if (this.ManipulateProgressElement) {
             ProgressManager.Hide();
             if (this.DisableElement) {
@@ -81,8 +78,8 @@ var Ajax = (function () {
                 }
             }
         }
-    };
-    Ajax.prototype.setCustomHeader = function () {
+    }
+    private setCustomHeader() {
         if (this.Header) {
             var header = this.Header();
             if (header) {
@@ -91,8 +88,8 @@ var Ajax = (function () {
                 }
             }
         }
-    };
-    Ajax.prototype.getParameters = function (parameters) {
+    }
+    private getParameters(parameters: any): string {
         var ret = "";
         if (parameters && this.ContentType == "application/json; charset=utf-8") {
             ret = JSON.stringify(parameters);
@@ -102,8 +99,9 @@ var Ajax = (function () {
             ret = ret.replace(/script>/ig, "");
         }
         return ret;
-    };
-    Ajax.prototype.GetRequestData = function () {
+    }
+
+    GetRequestData(): any {
         var ret = null;
         if (this.isRequestReady() && (this.XMLHttpRequest.status == 200 || this.XMLHttpRequest.status == 204) &&
             !Is.NullOrEmpty(this.XMLHttpRequest.responseText)) {
@@ -123,17 +121,16 @@ var Ajax = (function () {
             }
         }
         return ret;
-    };
-    Ajax.prototype.convertProperties = function (object) {
-        var keyMap;
+    }
+    private convertProperties(object) {
+        var keyMap: Array<any>;
         if (Is.Array(object)) {
             for (var i = 0; i < object.length; i++) {
                 var obj = object[i];
                 if (obj) {
                     try {
                         keyMap = keyMap ? keyMap : this.getKeyMap(obj);
-                    }
-                    catch (e) {
+                    } catch (e) {
                         if (window.Exception) {
                             window.Exception(e);
                         }
@@ -152,8 +149,8 @@ var Ajax = (function () {
                 this.convertProperties(object[prop]);
             }
         }
-    };
-    Ajax.prototype.getKeyMap = function (obj) {
+    }
+    private getKeyMap(obj): Array<any> {
         var keyMap = new Array();
         for (var prop in obj) {
             var val = obj[prop];
@@ -171,8 +168,8 @@ var Ajax = (function () {
             }
         }
         return keyMap;
-    };
-    Ajax.prototype.setValues = function (obj, keyMap) {
+    }
+    private setValues(obj, keyMap: Array<any>) {
         for (var j = 0; j < keyMap.length; j++) {
             var key = keyMap[j].Key;
             var type = keyMap[j].Type;
@@ -211,29 +208,23 @@ var Ajax = (function () {
                     break;
             }
         }
-    };
-    Ajax.prototype.Get = function (url, parameters) {
-        if (parameters === void 0) { parameters = null; }
-        this.Submit("GET", url, parameters);
-    };
-    Ajax.prototype.Put = function (url, parameters) {
-        if (parameters === void 0) { parameters = null; }
-        this.Submit("PUT", url, parameters);
-    };
-    Ajax.prototype.AddListener = function (eventType, eventHandler) {
+    }
+
+    Get(url: string, parameters: any = null) { this.Submit("GET", url, parameters); }
+    Put(url: string, parameters: any = null) { this.Submit("PUT", url, parameters); }
+        
+    AddListener(eventType: EventType, eventHandler: (eventArg: ICustomEventArg<Ajax>) => void) {
         this.eventHandlers.Add(new Listener(eventType, eventHandler));
-    };
-    Ajax.prototype.RemoveListener = function (eventType, eventHandler) {
-        this.eventHandlers.Remove(function (l) { return l.EventType === eventType && eventHandler === eventHandler; });
-    };
-    Ajax.prototype.RemoveListeners = function (eventType) {
-        this.eventHandlers.Remove(function (l) { return l.EventType === eventType; });
-    };
-    Ajax.prototype.Dispatch = function (eventType) {
-        var _this = this;
-        var listeners = this.eventHandlers.Where(function (e) { return e.EventType === eventType; });
-        listeners.forEach(function (l) { return l.EventHandler(new CustomEventArg(_this, eventType)); });
-    };
-    return Ajax;
-}());
-//# sourceMappingURL=Ajax.js.map
+    }
+    RemoveListener(eventType: EventType, eventHandler: (eventArg: ICustomEventArg<Ajax>) => void) {
+        this.eventHandlers.Remove(l => l.EventType === eventType && eventHandler === eventHandler);
+    }
+    RemoveListeners(eventType: EventType) {
+        this.eventHandlers.Remove(l => l.EventType === eventType);
+    }
+    Dispatch(eventType: EventType) {
+        var listeners = this.eventHandlers.Where(e => e.EventType === eventType);
+        listeners.forEach(l => l.EventHandler(new CustomEventArg<Ajax>(this, eventType)));        
+    }
+}
+
