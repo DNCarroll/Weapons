@@ -12,3 +12,17 @@ C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT\bin\System.Web.Http.WebHost.
 C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT\obj\Debug\ULFBERHT.csprojResolveAssemblyReference.cache
 C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT\obj\Debug\ULFBERHT.dll
 C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT\obj\Debug\ULFBERHT.pdb
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\bin\ULFBERHT.dll.config
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\bin\ULFBERHT.dll
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\bin\ULFBERHT.pdb
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\bin\Newtonsoft.Json.dll
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\bin\System.Net.Http.Formatting.dll
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\bin\System.Web.Http.dll
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\bin\System.Web.Http.WebHost.dll
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\bin\Newtonsoft.Json.xml
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\bin\System.Net.Http.Formatting.xml
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\bin\System.Web.Http.xml
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\bin\System.Web.Http.WebHost.xml
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\obj\Debug\ULFBERHT.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\obj\Debug\ULFBERHT.dll
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT\obj\Debug\ULFBERHT.pdb

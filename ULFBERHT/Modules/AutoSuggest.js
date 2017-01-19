@@ -231,13 +231,6 @@ var AutoSuggest;
             };
         }
     }
-    //export function HookWithCallBack(input: HTMLInputElement, callBack: (input: HTMLInputElement) => Array<any>, valueMember: string, displayMember: string, displayCount?: number){
-    //    input["callBack"] = callBack;
-    //    input["valuemember"] = valueMember;
-    //    input["displaymember"] = displayMember;
-    //    input["displaycount"] = displayCount ? displayCount : 8;
-    //    hookEvents(input);
-    //}
     function Hook(input, dataSource, valueMember, displayMember, displayCount) {
         input["datasource"] = dataSource;
         input["valuemember"] = valueMember;

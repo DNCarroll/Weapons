@@ -1,1 +1,2 @@
 C:\Users\ncarroll\Documents\Github\Weapons\ULFBERHT.Bundled\obj\Debug\ULFBERHT.Bundled.csprojResolveAssemblyReference.cache
+C:\Users\ncarroll\Source\Repos\Weapons\ULFBERHT.Bundled\obj\Debug\ULFBERHT.Bundled.csprojResolveAssemblyReference.cache
