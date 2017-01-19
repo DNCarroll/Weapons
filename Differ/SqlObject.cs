@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BattleAxe;
 
 namespace Differ
 {
@@ -17,7 +16,7 @@ namespace Differ
         Trigger = 5
     }
 
-    public class SqlObject : IBattleAxe
+    public class SqlObject 
     {
 
         private string m_SchemaName;
@@ -62,37 +61,6 @@ namespace Differ
         {
             get { return m_Pulled; }
             set { m_Pulled = value; }
-        }
-                
-
-        static SetValue<SqlObject> SetMethod;
-        static GetValue GetMethod;
-
-        public object this[string property]
-        {
-            get
-            {
-                if (SqlObject.GetMethod == null)
-                {
-                    SqlObject.GetMethod = Compiler.GetHelper.Value(this.GetType());                        
-                }
-                if (SqlObject.GetMethod != null)
-                {
-                    return GetMethod(this, property);
-                }
-                return null;
-            }
-            set
-            {
-                if (SqlObject.SetMethod == null)
-                {
-                    SqlObject.SetMethod = Compiler.SetHelper.Value<SqlObject>(this.GetType());
-                }
-                if (SqlObject.SetMethod != null)
-                {
-                    SqlObject.SetMethod(this, property, value);
-                }
-            }
-        }
+        }                
     }
 }
